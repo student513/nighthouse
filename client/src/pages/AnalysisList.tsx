@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 
 import api from "../api";
-
-const DeleteButton = styled.button.attrs({
-  className: `btn btn-danger`,
-})`
-  margin: 15px 15px 15px 5px;
-`;
+import ReportCard from "../components/ReportCard";
+import "../style/AnalysisList.css";
 
 const AnalysisList = () => {
   const [urls, setUrl] = useState([]);
@@ -27,16 +22,16 @@ const AnalysisList = () => {
   }, []);
 
   return (
-    <div>
+    <div className="card-container">
       {urls.length > 0 ? (
         urls.map((url, index) => (
-          <div key={index}>
-            <div>{url["name"]}</div>
-            <div>{url["url"]}</div>
-            <DeleteButton onClick={() => deleteAnalysisCard(url["_id"])}>
-              Delete
-            </DeleteButton>
-          </div>
+          <ReportCard
+            key={index}
+            name={url["name"]}
+            url={url["url"]}
+            id={url["_id"]}
+            deleteAnalysisCard={deleteAnalysisCard}
+          />
         ))
       ) : (
         <div>리스트가 없습니다.</div>

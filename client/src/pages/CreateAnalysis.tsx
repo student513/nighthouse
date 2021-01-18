@@ -1,19 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Card from "react-bootstrap/Card";
 
 import api from "../api";
+import TextInput from "../components/TextInput";
+import "../style/CreateAnalysis.css";
 
 const Button = styled.a.attrs({
   className: `btn btn-primary`,
-})`
-  margin: 15px 15px 15px 5px;
-`;
+})``;
 
 const CancelButton = styled.a.attrs({
   className: `btn btn-danger`,
-})`
-  margin: 15px 15px 15px 5px;
-`;
+})``;
+
 const CreateAnalysis = () => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
@@ -33,17 +33,24 @@ const CreateAnalysis = () => {
   };
 
   return (
-    <div>
-      <label>Name: </label>
-      <input type="text" value={name} onChange={handleChangeName} />
-
-      <label>Url: </label>
-      <input type="text" value={url} onChange={handleChangeUrl} />
-
-      <Button onClick={insertUrlInfo} href={"/url/list"}>
-        Analysis
-      </Button>
-      <CancelButton href={"/"}>Cancel</CancelButton>
+    <div className="create-container">
+      <Card>
+        <Card.Header as="h5">Create Report</Card.Header>
+        <Card.Body
+          style={{ paddingTop: 30, paddingRight: 200, paddingLeft: 200 }}
+        >
+          <TextInput
+            label="name"
+            value={name}
+            handleChange={handleChangeName}
+          />
+          <TextInput label="url" value={url} handleChange={handleChangeUrl} />
+          <Button onClick={insertUrlInfo} href={"/url/list"}>
+            Create
+          </Button>
+          <CancelButton href={"/"}>Cancel</CancelButton>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

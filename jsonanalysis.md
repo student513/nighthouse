@@ -1,0 +1,10 @@
+- audit
+  - 각 스코어들의 체크리스트. 표시되지 않은 다른 속성도 많다. 필요에 따라 커스터마이징 가능
+    - Performance의 metrics값도 포함되어있다.
+      - "speed-index"
+      - "total-blocking-time"
+      - "cumulative-layout-shift" 등등
+  - "screenshot-thumbnails": Performance에서 쭈루룩 캡쳐한 것. 300ms 간격인듯
+  - audit에 모든 내용이 다 들어가있다.
+- categories.perfomance.score가 리포트에 최종 표시되는 스코어값
+- categoryGroup: 각 카테고리 하위 항목들

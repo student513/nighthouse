@@ -4,7 +4,6 @@ import Card from "react-bootstrap/Card";
 
 import api from "../api";
 import TextInput from "../components/TextInput";
-import "../style/CreateAnalysis.css";
 
 const Button = styled.a.attrs({
   className: `btn btn-primary`,

@@ -6,7 +6,7 @@ const api = axios.create({
 
 export const createURL = (payload: any) => api.post(`/url`, payload);
 export const deleteURL = (id: string) => api.delete(`/url/${id}`);
-export const getURLs = () => api.get(`/movies`);
+export const getURLs = () => api.get(`/urls`);
 
 const apis = {
   createURL,

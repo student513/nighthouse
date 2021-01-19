@@ -1,9 +1,10 @@
 const Agenda = require("agenda");
 const axios = require("axios");
+require("dotenv").config();
 
 const agenda = new Agenda({
   db: {
-    address: "localhost:27017/nighthouse",
+    address: process.env.DB_URL,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     collection: "jobs", // 어느 컬랙션에 job 정보를 관리할 것인가?
   },
@@ -17,16 +18,17 @@ try {
     console.log("Success agenda connecting");
     agenda.define("getUrls", async (job) => {
       console.log("getUrls 시작");
-      const urlsDocuments = await axios.get("http://localhost:3001/api/urls");
+      const urlsDocuments = await axios.get(process.env.SERVER_API_URL);
       const urls = [];
       urlsDocuments.data.data.forEach((doc) => {
         urls.push(doc.url);
       });
+      console.log(urls);
     });
 
     (async () => {
       await agenda.start();
-      await agenda.every("5 minutes", "getUrls");
+      await agenda.every("15 seconds", "getUrls");
     })();
   });
 } catch {

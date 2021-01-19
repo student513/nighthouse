@@ -1,9 +1,10 @@
 const axios = require("axios");
+require("dotenv").config();
 
 const urls = [];
 
 const getUrls = async () => {
-  const urlsDocuments = await axios.get("http://localhost:3001/api/urls");
+  const urlsDocuments = await axios.get(process.env.SERVER_API_URL);
   urlsDocuments.data.data.forEach((doc) => {
     urls.push(doc.url);
   });

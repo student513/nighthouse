@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 import { getURLs, deleteURL } from "../api";
 import ReportCard from "../components/ReportCard";
+import { AnalysisTargetUrl } from "../helper/interface";
 import "../style/AnalysisList.css";
 
 const AnalysisList = () => {
-  const [urls, setUrl] = useState([]);
+  const [urls, setUrl] = useState<AnalysisTargetUrl[]>([]);
 
   const getAllUrls = async () => {
     const urlList = await getURLs();
@@ -24,14 +25,8 @@ const AnalysisList = () => {
   return (
     <div className="card-container">
       {urls.length > 0 ? (
-        urls.map((url, index) => (
-          <ReportCard
-            key={index}
-            name={url["name"]}
-            url={url["url"]}
-            id={url["_id"]}
-            deleteAnalysisCard={deleteAnalysisCard}
-          />
+        urls.map(({ name, _id, url }) => (
+          <ReportCard key={_id} {...{ name, _id, url, deleteAnalysisCard }} />
         ))
       ) : (
         <div>리스트가 없습니다.</div>

@@ -8,7 +8,7 @@ type Props = {
 };
 
 const TextInput = ({
-  label = "defaultValue",
+  label = "defaultLabel",
   value = "defaultValue",
   handleChange,
 }: Props) => {

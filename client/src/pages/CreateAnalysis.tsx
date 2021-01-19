@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 
 import { createURL } from "../api";
 import TextInput from "../components/TextInput";
-import { urlInfo } from "../helper/interface";
+import { UrlPayload } from "../helper/interface";
 
 const Button = styled.a.attrs({
   className: `btn btn-primary`,
@@ -26,7 +26,7 @@ const CreateAnalysis = () => {
   };
 
   const insertUrlInfo = async () => {
-    const payload: urlInfo = { name, url };
+    const payload: UrlPayload = { name, url };
     await createURL(payload);
   };
 

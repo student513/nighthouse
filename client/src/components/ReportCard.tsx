@@ -1,8 +1,6 @@
 import { Card } from "react-bootstrap";
 import styled from "styled-components";
 
-import "../style/ReportCard.css";
-
 const Button = styled.a.attrs({
   className: `btn btn-primary`,
 })`
@@ -13,32 +11,36 @@ const DeleteButton = styled.button.attrs({
   className: `btn btn-danger`,
 })``;
 
+const CardContainer = styled.div.attrs({})`
+  margin-bottom: 5vh;
+`;
+
 type Props = {
   name: string;
   url: string;
-  id: string;
-  deleteAnalysisCard: Function;
+  _id: string;
+  deleteAnalysisCard: (id: string) => void;
 };
 
 const ReportCard = ({
-  name = "defaultValue",
-  url = "defaultValue",
-  id = "defaultValue",
+  name = "defaultName",
+  url = "defaultUrl",
+  _id = "defaultId",
   deleteAnalysisCard,
 }: Props) => {
   return (
-    <div className="report-card">
+    <CardContainer>
       <Card>
         <Card.Body>
           <Card.Title>{name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{url}</Card.Subtitle>
           <Button href="#">Detail</Button>
-          <DeleteButton onClick={() => deleteAnalysisCard(id)}>
+          <DeleteButton onClick={() => deleteAnalysisCard(_id)}>
             Delete
           </DeleteButton>
         </Card.Body>
       </Card>
-    </div>
+    </CardContainer>
   );
 };
 

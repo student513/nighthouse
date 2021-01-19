@@ -12,7 +12,6 @@ const apiPort = 3001;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
-//여기에 app.use로 agenda 호출
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 

@@ -1,8 +1,23 @@
+const axios = require("axios");
+
+const urls = [];
+
+const getUrls = async () => {
+  const urlsDocuments = await axios.get("http://localhost:3001/api/urls");
+  urlsDocuments.data.data.forEach((doc) => {
+    urls.push(doc.url);
+  });
+};
+
+getUrls().catch((err) => {
+  console.error(err);
+});
+
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: "yarn start", // ?
-      url: ["http://localhost:3000"], // 테스트 실행할 url
+      // startServerCommand: "cd ../client && yarn start"
+      url: urls, // 테스트 실행할 url
       numberOfRuns: 1, // 테스트 실행 횟수
     },
     assert: {

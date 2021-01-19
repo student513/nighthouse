@@ -1,15 +1,11 @@
 const Agenda = require("agenda");
 const axios = require("axios");
 
-const api = axios.create({
-  baseURL: "http://localhost:3001/api",
-});
-
 const agenda = new Agenda({
   db: {
     address: "localhost:27017/nighthouse",
     options: { useNewUrlParser: true, useUnifiedTopology: true },
-    collection: "jobs", //어느 컬랙션에 job 정보를 관리할 것인가?
+    collection: "jobs", // 어느 컬랙션에 job 정보를 관리할 것인가?
   },
   processEvery: "10 seconds",
 });
@@ -20,19 +16,17 @@ try {
   agenda.on("ready", async () => {
     console.log("Success agenda connecting");
     agenda.define("getUrls", async (job) => {
-      console.log("define 입장");
+      console.log("getUrls 시작");
       const urlsDocuments = await axios.get("http://localhost:3001/api/urls");
       const urls = [];
       urlsDocuments.data.data.forEach((doc) => {
         urls.push(doc.url);
       });
-
-      // lighthouserc.js에 urls 넘겨줌
     });
 
     (async () => {
       await agenda.start();
-      await agenda.every("10 seconds", "getUrls");
+      await agenda.every("5 minutes", "getUrls");
     })();
   });
 } catch {

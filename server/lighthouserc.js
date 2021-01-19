@@ -1,8 +1,23 @@
+const axios = require("axios");
+
+const urls = [];
+
+const getUrls = async () => {
+  const urlsDocuments = await axios.get("http://localhost:3001/api/urls");
+  urlsDocuments.data.data.forEach((doc) => {
+    urls.push(doc.url);
+  });
+};
+
+getUrls().catch((err) => {
+  console.error(err);
+});
+
 module.exports = {
   ci: {
     collect: {
-      //startServerCommand: "yarn start", // 분석 시작 시 해당 프로젝트를 빌드한다. 배포된 url이면
-      url: ["https://www.naver.com"], // 테스트 실행할 url
+      // startServerCommand: "cd ../client && yarn start"
+      url: urls, // 테스트 실행할 url
       numberOfRuns: 1, // 테스트 실행 횟수
     },
     assert: {

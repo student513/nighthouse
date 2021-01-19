@@ -14,18 +14,18 @@ const DeleteButton = styled.button.attrs({
 })``;
 
 type Props = {
-  name?: string;
-  url?: string;
-  id?: string;
+  name: string;
+  url: string;
+  id: string;
   deleteAnalysisCard: Function;
 };
 
-const ReportCard = <PROPS extends Props>({
-  name,
-  url,
-  id,
+const ReportCard = ({
+  name = "defaultValue",
+  url = "defaultValue",
+  id = "defaultValue",
   deleteAnalysisCard,
-}: PROPS): JSX.Element => {
+}: Props) => {
   return (
     <div className="report-card">
       <Card>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import api from "../api";
+import { getURLs, deleteURL } from "../api";
 import ReportCard from "../components/ReportCard";
 import "../style/AnalysisList.css";
 
@@ -8,12 +8,12 @@ const AnalysisList = () => {
   const [urls, setUrl] = useState([]);
 
   const getAllUrls = async () => {
-    const urlList = await api.getURLs();
+    const urlList = await getURLs();
     setUrl(urlList.data.data);
   };
 
   const deleteAnalysisCard = async (id: string) => {
-    await api.deleteURL(id);
+    await deleteURL(id);
     getAllUrls();
   };
 

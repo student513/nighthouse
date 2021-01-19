@@ -2,16 +2,16 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 
 type Props = {
-  label?: string;
-  value?: string;
-  handleChange: Function;
+  label: string;
+  value: string;
+  handleChange: (event: any) => void;
 };
 
-const TextInput = <PROPS extends Props>({
-  label,
-  value,
+const TextInput = ({
+  label = "defaultValue",
+  value = "defaultValue",
   handleChange,
-}: PROPS): JSX.Element => {
+}: Props) => {
   return (
     <div className="input-container">
       <InputGroup size="lg">
@@ -22,7 +22,7 @@ const TextInput = <PROPS extends Props>({
           aria-label="Large"
           aria-describedby="inputGroup-sizing-sm"
           value={value}
-          onChange={() => handleChange()}
+          onChange={handleChange}
         />
       </InputGroup>
       <br />

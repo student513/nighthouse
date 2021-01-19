@@ -2,8 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 
-import api from "../api";
+import { createURL } from "../api";
 import TextInput from "../components/TextInput";
+import { urlInfo } from "../helper/interface";
 
 const Button = styled.a.attrs({
   className: `btn btn-primary`,
@@ -25,10 +26,8 @@ const CreateAnalysis = () => {
   };
 
   const insertUrlInfo = async () => {
-    const payload = { name, url };
-    await api.createURL(payload).then((res) => {
-      console.log("url이 성공적으로 입력되었습니다");
-    });
+    const payload: urlInfo = { name, url };
+    await createURL(payload);
   };
 
   return (

@@ -1,25 +1,9 @@
-const axios = require("axios");
-require("dotenv").config();
-
-const urls = [];
-
-const getUrls = async () => {
-  const urlsDocuments = await axios.get(process.env.SERVER_API_URL);
-  urlsDocuments.data.data.forEach((doc) => {
-    urls.push(doc.url);
-  });
-};
-
-getUrls().catch((err) => {
-  console.error(err);
-});
-
 module.exports = {
   ci: {
     collect: {
       // startServerCommand: "cd ../client && yarn start"
-      url: urls, // 테스트 실행할 url
-      numberOfRuns: 1, // 테스트 실행 횟수
+      url: ["https://naver.com", "https://google.com"], // 테스트 실행할 url
+      numberOfRuns: 2, // 테스트 실행 횟수
     },
     assert: {
       assertions: {

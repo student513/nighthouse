@@ -8,3 +8,5 @@
   - audit에 모든 내용이 다 들어가있다.
 - categories.perfomance.score가 리포트에 최종 표시되는 스코어값
 - categoryGroup: 각 카테고리 하위 항목들
+
+- lhci autorun

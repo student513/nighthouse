@@ -1,5 +1,7 @@
 const Agenda = require("agenda");
 const axios = require("axios");
+const exec = require("child_process").exec;
+
 require("dotenv").config();
 
 const agenda = new Agenda({
@@ -10,25 +12,29 @@ const agenda = new Agenda({
   },
   processEvery: "10 seconds",
 });
-// urls에서 url을 가져오므로 여기서 lighthouserc.js에 파라미터 패싱이 일어나야겠다.
-// 생성된 json을 db에 저장까지 가능할까?
 
 try {
   agenda.on("ready", async () => {
     console.log("Success agenda connecting");
-    agenda.define("getUrls", async (job) => {
-      console.log("getUrls 시작");
+    agenda.define("getAnalysis", async (job) => {
+      console.log("start Analysis");
       const urlsDocuments = await axios.get(process.env.SERVER_API_URL);
       const urls = [];
       urlsDocuments.data.data.forEach((doc) => {
         urls.push(doc.url);
       });
-      console.log(urls);
+
+      urls.forEach((url) => {
+        const lhci = exec(`lhci collect --url=${url}`);
+        lhci.stdout.on("data", function (message) {
+          console.log(message);
+        });
+      });
     });
 
     (async () => {
       await agenda.start();
-      await agenda.every("15 seconds", "getUrls");
+      await agenda.every("2 minutes", "getAnalysis");
     })();
   });
 } catch {

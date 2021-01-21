@@ -58,7 +58,7 @@ try {
               `./reports/${filename}`, // filename에 _id를 넣고 filename을 json에 삽입
               "utf8",
               (err, content) => {
-s                const report = JSON.parse(content);
+                const report = JSON.parse(content);
                 const parsedReport = {
                   "-id": filename,
                   "speed-index": report["audits"]["speed-index"],

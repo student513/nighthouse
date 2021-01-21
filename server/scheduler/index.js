@@ -46,7 +46,33 @@ try {
               "utf8",
               (err, content) => {
                 const report = JSON.parse(content);
-                console.log(content);
+                const parsedReport = {
+                  "speed-index": report["audits"]["speed-index"],
+                  "total-blocking-time":
+                    report["audits"]["total-blocking-time"],
+                  "first-contentful-paint":
+                    report["audits"]["first-contentful-paint"],
+                  "time-to-interactive": report["audits"]["interactive"],
+                  "large-contentful-paint":
+                    report["audits"]["largest-contentful-paint"],
+                  "cumulative-layout-shift":
+                    report["audits"]["cumulative-layout-shift"],
+                  "unminified-javascript":
+                    report["audits"]["unminified-javascript"],
+                  "server-response-time":
+                    report["audits"]["server-response-time"],
+                  "-performance": report["categories"]["performance"]["score"],
+                  "-accessibility":
+                    report["categories"]["accessibility"]["score"],
+                  "-best-practices":
+                    report["categories"]["best-practices"]["score"],
+                  "-seo": report["categories"]["seo"]["score"],
+                };
+                axios.post(
+                  `${process.env.SERVER_API_URL}/report`,
+                  parsedReport
+                );
+                console.log(parsedReport);
               }
             );
           }

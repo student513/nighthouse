@@ -38,6 +38,10 @@ try {
     agenda.define("uploadReport", (job) => {
       console.log("start upload");
       fs.readdir("./.lighthouseci", "utf8", (err, filenames) => {
+        if (err) {
+          console.log("File read failed:", err);
+          return;
+        }
         filenames.forEach((filename) => {
           if (filename.includes("lhr-") && filename.includes(".json")) {
             console.log(`./.lighthouseci/${filename}`);

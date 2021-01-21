@@ -20,7 +20,9 @@ try {
 
     agenda.define("getAnalysis", async (job) => {
       console.log("start Analysis");
-      const urlsDocuments = await axios.get(process.env.SERVER_API_URL);
+      const urlsDocuments = await axios.get(
+        `${process.env.SERVER_API_URL}/urls`
+      );
       const urls = [];
       urlsDocuments.data.data.forEach((doc) => {
         urls.push(doc.url);

@@ -37,16 +37,20 @@ try {
 
     agenda.define("uploadReport", (job) => {
       console.log("start upload");
-      fs.readdir("./.lighthouseci", "utf8", (err, data) => {
-        console.log(data);
-        // data.forEach((file) => {
-        //   if (true) {
-        //     fs.readFile(file, "utf8", (content) => {
-        //       const report = JSON.parse(content);
-        //       await axios.get()
-        //     });
-        //   }
-        // });
+      fs.readdir("./.lighthouseci", "utf8", (err, filenames) => {
+        filenames.forEach((filename) => {
+          if (filename.includes("lhr-") && filename.includes(".json")) {
+            console.log(`./.lighthouseci/${filename}`);
+            fs.readFile(
+              `./.lighthouseci/${filename}`,
+              "utf8",
+              (err, content) => {
+                const report = JSON.parse(content);
+                console.log(content);
+              }
+            );
+          }
+        });
       });
     }); // ;세미콜론 없으면 에러
 

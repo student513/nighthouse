@@ -1,5 +1,6 @@
 const Agenda = require("agenda");
 const axios = require("axios");
+const fs = require("fs");
 const exec = require("child_process").exec;
 
 require("dotenv").config();
@@ -16,6 +17,7 @@ const agenda = new Agenda({
 try {
   agenda.on("ready", async () => {
     console.log("Success agenda connecting");
+
     agenda.define("getAnalysis", async (job) => {
       console.log("start Analysis");
       const urlsDocuments = await axios.get(process.env.SERVER_API_URL);
@@ -23,18 +25,33 @@ try {
       urlsDocuments.data.data.forEach((doc) => {
         urls.push(doc.url);
       });
-
       urls.forEach((url) => {
         const lhci = exec(`lhci collect --url=${url}`);
         lhci.stdout.on("data", function (message) {
           console.log(message);
         });
       });
-    });
+    }); // ;세미콜론 없으면 에러
+
+    agenda.define("uploadReport", (job) => {
+      console.log("start upload");
+      fs.readdir("./.lighthouseci", "utf8", (err, data) => {
+        console.log(data);
+        // data.forEach((file) => {
+        //   if (true) {
+        //     fs.readFile(file, "utf8", (content) => {
+        //       const report = JSON.parse(content);
+        //       await axios.get()
+        //     });
+        //   }
+        // });
+      });
+    }); // ;세미콜론 없으면 에러
 
     (async () => {
       await agenda.start();
       await agenda.every("2 minutes", "getAnalysis");
+      await agenda.every("2 minutes", "uploadReport");
     })();
   });
 } catch {

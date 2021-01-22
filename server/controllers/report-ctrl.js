@@ -29,10 +29,21 @@ insertReports = (req, res) => {
     });
 };
 
-// getReportById = async (req, res) => {
-//   await Report.find({}, (err, report));
-// };
+getReportByProfileId = async (req, res) => {
+  await Report.find({ profileId: req.params.id }, (err, report) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    if (!report) {
+      return res
+        .status(404)
+        .json({ success: false, error: `Report not found` });
+    }
+    return res.status(200).json({ success: true, data: report });
+  });
+};
 
 module.exports = {
   insertReports,
+  getReportByProfileId,
 };

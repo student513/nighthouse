@@ -14,7 +14,7 @@ const agenda = new Agenda({
   db: {
     address: process.env.DB_URL,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
-    collection: "jobs", // 어느 컬랙션에 job 정보를 관리할 것인가?
+    collection: "jobs",
   },
   processEvery: "10 seconds",
 });
@@ -29,14 +29,11 @@ try {
         `${process.env.SERVER_API_URL}/urls`
       );
       const urls = [];
-      // urls: [{url, _id}]
       urlsDocuments.data.data.forEach((doc) => {
         urls.push({ url: doc.url, _id: doc._id });
       });
 
-      // {url, _id}마다 lhci collect커맨드 실행
       urls.forEach((url) => {
-        // url마다 분석 실시
         const lhciCollect = exec(
           `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `
         );
@@ -45,22 +42,18 @@ try {
         });
       });
       console.log("finish Analysis", Date());
-    }); // ;세미콜론 없으면 에러
+    })
     agenda.define("uploadReport", () => {
       console.log("start upload");
-
-      // reports 폴더의 모든 파일에 대하여
       fs.readdir("./reports", "utf8", (err, filenames) => {
         if (err) {
           console.log("File read failed:", err);
           return;
         }
-        // 해당파일의 확장자가 .json이면
         filenames.forEach((filename) => {
           if (filename.includes(".json") && filename !== "manifest.json") {
-            // 해당 파일에 대해 filename을 삽입하여 파싱
             fs.readFile(
-              `./reports/${filename}`, // filename에 _id를 넣고 filename을 json에 삽입
+              `./reports/${filename}`,
               "utf8",
               (err, content) => {
                 const report = JSON.parse(content);

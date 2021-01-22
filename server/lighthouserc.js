@@ -1,8 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      // startServerCommand: "cd ../client && yarn start"
-      // url: ["https://naver.com", "https://google.com"], // 테스트 실행할 url
+
       numberOfRuns: 1, // 테스트 실행 횟수
     },
     assert: {
@@ -12,9 +11,7 @@ module.exports = {
       },
     },
     upload: {
-      // target: "filesystem", // 저장 위치 설정 가능
-      // reportFilenamePattern: `%%HOSTNAME%%-%%PATHNAME%%-%%DATETIME%%.report.%%EXTENSION%%`,
-      // outputDir: "./reports",
+
     },
   },
 };

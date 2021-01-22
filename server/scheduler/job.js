@@ -4,6 +4,12 @@ const fs = require("fs");
 
 require("dotenv").config();
 
+const exportProfileId = (filename) => {
+  const tmp = filename.split("-");
+  const id = tmp[1].split(".");
+  return id[0];
+};
+
 const getAnalysis = async () => {
   console.log("start Analysis");
   const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`);
@@ -17,7 +23,7 @@ const getAnalysis = async () => {
   urls.forEach((url) => {
     // url마다 분석 실시
     const lhciCollect = exec(
-      `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%_${url._id}.%%EXTENSION%% --outputDir=./reports `
+      `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `
     );
     lhciCollect.stdout.on("data", function (message) {
       console.log(message);
@@ -44,7 +50,7 @@ const uploadReport = () => {
           (err, content) => {
             const report = JSON.parse(content);
             const parsedReport = {
-              "-id": filename,
+              "profile-id": exportProfileId(filename),
               "speed-index": report["audits"]["speed-index"],
               "total-blocking-time": report["audits"]["total-blocking-time"],
               "first-contentful-paint":
@@ -57,11 +63,11 @@ const uploadReport = () => {
               "unminified-javascript":
                 report["audits"]["unminified-javascript"],
               "server-response-time": report["audits"]["server-response-time"],
-              "-performance": report["categories"]["performance"]["score"],
-              "-accessibility": report["categories"]["accessibility"]["score"],
-              "-best-practices":
+              "performance": report["categories"]["performance"]["score"],
+              "accessibility": report["categories"]["accessibility"]["score"],
+              "best-practices":
                 report["categories"]["best-practices"]["score"],
-              "-seo": report["categories"]["seo"]["score"],
+              "seo": report["categories"]["seo"]["score"],
             };
             axios.post(`${process.env.SERVER_API_URL}/report`, parsedReport);
           }

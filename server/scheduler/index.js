@@ -1,7 +1,7 @@
 const Agenda = require("agenda");
-const exec = require("child_process").exec
-const fs = require("fs")
-const axios = require("axios")
+const exec = require("child_process").exec;
+const fs = require("fs");
+const axios = require("axios");
 require("dotenv").config();
 
 const exportProfileId = (filename) => {
@@ -25,24 +25,20 @@ try {
 
     agenda.define("getAnalysis", async () => {
       console.log("start Analysis");
-      const urlsDocuments = await axios.get(
-        `${process.env.SERVER_API_URL}/urls`
-      );
+      const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`);
       const urls = [];
       urlsDocuments.data.data.forEach((doc) => {
         urls.push({ url: doc.url, _id: doc._id });
       });
 
       urls.forEach((url) => {
-        const lhciCollect = exec(
-          `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `
-        );
+        const lhciCollect = exec(`lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `);
         lhciCollect.stdout.on("data", function (message) {
           console.log(message);
         });
       });
       console.log("finish Analysis", Date());
-    })
+    });
     agenda.define("uploadReport", () => {
       console.log("start upload");
       fs.readdir("./reports", "utf8", (err, filenames) => {
@@ -52,37 +48,25 @@ try {
         }
         filenames.forEach((filename) => {
           if (filename.includes(".json") && filename !== "manifest.json") {
-            fs.readFile(
-              `./reports/${filename}`,
-              "utf8",
-              (err, content) => {
-                const report = JSON.parse(content);
-                const parsedReport = {
-                  "profileId": exportProfileId(filename),
-                  "speedIndex": report["audits"]["speed-index"],
-                  "totalBlockingTime": report["audits"]["total-blocking-time"],
-                  "firstContentfulPaint":
-                    report["audits"]["first-contentful-paint"],
-                  "timeToInteractive": report["audits"]["interactive"],
-                  "largeContentfulPaint":
-                    report["audits"]["largest-contentful-paint"],
-                  "cumulativeLayoutShift":
-                    report["audits"]["cumulative-layout-shift"],
-                  "unminifiedJavascript":
-                    report["audits"]["unminified-javascript"],
-                  "serverResponseTime": report["audits"]["server-response-time"],
-                  "performance": report["categories"]["performance"]["score"],
-                  "accessibility": report["categories"]["accessibility"]["score"],
-                  "bestPractices":
-                    report["categories"]["best-practices"]["score"],
-                  "seo": report["categories"]["seo"]["score"],
-                };
-                axios.post(
-                  `${process.env.SERVER_API_URL}/report`,
-                  parsedReport
-                );
-              }
-            );
+            fs.readFile(`./reports/${filename}`, "utf8", (err, content) => {
+              const report = JSON.parse(content);
+              const parsedReport = {
+                profileId: exportProfileId(filename),
+                speedIndex: report["audits"]["speed-index"],
+                totalBlockingTime: report["audits"]["total-blocking-time"],
+                firstContentfulPaint: report["audits"]["first-contentful-paint"],
+                timeToInteractive: report["audits"]["interactive"],
+                largeContentfulPaint: report["audits"]["largest-contentful-paint"],
+                cumulativeLayoutShift: report["audits"]["cumulative-layout-shift"],
+                unminifiedJavascript: report["audits"]["unminified-javascript"],
+                serverResponseTime: report["audits"]["server-response-time"],
+                performance: report["categories"]["performance"]["score"],
+                accessibility: report["categories"]["accessibility"]["score"],
+                bestPractices: report["categories"]["best-practices"]["score"],
+                seo: report["categories"]["seo"]["score"],
+              };
+              axios.post(`${process.env.SERVER_API_URL}/report`, parsedReport);
+            });
           }
         });
       });

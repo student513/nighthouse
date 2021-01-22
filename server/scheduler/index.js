@@ -23,7 +23,7 @@ try {
   agenda.on("ready", async () => {
     console.log("Success agenda connecting");
 
-    agenda.define("getAnalysis", async (done) => {
+    agenda.define("getAnalysis", async () => {
       console.log("start Analysis");
       const urlsDocuments = await axios.get(
         `${process.env.SERVER_API_URL}/urls`
@@ -45,9 +45,8 @@ try {
         });
       });
       console.log("finish Analysis", Date());
-      done();
     }); // ;세미콜론 없으면 에러
-    agenda.define("uploadReport", (done) => {
+    agenda.define("uploadReport", () => {
       console.log("start upload");
 
       // reports 폴더의 모든 파일에 대하여
@@ -95,14 +94,12 @@ try {
         });
       });
       console.log("finish upload", Date());
-      done();
     }); // ;세미콜론 없으면 에러
-    agenda.define("resetReport", (done) => {
+    agenda.define("resetReport", () => {
       const reset = exec(`rm -rf ./reports && mkdir reports`);
       reset.stdout.on("data", function (message) {
         console.log(message);
       });
-      done();
     });
 
     (async () => {

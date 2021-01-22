@@ -50,22 +50,22 @@ const uploadReport = () => {
           (err, content) => {
             const report = JSON.parse(content);
             const parsedReport = {
-              "profile-id": exportProfileId(filename),
-              "speed-index": report["audits"]["speed-index"],
-              "total-blocking-time": report["audits"]["total-blocking-time"],
-              "first-contentful-paint":
+              "profileId": exportProfileId(filename),
+              "speedIndex": report["audits"]["speed-index"],
+              "totalBlockingTime": report["audits"]["total-blocking-time"],
+              "firstContentfulPaint":
                 report["audits"]["first-contentful-paint"],
-              "time-to-interactive": report["audits"]["interactive"],
-              "large-contentful-paint":
+              "timeToInteractive": report["audits"]["interactive"],
+              "largeContentfulPaint":
                 report["audits"]["largest-contentful-paint"],
-              "cumulative-layout-shift":
+              "cumulativeLayoutShift":
                 report["audits"]["cumulative-layout-shift"],
-              "unminified-javascript":
+              "unminifiedJavascript":
                 report["audits"]["unminified-javascript"],
-              "server-response-time": report["audits"]["server-response-time"],
+              "serverResponseTime": report["audits"]["server-response-time"],
               "performance": report["categories"]["performance"]["score"],
               "accessibility": report["categories"]["accessibility"]["score"],
-              "best-practices":
+              "bestPractices":
                 report["categories"]["best-practices"]["score"],
               "seo": report["categories"]["seo"]["score"],
             };

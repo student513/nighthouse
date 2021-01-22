@@ -10,6 +10,6 @@ router.delete("/url/:id", URLCtrl.deleteURL);
 router.get("/urls", URLCtrl.getURLs);
 
 router.post("/report", ReportCtrl.insertReports);
-router.get("/report/:id", ReportCtrl.getReportByProfileId);
+// router.get("/report/:id/:reportId", ReportCtrl.getReportByProfileId);
 
 module.exports = router;

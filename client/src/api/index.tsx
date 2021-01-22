@@ -7,13 +7,14 @@ const api = axios.create({
 export const createURL = (payload: any) => api.post(`/url`, payload);
 export const deleteURL = (id: string) => api.delete(`/url/${id}`);
 export const getURLs = () => api.get(`/urls`);
-export const getReportByProfileId = (id: string) => api.get(`/report/${id}`);
+// export const getReportByProfileId = (id: string, reportId: string) =>
+//   api.get(`/report/${id}/${reportId}`);
 
 const apis = {
   createURL,
   deleteURL,
   getURLs,
-  getReportByProfileId,
+  // getReportByProfileId,
 };
 
 export default apis;

@@ -71,4 +71,11 @@ const uploadReport = () => {
   });
 };
 
-module.exports = { getAnalysis, uploadReport };
+const resetReport = () => {
+  const reset = exec(`rm -rf ./reports && mkdir reports`);
+  reset.stdout.on("data", function (message) {
+    console.log(message);
+  });
+};
+
+module.exports = { getAnalysis, uploadReport, resetReport };

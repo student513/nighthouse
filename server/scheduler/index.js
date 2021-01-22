@@ -1,8 +1,4 @@
 const Agenda = require("agenda");
-const axios = require("axios");
-const fs = require("fs");
-const exec = require("child_process").exec;
-
 const job = require("./job.js");
 
 require("dotenv").config();
@@ -22,11 +18,13 @@ try {
 
     agenda.define("getAnalysis", job.getAnalysis()); // ;세미콜론 없으면 에러
     agenda.define("uploadReport", job.uploadReport()); // ;세미콜론 없으면 에러
+    agenda.define("resetReport", job.resetReport());
 
     (async () => {
       await agenda.start();
       await agenda.every("4 minutes", "getAnalysis");
       await agenda.every("7 minutes", "uploadReport");
+      await agenda.every("1 minutes", "resetReport");
     })();
   });
 } catch {

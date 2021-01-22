@@ -1,6 +1,7 @@
 const Agenda = require("agenda");
-const job = require("./job.js");
-
+const exec = require("child_process").exec
+const fs = require("fs")
+const axios = require("axios")
 require("dotenv").config();
 
 const exportProfileId = (filename) => {
@@ -15,7 +16,7 @@ const agenda = new Agenda({
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     collection: "jobs", // 어느 컬랙션에 job 정보를 관리할 것인가?
   },
-  processEvery: "30 seconds",
+  processEvery: "10 seconds",
 });
 
 try {
@@ -46,8 +47,6 @@ try {
       console.log("finish Analysis", Date());
       done();
     }); // ;세미콜론 없으면 에러
-
-
     agenda.define("uploadReport", (done) => {
       console.log("start upload");
 

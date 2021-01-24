@@ -52,6 +52,8 @@ try {
               const report = JSON.parse(content);
               const parsedReport = {
                 profileId: exportProfileId(filename),
+                requestedUrl: report["requestedUrl"],
+                finalUrl: report["finalUrl"],
                 speedIndex: report["audits"]["speed-index"],
                 totalBlockingTime: report["audits"]["total-blocking-time"],
                 firstContentfulPaint: report["audits"]["first-contentful-paint"],
@@ -81,9 +83,9 @@ try {
 
     (async () => {
       await agenda.start();
-      await agenda.every("55 * * * *", "getAnalysis");
-      await agenda.every("57 * * * *", "uploadReport");
-      await agenda.every("58 * * * *", "resetReport");
+      await agenda.every("00 * * * *", "getAnalysis");
+      await agenda.every("30 * * * *", "uploadReport");
+      await agenda.every("50 * * * *", "resetReport");
     })();
   });
 } catch {

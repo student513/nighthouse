@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { NavBar } from "./components";
-import { AnalysisList, CreateAnalysis, Home, Detail } from "./pages";
+import { AnalysisList, CreateAnalysis, Home, Details } from "./pages";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/App.css";
@@ -16,7 +16,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/url/create" exact component={CreateAnalysis} />
           <Route path="/url/list" exact component={AnalysisList} />
-          <Route path="/url/list/:id" component={Detail} />
+          <Route path="/url/list/:profileId" component={Details} />
         </Switch>
       </div>
     </Router>

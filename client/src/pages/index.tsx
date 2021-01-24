@@ -1,6 +1,6 @@
 import CreateAnalysis from "./CreateAnalysis";
 import AnalysisList from "./AnalysisList";
 import Home from "./Home";
-import Detail from "./Detail";
+import Details from "./Details";
 
-export { CreateAnalysis, AnalysisList, Home, Detail };
+export { CreateAnalysis, AnalysisList, Home, Details };

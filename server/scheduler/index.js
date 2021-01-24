@@ -81,9 +81,9 @@ try {
 
     (async () => {
       await agenda.start();
-      await agenda.every("3 minutes", "getAnalysis");
-      await agenda.every("15 minutes", "uploadReport");
-      await agenda.every("7 minutes", "resetReport");
+      await agenda.every("55 * * * *", "getAnalysis");
+      await agenda.every("57 * * * *", "uploadReport");
+      await agenda.every("58 * * * *", "resetReport");
     })();
   });
 } catch {

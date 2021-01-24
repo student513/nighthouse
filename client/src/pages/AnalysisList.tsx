@@ -24,13 +24,7 @@ const AnalysisList = () => {
 
   return (
     <div className="card-container">
-      {urls.length > 0 ? (
-        urls.map(({ name, _id, url }) => (
-          <ReportCard key={_id} {...{ name, _id, url, deleteAnalysisCard }} />
-        ))
-      ) : (
-        <div>리스트가 없습니다.</div>
-      )}
+      {urls.length > 0 ? urls.map(({ name, _id, url }, index) => <ReportCard key={_id} {...{ name, _id, url, deleteAnalysisCard, index }} />) : <div>리스트가 없습니다.</div>}
     </div>
   );
 };

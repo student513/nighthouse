@@ -30,7 +30,7 @@ const ReportCard = ({ name = "defaultName", url = "defaultUrl", _id = "defaultId
         <Card.Body>
           <Card.Title>{name}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">{url}</Card.Subtitle>
-          <Button href={`/url/list/${index}`}>Detail</Button>
+          <Button href={`/url/list/${_id}`}>Detail</Button>
           <DeleteButton onClick={() => deleteAnalysisCard(_id)}>Delete</DeleteButton>
         </Card.Body>
       </Card>

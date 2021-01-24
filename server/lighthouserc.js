@@ -1,8 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      //startServerCommand: "yarn start", // 분석 시작 시 해당 프로젝트를 빌드한다. 배포된 url이면
-      url: ["https://www.naver.com"], // 테스트 실행할 url
+
       numberOfRuns: 1, // 테스트 실행 횟수
     },
     assert: {
@@ -12,7 +11,7 @@ module.exports = {
       },
     },
     upload: {
-      target: "temporary-public-storage", // 프로젝트 폴더 내에 생성됨
+
     },
   },
 };

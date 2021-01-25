@@ -65,9 +65,9 @@ agenda.on("ready", async () => {
       })
     })
     console.log("finish upload", Date())
-  }) // ;세미콜론 없으면 에러
+  })
   agenda.define("resetReport", () => {
-    const reset = exec(`rm -rf ./reports && mkdir reports`)
+    const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`)
     reset.stdout.on("data", function (message) {
       console.log(message)
     })

@@ -4,8 +4,8 @@ const cors = require("cors");
 require("dotenv").config();
 
 const db = require("./db");
-const router = require("./routes/router");
 const agenda = require("./scheduler");
+const router = require("./routes/router");
 
 const app = express();
 const apiPort = 3001;

@@ -1,6 +1,6 @@
 const Report = require("../models/report-model");
 
-insertReports = (req, res) => {
+const insertReports = (req, res) => {
   const body = req.body;
   if (!body) {
     return res.status(400).json({
@@ -10,7 +10,7 @@ insertReports = (req, res) => {
   }
   const report = new Report(body);
   if (!report) {
-    return res.status(400).json({ success: false, error: err });
+    return res.status(400).json({ success: false, error: res.err });
   }
 
   report

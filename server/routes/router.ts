@@ -1,5 +1,5 @@
+export {};
 const express = require("express");
-
 const URLCtrl = require("../controllers/url-ctrl");
 const ReportCtrl = require("../controllers/report-ctrl");
 

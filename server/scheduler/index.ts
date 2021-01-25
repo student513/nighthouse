@@ -43,7 +43,7 @@ agenda.on("ready", async () => {
         if (filename.includes(".json") && filename !== "manifest.json") {
           fs.readFile(`./reports/${filename}`, "utf8", async (err, content) => {
             const report = JSON.parse(content)
-            const parsedReport = {
+            await axios.post(`${process.env.SERVER_API_URL}/report`, {
               profileId: exportProfileId(filename),
               requestedUrl: report["requestedUrl"],
               finalUrl: report["finalUrl"],
@@ -59,8 +59,7 @@ agenda.on("ready", async () => {
               accessibility: report["categories"]["accessibility"]["score"],
               bestPractices: report["categories"]["best-practices"]["score"],
               seo: report["categories"]["seo"]["score"],
-            }
-            await axios.post(`${process.env.SERVER_API_URL}/report`, parsedReport)
+            })
           })
         }
       })

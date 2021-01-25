@@ -3,6 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { getReports } from "../api";
 import { ReportData } from "../helper/interface";
+import Chart from "../components/Chart";
 
 type Props = {
   profileId: string;
@@ -10,6 +11,7 @@ type Props = {
 
 const Details = ({ match }: RouteComponentProps<Props>) => {
   const [reportList, setReportList] = useState<ReportData[]>([]);
+  const [dataType, setDataType] = useState("");
 
   useEffect(() => {
     getReportsByProfileId(match.params.profileId);
@@ -19,7 +21,14 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
     const reports = await getReports(id);
     setReportList(reports.data.data);
   };
-  return <div></div>;
+
+  const parseChartData = () => {};
+
+  return (
+    <div>
+      <Chart />
+    </div>
+  );
 };
 
 export default Details;

@@ -1,11 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from "react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
-import { NavBar } from "./components";
-import { AnalysisList, CreateAnalysis, Home, Details } from "./pages";
+import { NavBar } from "./components"
+import { AnalysisList, CreateAnalysis, Home, Details } from "./pages"
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./style/App.css";
+import "bootstrap/dist/css/bootstrap.min.css"
+import "./style/App.css"
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

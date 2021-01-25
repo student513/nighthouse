@@ -1,10 +1,10 @@
-import { Chart as LineChart } from "react-google-charts";
+import { Chart as LineChart } from "react-google-charts"
 
 type Props = {
-  data?: [];
-  hAxis?: string;
-  vAxis?: string;
-};
+  data?: []
+  hAxis?: string
+  vAxis?: string
+}
 
 const Chart = ({ data = [], hAxis = "Time", vAxis = "milliseconds" }: Props) => {
   return (
@@ -40,7 +40,7 @@ const Chart = ({ data = [], hAxis = "Time", vAxis = "milliseconds" }: Props) => 
         rootProps={{ "data-testid": "1" }}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Chart;
+export default Chart

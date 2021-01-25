@@ -3,7 +3,7 @@ const exec = require("child_process").exec;
 const fs = require("fs");
 const axios = require("axios");
 
-const { exportProfileId } = require("./util");
+import { exportProfileId } from "./util";
 
 const agenda = new Agenda({
   db: {
@@ -39,7 +39,6 @@ agenda.on("ready", async () => {
         console.log("File read failed:", err);
         return;
       }
-      console.log(filenames);
       filenames.forEach((filename) => {
         if (filename.includes(".json") && filename !== "manifest.json") {
           fs.readFile(`./reports/${filename}`, "utf8", async (err, content) => {

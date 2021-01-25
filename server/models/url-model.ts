@@ -1,7 +1,8 @@
+export {};
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const URL = new Schema(
+const Url = new Schema(
   {
     name: { type: String, required: true },
     url: { type: String, required: true },
@@ -9,4 +10,4 @@ const URL = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("urls", URL);
+module.exports = mongoose.model("urls", Url);

@@ -1,5 +1,5 @@
 export const exportProfileId = (filename) => {
-  const idAndExtension = filename.split("-");
-  const id = idAndExtension[1].split(".");
-  return id[0];
-};
+  const idAndExtension = filename.split("-")
+  const id = idAndExtension[1].split(".")
+  return id[0]
+}

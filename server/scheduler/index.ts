@@ -1,9 +1,9 @@
-const Agenda = require("agenda");
-const exec = require("child_process").exec;
-const fs = require("fs");
-const axios = require("axios");
+const Agenda = require("agenda")
+const exec = require("child_process").exec
+const fs = require("fs")
+const axios = require("axios")
 
-import { exportProfileId } from "./util";
+import { exportProfileId } from "./util"
 
 const agenda = new Agenda({
   db: {
@@ -12,37 +12,37 @@ const agenda = new Agenda({
     collection: "jobs",
   },
   processEvery: "10 seconds",
-});
+})
 
 agenda.on("ready", async () => {
-  console.log("Success agenda connecting");
+  console.log("Success agenda connecting")
   agenda.define("getAnalysis", async () => {
-    console.log("start Analysis");
-    const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`);
+    console.log("start Analysis")
+    const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`)
     const urls = urlsDocuments.data.data.map((doc) => ({
       url: doc.url,
       _id: doc._id,
-    }));
+    }))
 
     urls.forEach((url) => {
-      const lhciCollect = exec(`lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `);
+      const lhciCollect = exec(`lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `)
       lhciCollect.stdout.on("data", function (message) {
-        console.log(message);
-      });
-    });
-    console.log("finish Analysis", Date());
-  });
+        console.log(message)
+      })
+    })
+    console.log("finish Analysis", Date())
+  })
   agenda.define("uploadReport", () => {
-    console.log("start upload");
+    console.log("start upload")
     fs.readdir("./reports", "utf8", (err, filenames) => {
       if (err) {
-        console.log("File read failed:", err);
-        return;
+        console.log("File read failed:", err)
+        return
       }
       filenames.forEach((filename) => {
         if (filename.includes(".json") && filename !== "manifest.json") {
           fs.readFile(`./reports/${filename}`, "utf8", async (err, content) => {
-            const report = JSON.parse(content);
+            const report = JSON.parse(content)
             const parsedReport = {
               profileId: exportProfileId(filename),
               requestedUrl: report["requestedUrl"],
@@ -59,31 +59,30 @@ agenda.on("ready", async () => {
               accessibility: report["categories"]["accessibility"]["score"],
               bestPractices: report["categories"]["best-practices"]["score"],
               seo: report["categories"]["seo"]["score"],
-            };
-            await axios.post(`${process.env.SERVER_API_URL}/report`, parsedReport);
-          });
+            }
+            await axios.post(`${process.env.SERVER_API_URL}/report`, parsedReport)
+          })
         }
-      });
-    });
-    console.log("finish upload", Date());
-  }); // ;세미콜론 없으면 에러
+      })
+    })
+    console.log("finish upload", Date())
+  }) // ;세미콜론 없으면 에러
   agenda.define("resetReport", () => {
-    const reset = exec(`rm -rf ./reports && mkdir reports`);
+    const reset = exec(`rm -rf ./reports && mkdir reports`)
     reset.stdout.on("data", function (message) {
-      console.log(message);
-    });
-  });
-
-  (async () => {
-    await agenda.start();
-    await agenda.every("00 * * * *", "getAnalysis");
-    await agenda.every("10 * * * *", "uploadReport");
-    await agenda.every("58 * * * *", "resetReport");
-  })();
-});
+      console.log(message)
+    })
+  })
+  ;(async () => {
+    await agenda.start()
+    await agenda.every("00 * * * *", "getAnalysis")
+    await agenda.every("10 * * * *", "uploadReport")
+    await agenda.every("58 * * * *", "resetReport")
+  })()
+})
 
 agenda.on("fail", (err, job) => {
-  console.log(`Job failed with error: ${err.message}`);
-});
+  console.log(`Job failed with error: ${err.message}`)
+})
 
-module.exports = agenda;
+module.exports = agenda

@@ -63,7 +63,7 @@ agenda.on("ready", async () => {
                 "best-practices": { score: bestPractices },
                 seo: { score: seo },
               },
-            } = report
+            }: reportType.ReportType = report
 
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
               profileId: util.exportProfileId(filename),

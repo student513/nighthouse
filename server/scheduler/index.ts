@@ -1,6 +1,6 @@
 const Agenda = require("agenda")
 const exec = require("child_process").exec
-const fs = require("fs")
+const fs = require("fs").promises
 const axios = require("axios")
 
 import { exportProfileId } from "./util"
@@ -25,23 +25,22 @@ agenda.on("ready", async () => {
     }))
 
     urls.forEach((url) => {
-      const lhciCollect = exec(`lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `)
+      const lhciCollect = exec(
+        `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `
+      )
       lhciCollect.stdout.on("data", function (message) {
         console.log(message)
       })
     })
     console.log("finish Analysis", Date())
   })
-  agenda.define("uploadReport", () => {
+  agenda.define("uploadReport", async () => {
     console.log("start upload")
-    fs.readdir("./reports", "utf8", (err, filenames) => {
-      if (err) {
-        console.log("File read failed:", err)
-        return
-      }
-      filenames.forEach((filename) => {
+    const filenames = await fs.readdir("./reports", "utf8")
+    await Promise.all(
+      filenames.map((filename) => {
         if (filename.includes(".json") && filename !== "manifest.json") {
-          fs.readFile(`./reports/${filename}`, "utf8", async (err, content) => {
+          fs.readFile(`./reports/${filename}`, "utf8").then(async (content) => {
             const report = JSON.parse(content)
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
               profileId: exportProfileId(filename),
@@ -63,7 +62,7 @@ agenda.on("ready", async () => {
           })
         }
       })
-    })
+    )
     console.log("finish upload", Date())
   })
   agenda.define("resetReport", () => {
@@ -75,7 +74,7 @@ agenda.on("ready", async () => {
   ;(async () => {
     await agenda.start()
     await agenda.every("00 * * * *", "getAnalysis")
-    await agenda.every("10 * * * *", "uploadReport")
+    await agenda.every("16 * * * *", "uploadReport")
     await agenda.every("58 * * * *", "resetReport")
   })()
 })

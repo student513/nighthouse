@@ -42,18 +42,33 @@ agenda.on("ready", async () => {
         if (filename.includes(".json") && filename !== "manifest.json") {
           fs.readFile(`./reports/${filename}`, "utf8").then(async (content) => {
             const report = JSON.parse(content)
+            const {
+              requestedUrl,
+              finalUrl,
+              audits: {
+                "speed-index": speedIndex,
+                "total-blocking-time": totalBlockingTime,
+                "first-contentful-paint": firstContentfulPaint,
+                interactive: timeToInteractive,
+                "largest-contentful-paint": largeContentfulPaint,
+                "cumulative-layout-shift": cumulativeLayoutShift,
+                "unminified-javascript": unminifiedJavascript,
+                "server-response-time": serverResponseTime,
+              },
+            } = report
+
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
               profileId: exportProfileId(filename),
-              requestedUrl: report["requestedUrl"],
-              finalUrl: report["finalUrl"],
-              speedIndex: report["audits"]["speed-index"],
-              totalBlockingTime: report["audits"]["total-blocking-time"],
-              firstContentfulPaint: report["audits"]["first-contentful-paint"],
-              timeToInteractive: report["audits"]["interactive"],
-              largeContentfulPaint: report["audits"]["largest-contentful-paint"],
-              cumulativeLayoutShift: report["audits"]["cumulative-layout-shift"],
-              unminifiedJavascript: report["audits"]["unminified-javascript"],
-              serverResponseTime: report["audits"]["server-response-time"],
+              requestedUrl,
+              finalUrl,
+              speedIndex,
+              totalBlockingTime,
+              firstContentfulPaint,
+              timeToInteractive,
+              largeContentfulPaint,
+              cumulativeLayoutShift,
+              unminifiedJavascript,
+              serverResponseTime,
               performance: report["categories"]["performance"]["score"],
               accessibility: report["categories"]["accessibility"]["score"],
               bestPractices: report["categories"]["best-practices"]["score"],

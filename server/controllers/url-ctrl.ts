@@ -30,8 +30,8 @@ const createURL = (req, res) => {
     })
 }
 
-const deleteURL = async (req, res) => {
-  await Url.findOneAndDelete({ _id: req.params.id }, (err, url) => {
+const deleteURL = (req, res) => {
+  Url.findOneAndDelete({ _id: req.params.id }, (err, url) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -44,8 +44,8 @@ const deleteURL = async (req, res) => {
   }).catch((err) => console.log(err))
 }
 
-const getURLs = async (req, res) => {
-  await Url.find({}, (err, urls) => {
+const getURLs = (req, res) => {
+  Url.find({}, (err, urls) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }

@@ -1,10 +1,11 @@
+export = {}
 const Agenda = require("agenda")
 const exec = require("child_process").exec
 const fs = require("fs").promises
 const axios = require("axios")
 
-import { exportProfileId } from "./util"
-import { agendaJobName } from "../interfaces/agendaJobs"
+const util = require("./util")
+const Job = require("../interfaces/agendaJobs")
 
 const agenda = new Agenda({
   db: {
@@ -17,7 +18,7 @@ const agenda = new Agenda({
 
 agenda.on("ready", async () => {
   console.log("Success agenda connecting")
-  agenda.define(agendaJobName.GET_ANALYSIS, async () => {
+  agenda.define(Job.agendaJobName.GET_ANALYSIS, async () => {
     console.log("start Analysis")
     const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`)
     const urls = urlsDocuments.data.data.map((doc) => ({
@@ -35,7 +36,7 @@ agenda.on("ready", async () => {
     })
     console.log("finish Analysis", Date())
   })
-  agenda.define(agendaJobName.UPLOAD_REPORT, async () => {
+  agenda.define(Job.agendaJobName.UPLOAD_REPORT, async () => {
     console.log("start upload")
     const filenames = await fs.readdir("./reports", "utf8")
     await Promise.all(
@@ -59,7 +60,7 @@ agenda.on("ready", async () => {
             } = report
 
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
-              profileId: exportProfileId(filename),
+              profileId: util.exportProfileId(filename),
               requestedUrl,
               finalUrl,
               speedIndex,
@@ -81,7 +82,7 @@ agenda.on("ready", async () => {
     )
     console.log("finish upload", Date())
   })
-  agenda.define(agendaJobName.RESET_REPORT, () => {
+  agenda.define(Job.agendaJobName.RESET_REPORT, () => {
     const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`)
     reset.stdout.on("data", function (message) {
       console.log(message)
@@ -89,9 +90,9 @@ agenda.on("ready", async () => {
   })
   ;(async () => {
     await agenda.start()
-    await agenda.every("00 * * * *", agendaJobName.GET_ANALYSIS)
-    await agenda.every("03 * * * *", agendaJobName.UPLOAD_REPORT)
-    await agenda.every("58 * * * *", agendaJobName.RESET_REPORT)
+    await agenda.every("52 * * * *", Job.agendaJobName.GET_ANALYSIS)
+    await agenda.every("13 * * * *", Job.agendaJobName.UPLOAD_REPORT)
+    await agenda.every("58 * * * *", Job.agendaJobName.RESET_REPORT)
   })()
 })
 

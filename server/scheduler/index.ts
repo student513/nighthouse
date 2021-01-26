@@ -57,6 +57,12 @@ agenda.on("ready", async () => {
                 "unminified-javascript": unminifiedJavascript,
                 "server-response-time": serverResponseTime,
               },
+              categories: {
+                performance: { score: performance },
+                accessibility: { score: accessibility },
+                "best-practices": { score: bestPractices },
+                seo: { score: seo },
+              },
             } = report
 
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
@@ -71,10 +77,10 @@ agenda.on("ready", async () => {
               cumulativeLayoutShift,
               unminifiedJavascript,
               serverResponseTime,
-              performance: report["categories"]["performance"]["score"],
-              accessibility: report["categories"]["accessibility"]["score"],
-              bestPractices: report["categories"]["best-practices"]["score"],
-              seo: report["categories"]["seo"]["score"],
+              performance,
+              accessibility,
+              bestPractices,
+              seo,
             })
           })
         }

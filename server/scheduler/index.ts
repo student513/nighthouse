@@ -7,6 +7,7 @@ dotenv.config()
 
 import { exportProfileId } from "./util"
 import { agendaJobName } from "../interfaces/agendaJobs"
+import { ReportType } from "../interfaces/reportTypes"
 
 const agenda = new Agenda({
   db: {
@@ -67,7 +68,7 @@ agenda.on("ready", async () => {
                 "best-practices": { score: bestPractices },
                 seo: { score: seo },
               },
-            }: reportType.ReportType = report
+            }: ReportType = report
 
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
               profileId: exportProfileId(filename),

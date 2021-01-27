@@ -34,7 +34,7 @@ agenda.on("ready", async () => {
         (error, stdout, stderr) => {
           console.log(stdout)
           if (error !== null) {
-            console.log("exec error: " + error)
+            logger.debug("exec error: ", error)
           }
         }
       )
@@ -97,7 +97,7 @@ agenda.on("ready", async () => {
     const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`, (error, stdout, stderr) => {
       console.log(stdout)
       if (error !== null) {
-        console.log("exec error: " + error)
+        logger.debug("exec error: ", error)
       }
     })
   })
@@ -110,7 +110,7 @@ agenda.on("ready", async () => {
 })
 
 agenda.on("fail", (err, job) => {
-  console.log(`Job failed with error: ${err.message}`)
+  logger.debug("Job failed with error: ", err)
 })
 
 export default agenda

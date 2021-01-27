@@ -1,4 +1,5 @@
 import Url from "../models/url-model"
+import logger from "../utils/logger"
 
 export const createURL = (req, res) => {
   const body = req.body
@@ -40,7 +41,7 @@ export const deleteURL = (req, res) => {
         ? res.status(200).json({ success: true, data: url })
         : res.status(404).json({ success: false, error: `url not found` })
     })
-    .catch((err) => console.log(err))
+    .catch((err) => logger.debug(err))
 }
 
 export const getURLs = (req, res) => {
@@ -52,5 +53,5 @@ export const getURLs = (req, res) => {
       return res.status(404).json({ success: false, error: `Url not found` })
     }
     return res.status(200).json({ success: true, data: urls })
-  }).catch((err) => console.log(err))
+  }).catch((err) => logger.debug(err))
 }

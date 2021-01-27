@@ -1,5 +1,6 @@
-### 환경
+### feature
 
+- yarn
 - node: 12.16.1v
 - mongoDB mongoose
 - express
@@ -8,9 +9,17 @@
 - file system: 프로젝트 내 디렉토리의 파일에 접근하여, 내용을 버퍼로 가져온다거나 목록을 가져올 수 있음.
 - child_process: js로 CLI 입력 가능
 
-### 빌드
+### Installing
 
-`yarn server`
+- yarn 설치
+  `$ npm install yarn -g`
+- npm 버전관리
+  `nvm use {이용하고자 하는 버전}`
+
+### Command
+
+- server start
+  `$ yarn server`
 
 ### 메커니즘
 
@@ -21,3 +30,14 @@
   - GET_ANALYSIS: lighthouse-ci로 프로파일 url에 대한 리포트를 로컬 디렉토리에 생성합니다.
   - UPLOAD_REPORT: 생성된 리포트의 주요지표를 파싱하여 mongoDB에 저장합니다.
   - RESET_REPORT: 로컬디렉토리에 생성된 리포트를 초기화합니다.
+
+### 디렉토리 구조
+
+- constants: enum 상수 모음
+- controllers: mongoose 컨트롤러 모음
+- models: mongoose 모델 모음
+- routes: mongoose 라우터 모음
+- db: mongo 디비 연결
+- interface: 인터페이스 모음
+- scheduler: agenda 스케줄러와 실행될 job이 정의되어있음
+- utils: 비즈니스 로직에 도움이 되는 기타 함수들이 정의되어있음

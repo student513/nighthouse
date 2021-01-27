@@ -1,12 +1,13 @@
 import Url from "../models/url-model"
 import logger from "../utils/logger"
+import { UrlErrorMessageType, UrlResolveMessageType } from "../constants/messages"
 
 export const createURL = (req, res) => {
   const body = req.body
   if (!body) {
     return res.status(400).json({
       success: false,
-      error: "You must provide a URL",
+      error: UrlErrorMessageType.MUST_PROVIDE_URL,
     })
   }
   const url = new Url(body)
@@ -20,13 +21,13 @@ export const createURL = (req, res) => {
       return res.status(201).json({
         success: true,
         id: url._id,
-        message: "URL created!",
+        message: UrlResolveMessageType.URL_CREATED,
       })
     })
     .catch((error) => {
       return res.status(400).json({
         error,
-        message: "URL not created!",
+        message: UrlErrorMessageType.URL_NOT_CREATED,
       })
     })
 }
@@ -39,7 +40,7 @@ export const deleteURL = (req, res) => {
     .then((url) => {
       return url
         ? res.status(200).json({ success: true, data: url })
-        : res.status(404).json({ success: false, error: `url not found` })
+        : res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
     })
     .catch((err) => logger.debug(err))
 }
@@ -50,7 +51,7 @@ export const getURLs = (req, res) => {
       return res.status(400).json({ success: false, error: err })
     }
     if (!urls.length) {
-      return res.status(404).json({ success: false, error: `Url not found` })
+      return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
     }
     return res.status(200).json({ success: true, data: urls })
   }).catch((err) => logger.debug(err))

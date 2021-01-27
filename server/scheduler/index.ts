@@ -5,9 +5,10 @@ import axios from "axios"
 import dotenv from "dotenv"
 dotenv.config()
 
-import { exportProfileId } from "./util"
-import { agendaJobName } from "../interfaces/agendaJobs"
+import { exportProfileId } from "../utils/func"
+import { agendaJobName } from "../constants/agendaJobs"
 import { ReportType } from "../interfaces/reportTypes"
+import logger from "../utils/logger"
 
 const agenda = new Agenda({
   db: {

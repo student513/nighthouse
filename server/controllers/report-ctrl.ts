@@ -1,11 +1,12 @@
 import Report from "../models/report-model"
+import { ReportErrorMessageType, ReportResolveMessageType } from "../constants/messages"
 
 export const insertReports = (req, res) => {
   const body = req.body
   if (!body) {
     return res.status(400).json({
       success: false,
-      error: "You must provide a Report",
+      error: ReportErrorMessageType.MUST_PROVIDE_REPORT,
     })
   }
   const report = new Report(body)
@@ -18,13 +19,13 @@ export const insertReports = (req, res) => {
     .then(() => {
       return res.status(201).json({
         success: true,
-        message: "Report saved!",
+        message: ReportResolveMessageType.REPORT_SAVED,
       })
     })
     .catch((error) => {
       return res.status(400).json({
         error,
-        message: "Report not saved!",
+        message: ReportErrorMessageType.REPORT_NOT_SAVED,
       })
     })
 }

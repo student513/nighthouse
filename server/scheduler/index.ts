@@ -28,21 +28,15 @@ agenda.on("ready", async () => {
     }))
 
     urls.forEach((url) => {
-      // const lhciCollect = exec(
-      //   `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `,
-      //   (error, stdout, stderr) => {
-      //     console.log(stdout)
-      //     if (error !== null) {
-      //       console.log("exec error: " + error)
-      //     }
-      //   }
-      // )
       const lhciCollect = exec(
-        `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `
+        `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports`,
+        (error, stdout, stderr) => {
+          console.log(stdout)
+          if (error !== null) {
+            console.log("exec error: " + error)
+          }
+        }
       )
-      lhciCollect.stdout.on("data", function (message) {
-        console.log(message)
-      })
     })
     console.log("finish Analysis", Date())
   })
@@ -99,22 +93,18 @@ agenda.on("ready", async () => {
     console.log("finish upload", Date())
   })
   agenda.define(agendaJobName.RESET_REPORT, () => {
-    // const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`, (error, stdout, stderr) => {
-    //   console.log(stdout)
-    //   if (error !== null) {
-    //     console.log("exec error: " + error)
-    //   }
-    // })
-    const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`)
-    reset.stdout.on("data", function (message) {
-      console.log(message)
+    const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`, (error, stdout, stderr) => {
+      console.log(stdout)
+      if (error !== null) {
+        console.log("exec error: " + error)
+      }
     })
   })
   ;(async () => {
     await agenda.start()
-    await agenda.every("52 * * * *", Job.agendaJobName.GET_ANALYSIS)
-    await agenda.every("13 * * * *", Job.agendaJobName.UPLOAD_REPORT)
-    await agenda.every("58 * * * *", Job.agendaJobName.RESET_REPORT)
+    await agenda.every("24 * * * *", agendaJobName.GET_ANALYSIS)
+    await agenda.every("26 * * * *", agendaJobName.UPLOAD_REPORT)
+    await agenda.every("58 * * * *", agendaJobName.RESET_REPORT)
   })()
 })
 

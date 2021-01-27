@@ -1,9 +1,9 @@
-import mongoose from "mongoose"
 import dotenv from "dotenv"
 dotenv.config()
+import mongoose from "mongoose"
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/nighthouse", {
+  .connect(`${process.env.DB_URL}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

@@ -22,7 +22,7 @@ agenda.on("ready", async () => {
   console.log("Success agenda connecting")
   agenda.define(agendaJobName.GET_ANALYSIS, async () => {
     console.log("start Analysis")
-    const urlsDocuments = await axios.get(`http://localhost:3001/api/urls`)
+    const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`)
     const urls = urlsDocuments.data.data.map((doc) => ({
       url: doc.url,
       _id: doc._id,

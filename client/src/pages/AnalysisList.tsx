@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import { getURLs, deleteURL } from "../api"
 import ReportCard from "../components/ReportCard"
-import { AnalysisTargetUrl } from "../helper/interface"
+import { AnalysisTargetUrl } from "../interfaces/ProfileType"
 import "../style/AnalysisList.css"
 
 const AnalysisList = () => {
@@ -24,7 +24,13 @@ const AnalysisList = () => {
 
   return (
     <div className="card-container">
-      {urls.length > 0 ? urls.map(({ name, _id, url }, index) => <ReportCard key={_id} {...{ name, _id, url, deleteAnalysisCard, index }} />) : <div>리스트가 없습니다.</div>}
+      {urls.length > 0 ? (
+        urls.map(({ name, _id, url }, index) => (
+          <ReportCard key={_id} {...{ name, _id, url, deleteAnalysisCard, index }} />
+        ))
+      ) : (
+        <div>리스트가 없습니다.</div>
+      )}
     </div>
   )
 }

@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card"
 
 import { createURL } from "../api"
 import TextInput from "../components/TextInput"
-import { UrlPayload } from "../helper/interface"
+import { UrlPayload } from "../interfaces/ProfileType"
 
 const Button = styled.a.attrs({
   className: `btn btn-primary`,

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { UrlPayload } from "../helper/interface"
+import { UrlPayload } from "../interfaces/ProfileType"
 
 const api = axios.create({
   baseURL: "http://localhost:3001/api",

@@ -1,11 +1,12 @@
-const express = require("express")
-const bodyParser = require("body-parser")
-const cors = require("cors")
-require("dotenv").config()
+import express from "express"
+import bodyParser from "body-parser"
+import cors from "cors"
+import dotenv from "dotenv"
+dotenv.config()
 
-const db = require("./db")
-const agenda = require("./scheduler")
-const router = require("./routes/router")
+import db from "./db"
+import "./scheduler"
+import router from "./routes/router"
 
 const app = express()
 const apiPort = 3001

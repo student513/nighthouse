@@ -1,11 +1,12 @@
-export = {}
-const Agenda = require("agenda")
-const exec = require("child_process").exec
-const fs = require("fs").promises
-const axios = require("axios")
+import Agenda from "agenda"
+import { exec } from "child_process"
+import { promises as fs } from "fs"
+import axios from "axios"
+import dotenv from "dotenv"
+dotenv.config()
 
-const util = require("./util")
-const Job = require("../interfaces/agendaJobs")
+import { exportProfileId } from "./util"
+import { agendaJobName } from "../interfaces/agendaJobs"
 
 const agenda = new Agenda({
   db: {
@@ -18,15 +19,24 @@ const agenda = new Agenda({
 
 agenda.on("ready", async () => {
   console.log("Success agenda connecting")
-  agenda.define(Job.agendaJobName.GET_ANALYSIS, async () => {
+  agenda.define(agendaJobName.GET_ANALYSIS, async () => {
     console.log("start Analysis")
-    const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`)
+    const urlsDocuments = await axios.get(`http://localhost:3001/api/urls`)
     const urls = urlsDocuments.data.data.map((doc) => ({
       url: doc.url,
       _id: doc._id,
     }))
 
     urls.forEach((url) => {
+      // const lhciCollect = exec(
+      //   `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `,
+      //   (error, stdout, stderr) => {
+      //     console.log(stdout)
+      //     if (error !== null) {
+      //       console.log("exec error: " + error)
+      //     }
+      //   }
+      // )
       const lhciCollect = exec(
         `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports `
       )
@@ -36,7 +46,7 @@ agenda.on("ready", async () => {
     })
     console.log("finish Analysis", Date())
   })
-  agenda.define(Job.agendaJobName.UPLOAD_REPORT, async () => {
+  agenda.define(agendaJobName.UPLOAD_REPORT, async () => {
     console.log("start upload")
     const filenames = await fs.readdir("./reports", "utf8")
     await Promise.all(
@@ -66,7 +76,7 @@ agenda.on("ready", async () => {
             }: reportType.ReportType = report
 
             await axios.post(`${process.env.SERVER_API_URL}/report`, {
-              profileId: util.exportProfileId(filename),
+              profileId: exportProfileId(filename),
               requestedUrl,
               finalUrl,
               speedIndex,
@@ -88,7 +98,13 @@ agenda.on("ready", async () => {
     )
     console.log("finish upload", Date())
   })
-  agenda.define(Job.agendaJobName.RESET_REPORT, () => {
+  agenda.define(agendaJobName.RESET_REPORT, () => {
+    // const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`, (error, stdout, stderr) => {
+    //   console.log(stdout)
+    //   if (error !== null) {
+    //     console.log("exec error: " + error)
+    //   }
+    // })
     const reset = exec(`rm -rf ./reports ./.lighthouseci && mkdir reports .lighthouseci`)
     reset.stdout.on("data", function (message) {
       console.log(message)
@@ -106,4 +122,4 @@ agenda.on("fail", (err, job) => {
   console.log(`Job failed with error: ${err.message}`)
 })
 
-module.exports = agenda
+export default agenda

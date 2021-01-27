@@ -1,6 +1,6 @@
-const Report = require("../models/report-model")
+import Report from "../models/report-model"
 
-const insertReports = (req, res) => {
+export const insertReports = (req, res) => {
   const body = req.body
   if (!body) {
     return res.status(400).json({
@@ -42,8 +42,3 @@ const insertReports = (req, res) => {
 //     return res.status(200).json({ success: true, data: report });
 //   });
 // };
-
-module.exports = {
-  insertReports,
-  // getReportByProfileId,
-}

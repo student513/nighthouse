@@ -1,15 +1,15 @@
-export {}
-const express = require("express")
-const URLCtrl = require("../controllers/url-ctrl")
-const ReportCtrl = require("../controllers/report-ctrl")
+import express from "express"
+
+import { createURL, deleteURL, getURLs } from "../controllers/url-ctrl"
+import { insertReports } from "../controllers/report-ctrl"
 
 const router = express.Router()
 
-router.post("/url", URLCtrl.createURL)
-router.delete("/url/:id", URLCtrl.deleteURL)
-router.get("/urls", URLCtrl.getURLs)
+router.post("/url", createURL)
+router.delete("/url/:id", deleteURL)
+router.get("/urls", getURLs)
 
-router.post("/report", ReportCtrl.insertReports)
+router.post("/report", insertReports)
 // router.get("/report/:id/:reportId", ReportCtrl.getReportByProfileId);
 
-module.exports = router
+export default router

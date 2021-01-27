@@ -1,6 +1,6 @@
-const Url = require("../models/url-model")
+import Url from "../models/url-model"
 
-const createURL = (req, res) => {
+export const createURL = (req, res) => {
   const body = req.body
   if (!body) {
     return res.status(400).json({
@@ -30,21 +30,20 @@ const createURL = (req, res) => {
     })
 }
 
-const deleteURL = (req, res) => {
-  Url.findOneAndDelete({ _id: req.params.id }, (err, url) => {
-    if (err) {
+export const deleteURL = (req, res) => {
+  Url.findOneAndDelete({ _id: req.params.id })
+    .then((err) => {
       return res.status(400).json({ success: false, error: err })
-    }
-
-    if (!url) {
-      return res.status(404).json({ success: false, error: `url not found` })
-    }
-
-    return res.status(200).json({ success: true, data: url })
-  }).catch((err) => console.log(err))
+    })
+    .then((url) => {
+      return url
+        ? res.status(200).json({ success: true, data: url })
+        : res.status(404).json({ success: false, error: `url not found` })
+    })
+    .catch((err) => console.log(err))
 }
 
-const getURLs = (req, res) => {
+export const getURLs = (req, res) => {
   Url.find({}, (err, urls) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
@@ -54,10 +53,4 @@ const getURLs = (req, res) => {
     }
     return res.status(200).json({ success: true, data: urls })
   }).catch((err) => console.log(err))
-}
-
-module.exports = {
-  createURL,
-  deleteURL,
-  getURLs,
 }

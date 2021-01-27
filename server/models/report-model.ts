@@ -1,5 +1,5 @@
-export {}
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
+
 const Schema = mongoose.Schema
 
 const Report = new Schema(
@@ -10,6 +10,6 @@ const Report = new Schema(
     strict: false,
     timestamps: true,
   }
-) //빈 부분
+)
 
-module.exports = mongoose.model("reports", Report) // reports: 컬랙션 지정
+export default mongoose.model("reports", Report) // reports: 컬랙션 지정

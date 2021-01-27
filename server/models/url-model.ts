@@ -1,5 +1,5 @@
-export {}
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
+
 const Schema = mongoose.Schema
 
 const Url = new Schema(
@@ -10,4 +10,4 @@ const Url = new Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("urls", Url)
+export default mongoose.model("urls", Url)

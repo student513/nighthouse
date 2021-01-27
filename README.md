@@ -1,8 +1,13 @@
-nighthouse
+##nighthouse
 
 ### 서비스 설명
 
 lighthouse ci로 분석한 리포트의 주요지표를 시계열로 확인할 수 있는 서비스입니다.
+
+### 디렉토리 구조
+
+- [server](./server/README.md)
+- [client](./client/README.md)
 
 ### 빌드
 

@@ -29,7 +29,17 @@ export const insertReports = (req, res) => {
       })
     })
 }
-
+export const getReports = async (req, res) => {
+  await Report.find({ profileId: { $in: req.params.profileId } }, (err, report) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+    if (!report.length) {
+      return res.status(404).json({ success: false, error: `Report not found` })
+    }
+    return res.status(200).json({ success: true, data: report })
+  }).catch((err) => console.log(err))
+}
 // getReportByProfileId = async (req, res) => {
 //   await Report.find({ profileId: req.params.profileId }, (err, report) => {
 //     if (err) {

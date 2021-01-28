@@ -6,7 +6,7 @@ export enum ChartIndex {
   LCP = "largeContentfulPaint",
   CLS = "cumulativeLayoutShift",
   UJ = "unminifiedJavascript",
-  SRT = "serverResponesTime",
+  SRT = "serverResponseTime",
   PERFORMANCE = "performance",
   ACCESSIBILITY = "accessibility",
   BEST_PRACTICE = "bestPractice",

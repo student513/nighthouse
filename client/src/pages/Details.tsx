@@ -29,7 +29,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   const [reportList, setReportList] = useState<ReportData[]>([])
   const [selectedType, setSelectedType] = useState<keyof ReportData>("speedIndex")
-  const [chartData, setChartData] = useState<(string | number | ScoreData)[][]>([])
+  const [chartData, setChartData] = useState<any>([]) // 타입을 어떻게 줘야할지 모르겠음
 
   const getReportsByProfileId = async (id: string) => {
     const reports = await getReports(id)
@@ -38,24 +38,25 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   const getSelectType = (e: any) => {
     setSelectedType(e.target.value)
-    parseChartData(selectedType)
+    parseChartData(selectedType) // 한 박자 느리다.
   }
+
   const parseChartData = (chartIndex: keyof ReportData) => {
     const chartDataArray = reportList.map((report) => {
       if (
-        chartIndex ===
-        (ChartIndex.SPEED_INDEX ||
-          ChartIndex.TBT ||
-          ChartIndex.FCP ||
-          ChartIndex.TTI ||
-          ChartIndex.LCP ||
-          ChartIndex.CLS ||
-          ChartIndex.UJ ||
-          ChartIndex.SRT)
+        chartIndex === ChartIndex.SPEED_INDEX ||
+        chartIndex === ChartIndex.TBT ||
+        chartIndex === ChartIndex.FCP ||
+        chartIndex === ChartIndex.TTI ||
+        chartIndex === ChartIndex.LCP ||
+        chartIndex === ChartIndex.CLS ||
+        chartIndex === ChartIndex.UJ ||
+        chartIndex === ChartIndex.SRT
       )
-        return [report.createdAt, report[chartIndex].numericValue]
-      else return [report.createdAt, report[chartIndex]]
+        return [new Date(report.createdAt), report[chartIndex].numericValue]
+      else return [new Date(report.createdAt), report[chartIndex]]
     })
+    chartDataArray.unshift(["x", chartIndex])
     setChartData(chartDataArray)
   }
 
@@ -65,7 +66,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   return (
     <div>
-      <Chart />
+      <Chart data={chartData} />
       <Dropdown chartTypes={chartList} getSelectType={getSelectType} />
     </div>
   )

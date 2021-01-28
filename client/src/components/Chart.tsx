@@ -1,34 +1,20 @@
 import { Chart as LineChart } from "react-google-charts"
 
 type Props = {
-  data?: []
+  data: any // 타입을 어떻게 줘야할지 모르겠음
   hAxis?: string
   vAxis?: string
 }
 
-const Chart = ({ data = [], hAxis = "Time", vAxis = "milliseconds" }: Props) => {
+const Chart = ({ data = [], hAxis = "Date", vAxis = "milliseconds" }: Props) => {
   return (
     <div>
       <LineChart
-        width={"600px"}
+        width={"1600px"}
         height={"400px"}
         chartType="LineChart"
         loader={<div>Loading Chart</div>}
-        data={[
-          ["x", "dogs"],
-          [0, 0],
-          [1, 10],
-          [2, 23],
-          [3, 17],
-          [4, 18],
-          [5, 9],
-          [6, 11],
-          [7, 27],
-          [8, 33],
-          [9, 40],
-          [10, 32],
-          [11, 35],
-        ]}
+        data={data}
         options={{
           hAxis: {
             title: hAxis,

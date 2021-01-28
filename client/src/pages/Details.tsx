@@ -6,6 +6,7 @@ import { ReportData } from "../interfaces/ReportType"
 import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import Chart from "../components/Chart"
 import Dropdown from "../components/Dropdown"
+import { ReportErrorMessage } from "../constants/error"
 
 type Props = {
   profileId: string
@@ -13,7 +14,6 @@ type Props = {
 
 const Details = ({ match }: RouteComponentProps<Props>) => {
   const chartList = [
-    "-",
     ChartIndex.SPEED_INDEX,
     ChartIndex.TBT,
     ChartIndex.FCP,
@@ -32,11 +32,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   const [chartData, setChartData] = useState<any>([]) // 타입을 어떻게 줘야할지 모르겠음
   const [analysisStartDate, setAnalysisStartDate] = useState<Date>(new Date())
   const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.SPEED_INDEX)
-
-  const getReportsByProfileId = async (id: string) => {
-    const reports = await getReports(id)
-    setReportList(reports.data.data)
-  }
+  const [selectedPeriod, setSelectedPeriod] = useState<AnalysisPeriod>(AnalysisPeriod.NONE)
 
   const getSelectChartType = (e: any) => {
     setAnalysisType(e.target.value)
@@ -51,10 +47,15 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
     } else {
       period.setDate(period.getDate() - AnalysisDate.MONTH)
     }
+    setSelectedPeriod(e.target.value)
     setAnalysisStartDate(period)
   }
 
   const parseChartData = () => {
+    if (selectedPeriod === AnalysisPeriod.NONE) {
+      alert(ReportErrorMessage.NOT_SELECT_PERIOD)
+      return
+    }
     const chartDataArray = reportList
       .map((report) => {
         if (
@@ -71,9 +72,13 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
         else return [new Date(report.createdAt), report[analysisType]]
       })
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
-
     chartDataArray.unshift(["x", analysisType])
     setChartData(chartDataArray)
+  }
+
+  const getReportsByProfileId = async (id: string) => {
+    const reports = await getReports(id)
+    setReportList(reports.data.data)
   }
 
   useEffect(() => {
@@ -85,7 +90,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
       {chartData.length > 0 ? <Chart data={chartData} /> : <div>데이터를 선택해주세요</div>}
       <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
       <Dropdown
-        selectTypes={["-", AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+        selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
         getSelectType={getSelectDateType}
       />
       <button onClick={parseChartData}>제출</button>

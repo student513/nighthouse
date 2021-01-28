@@ -55,21 +55,22 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   }
 
   const parseChartData = () => {
-    const chartDataArray = reportList.map((report) => {
-      if (
-        analysisType === ChartIndex.SPEED_INDEX ||
-        analysisType === ChartIndex.TBT ||
-        analysisType === ChartIndex.FCP ||
-        analysisType === ChartIndex.TTI ||
-        analysisType === ChartIndex.LCP ||
-        analysisType === ChartIndex.CLS ||
-        analysisType === ChartIndex.UJ
-        // chartIndex === ChartIndex.SRT
-        // &&new Date(report.createdAt) > analysisStartDate
-      )
-        return [new Date(report.createdAt), report[analysisType].numericValue]
-      else return [new Date(report.createdAt), report[analysisType]]
-    })
+    const chartDataArray = reportList
+      .map((report) => {
+        if (
+          analysisType === ChartIndex.SPEED_INDEX ||
+          analysisType === ChartIndex.TBT ||
+          analysisType === ChartIndex.FCP ||
+          analysisType === ChartIndex.TTI ||
+          analysisType === ChartIndex.LCP ||
+          analysisType === ChartIndex.CLS ||
+          analysisType === ChartIndex.UJ
+          // chartIndex === ChartIndex.SRT
+        )
+          return [new Date(report.createdAt), report[analysisType].numericValue]
+        else return [new Date(report.createdAt), report[analysisType]]
+      })
+      .filter((parsedReport) => parsedReport[0] > analysisStartDate)
 
     chartDataArray.unshift(["x", analysisType])
     setChartData(chartDataArray)

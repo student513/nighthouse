@@ -1,4 +1,4 @@
-interface ScoreData {
+export interface ScoreData {
   id: string
   title: string
   description: string

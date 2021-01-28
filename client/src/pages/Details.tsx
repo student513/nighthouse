@@ -37,8 +37,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   }
 
   const getSelectType = (e: any) => {
-    setSelectedType(e.target.value)
-    parseChartData(selectedType) // 한 박자 느리다.
+    parseChartData(e.target.value)
   }
 
   const parseChartData = (chartIndex: keyof ReportData) => {

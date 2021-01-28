@@ -1,14 +1,14 @@
 type Props = {
-  chartTypes: string[]
+  selectTypes: string[]
   getSelectType: (e: any) => void
 }
 
-const Dropdown = ({ chartTypes = [], getSelectType }: Props) => {
+const Dropdown = ({ selectTypes = [], getSelectType }: Props) => {
   return (
-    <select id="reportData" onChange={getSelectType}>
-      {chartTypes.map((chartType, index) => (
-        <option key={index} value={chartType}>
-          {chartType}
+    <select onChange={getSelectType}>
+      {selectTypes.map((selectType, index) => (
+        <option key={index} value={selectType}>
+          {selectType}
         </option>
       ))}
     </select>

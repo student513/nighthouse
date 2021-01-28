@@ -12,3 +12,15 @@ export enum ChartIndex {
   BEST_PRACTICE = "bestPractice",
   SEO = "seo",
 }
+
+export enum AnalysisPeriod {
+  WEEK = "최근 7일",
+  HALF_MONTH = "최근 15일",
+  MONTH = "최근 30일",
+}
+
+export enum AnalysisDate {
+  WEEK = 7,
+  HALF_MONTH = 15,
+  MONTH = 30,
+}

@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router-dom"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
-import { ChartIndex } from "../constants/ChartIndex"
+import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import Chart from "../components/Chart"
 import Dropdown from "../components/Dropdown"
 
@@ -13,6 +13,7 @@ type Props = {
 
 const Details = ({ match }: RouteComponentProps<Props>) => {
   const chartList = [
+    "-",
     ChartIndex.SPEED_INDEX,
     ChartIndex.TBT,
     ChartIndex.FCP,
@@ -29,32 +30,48 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   const [reportList, setReportList] = useState<ReportData[]>([])
   const [chartData, setChartData] = useState<any>([]) // 타입을 어떻게 줘야할지 모르겠음
+  const [analysisStartDate, setAnalysisStartDate] = useState<Date>(new Date())
+  const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.SPEED_INDEX)
 
   const getReportsByProfileId = async (id: string) => {
     const reports = await getReports(id)
     setReportList(reports.data.data)
   }
 
-  const getSelectType = (e: any) => {
-    parseChartData(e.target.value)
+  const getSelectChartType = (e: any) => {
+    setAnalysisType(e.target.value)
   }
 
-  const parseChartData = (chartIndex: keyof ReportData) => {
+  const getSelectDateType = (e: any) => {
+    const period = new Date()
+    if (e.target.value === AnalysisPeriod.WEEK) {
+      period.setDate(period.getDate() - AnalysisDate.WEEK)
+    } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
+      period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
+    } else {
+      period.setDate(period.getDate() - AnalysisDate.MONTH)
+    }
+    setAnalysisStartDate(period)
+  }
+
+  const parseChartData = () => {
     const chartDataArray = reportList.map((report) => {
       if (
-        chartIndex === ChartIndex.SPEED_INDEX ||
-        chartIndex === ChartIndex.TBT ||
-        chartIndex === ChartIndex.FCP ||
-        chartIndex === ChartIndex.TTI ||
-        chartIndex === ChartIndex.LCP ||
-        chartIndex === ChartIndex.CLS ||
-        chartIndex === ChartIndex.UJ
+        analysisType === ChartIndex.SPEED_INDEX ||
+        analysisType === ChartIndex.TBT ||
+        analysisType === ChartIndex.FCP ||
+        analysisType === ChartIndex.TTI ||
+        analysisType === ChartIndex.LCP ||
+        analysisType === ChartIndex.CLS ||
+        analysisType === ChartIndex.UJ
         // chartIndex === ChartIndex.SRT
+        // &&new Date(report.createdAt) > analysisStartDate
       )
-        return [new Date(report.createdAt), report[chartIndex].numericValue]
-      else return [new Date(report.createdAt), report[chartIndex]]
+        return [new Date(report.createdAt), report[analysisType].numericValue]
+      else return [new Date(report.createdAt), report[analysisType]]
     })
-    chartDataArray.unshift(["x", chartIndex])
+
+    chartDataArray.unshift(["x", analysisType])
     setChartData(chartDataArray)
   }
 
@@ -65,7 +82,12 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   return (
     <div>
       {chartData.length > 0 ? <Chart data={chartData} /> : <div>데이터를 선택해주세요</div>}
-      <Dropdown chartTypes={chartList} getSelectType={getSelectType} />
+      <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
+      <Dropdown
+        selectTypes={["-", AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+        getSelectType={getSelectDateType}
+      />
+      <button onClick={parseChartData}>제출</button>
     </div>
   )
 }

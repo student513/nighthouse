@@ -1,5 +1,5 @@
 import Agenda from "agenda"
-import { exec } from "child_process"
+import { exec, execSync } from "child_process"
 import { promises as fs } from "fs"
 import axios from "axios"
 import dotenv from "dotenv"
@@ -30,15 +30,10 @@ agenda.on("ready", async () => {
     }))
 
     urls.forEach((url) => {
-      const lhciCollect = exec(
-        `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports`,
-        (error, stdout, stderr) => {
-          console.log(stdout)
-          if (error !== null) {
-            logger.debug("exec error: ", error)
-          }
-        }
+      const lhciCollect = execSync(
+        `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports`
       )
+      logger.debug("exec log: ", lhciCollect)
     })
     console.log("finish Analysis", Date())
   })

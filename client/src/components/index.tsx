@@ -4,5 +4,6 @@ import ReportCard from "./ReportCard"
 import TextInput from "./TextInput"
 import Chart from "./Chart"
 import Dropdown from "./Dropdown"
+import ReportChart from "./ReportChart"
 
-export { Links, NavBar, ReportCard, TextInput, Chart, Dropdown }
+export { Links, NavBar, ReportCard, TextInput, Chart, Dropdown, ReportChart }

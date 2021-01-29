@@ -9,7 +9,7 @@ export enum ChartIndex {
   SRT = "serverResponseTime",
   PERFORMANCE = "performance",
   ACCESSIBILITY = "accessibility",
-  BEST_PRACTICE = "bestPractice",
+  BEST_PRACTICE = "bestPractices",
   SEO = "seo",
 }
 

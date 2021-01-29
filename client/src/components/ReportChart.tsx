@@ -19,10 +19,10 @@ const ReportChart = ({ reportList }: Props) => {
     ChartIndex.LCP,
     ChartIndex.CLS,
     ChartIndex.UJ,
-    // ChartIndex.SRT,
+    ChartIndex.SRT,
     ChartIndex.PERFORMANCE,
     ChartIndex.ACCESSIBILITY,
-    // ChartIndex.BEST_PRACTICE,
+    ChartIndex.BEST_PRACTICE,
     ChartIndex.SEO,
   ]
 
@@ -62,8 +62,8 @@ const ReportChart = ({ reportList }: Props) => {
           analysisType === ChartIndex.TTI ||
           analysisType === ChartIndex.LCP ||
           analysisType === ChartIndex.CLS ||
-          analysisType === ChartIndex.UJ
-          // chartIndex === ChartIndex.SRT
+          analysisType === ChartIndex.UJ ||
+          analysisType === ChartIndex.SRT
         )
           return [new Date(report.createdAt), report[analysisType].numericValue]
         else return [new Date(report.createdAt), report[analysisType]]

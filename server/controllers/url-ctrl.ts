@@ -34,9 +34,6 @@ export const createURL = (req, res) => {
 
 export const deleteURL = (req, res) => {
   Url.findOneAndDelete({ _id: req.params.id })
-    .then((err) => {
-      return res.status(400).json({ success: false, error: err })
-    })
     .then((url) => {
       return url
         ? res.status(200).json({ success: true, data: url })

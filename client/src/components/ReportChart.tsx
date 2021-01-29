@@ -26,7 +26,7 @@ const ReportChart = ({ reportList }: Props) => {
     ChartIndex.SEO,
   ]
 
-  const [chartData, setChartData] = useState<any>([]) // 타입을 어떻게 줘야할지 모르겠음
+  const [chartData, setChartData] = useState<(string | number | Date)[][]>([]) // 타입을 어떻게 줘야할지 모르겠음
   const [analysisStartDate, setAnalysisStartDate] = useState<Date>(new Date())
   const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.SPEED_INDEX)
   const [selectedPeriod, setSelectedPeriod] = useState<AnalysisPeriod>(AnalysisPeriod.NONE)

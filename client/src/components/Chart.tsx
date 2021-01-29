@@ -1,7 +1,7 @@
 import { Chart as LineChart } from "react-google-charts"
 
 type Props = {
-  data: any // 타입을 어떻게 줘야할지 모르겠음
+  data: (string | number | Date)[][] // 타입을 어떻게 줘야할지 모르겠음
   hAxis?: string
   vAxis?: string
 }
@@ -12,7 +12,7 @@ const Chart = ({ data = [], hAxis = "Date", vAxis = "milliseconds" }: Props) => 
       <LineChart
         width={"1600px"}
         height={"400px"}
-        chartType="LineChart"
+        chartType="AreaChart"
         loader={<div>Loading Chart</div>}
         data={data}
         options={{

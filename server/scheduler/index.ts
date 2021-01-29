@@ -48,6 +48,7 @@ agenda.on("ready", async () => {
             const {
               requestedUrl,
               finalUrl,
+              fetchTime,
               audits: {
                 "speed-index": speedIndex,
                 "total-blocking-time": totalBlockingTime,
@@ -70,6 +71,7 @@ agenda.on("ready", async () => {
               profileId: exportProfileId(filename),
               requestedUrl,
               finalUrl,
+              fetchTime,
               speedIndex,
               totalBlockingTime,
               firstContentfulPaint,

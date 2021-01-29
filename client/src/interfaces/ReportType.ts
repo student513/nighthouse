@@ -15,6 +15,7 @@ export interface ReportData {
   profileId: string
   requestedUrl: string
   finalUrl: string
+  fetchTime: string
   speedIndex: ScoreData
   totalBlockingTime: ScoreData
   firstContentfulPaint: ScoreData

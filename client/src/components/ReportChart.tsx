@@ -65,8 +65,8 @@ const ReportChart = ({ reportList }: Props) => {
           analysisType === ChartIndex.UJ ||
           analysisType === ChartIndex.SRT
         )
-          return [new Date(report.createdAt), report[analysisType].numericValue]
-        else return [new Date(report.createdAt), report[analysisType]]
+          return [new Date(report.fetchTime), report[analysisType].numericValue]
+        else return [new Date(report.fetchTime), report[analysisType]]
       })
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
     chartDataArray.unshift(["x", analysisType])

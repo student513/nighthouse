@@ -44,8 +44,8 @@ const ReportChart = ({ reportList }: Props) => {
     } else {
       period.setDate(period.getDate() - AnalysisDate.MONTH)
     }
-    setSelectedPeriod(e.target.value)
-    setAnalysisStartDate(period)
+    setSelectedPeriod(e.target.value) //예외 체크
+    setAnalysisStartDate(period) //실제 계산에 사용될 날짜값
   }
 
   const parseChartData = () => {

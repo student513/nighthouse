@@ -31,3 +31,11 @@ export interface ReportData {
   createdAt: string
   updatedAt: string
 }
+
+export interface RepresentationValue {
+  valueName: string
+  mean: number | string
+  median: number | string
+  max: number | string
+  min: number | string
+}

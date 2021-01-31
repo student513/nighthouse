@@ -5,7 +5,7 @@ import uuid from "uuid"
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
 
-import { ReportChart } from "../components"
+import { ReportChart, Table } from "../components"
 
 type Props = {
   profileId: string
@@ -41,6 +41,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
           <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>
         </div>
       ))}
+      <Table reportList={reportList} />
     </div>
   )
 }

@@ -8,6 +8,8 @@ import { AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { ReportErrorMessage } from "../constants/error"
 import { getRepresentativeValues } from "../utils/TableValue"
 
+import "../style/Table.css"
+
 type Props = {
   reportList: ReportData[]
 }
@@ -70,12 +72,14 @@ const Table = ({ reportList }: Props) => {
   }
 
   return (
-    <div>
-      <Dropdown
-        selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-        getSelectType={getSelectDateType}
-      />
-      <button onClick={parseReportByPeriod}>조회</button>
+    <div className="TableContainer">
+      <div className="TableSubmit">
+        <Dropdown
+          selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+          getSelectType={getSelectDateType}
+        />
+        <button onClick={parseReportByPeriod}>조회</button>
+      </div>
       <BootTable striped bordered hover>
         <thead>
           <tr>

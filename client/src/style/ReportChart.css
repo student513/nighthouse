@@ -1,3 +1,13 @@
 .ChartContainer {
   width: 100%;
+  position: relative;
+}
+
+.ChartSubmit {
+  position: absolute;
+  right: 0;
+}
+
+.Chart {
+  padding-top: 30px;
 }

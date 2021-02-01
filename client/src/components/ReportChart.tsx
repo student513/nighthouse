@@ -89,7 +89,21 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
         <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>
       </div>
       <div className="Chart">
-        {chartData.length > 0 ? <Chart data={chartData} /> : <div>데이터를 선택해주세요</div>}
+        {chartData.length > 0 ? (
+          <Chart
+            data={chartData}
+            vAxis={
+              analysisType === ChartIndex.PERFORMANCE ||
+              analysisType === ChartIndex.ACCESSIBILITY ||
+              analysisType === ChartIndex.BEST_PRACTICE ||
+              analysisType === ChartIndex.SEO
+                ? "score"
+                : "milliseconds"
+            }
+          />
+        ) : (
+          <div>데이터를 선택해주세요</div>
+        )}
       </div>
     </div>
   )

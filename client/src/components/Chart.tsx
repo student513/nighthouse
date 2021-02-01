@@ -1,7 +1,7 @@
 import { Chart as LineChart } from "react-google-charts"
 
 type Props = {
-  data: (string | number | Date)[][] // 타입을 어떻게 줘야할지 모르겠음
+  data: (string | number | Date)[][]
   hAxis?: string
   vAxis?: string
 }

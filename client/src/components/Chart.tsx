@@ -10,7 +10,7 @@ const Chart = ({ data = [], hAxis = "Date", vAxis = "milliseconds" }: Props) => 
   return (
     <div>
       <LineChart
-        width={"1600px"}
+        width={"auto"}
         height={"400px"}
         chartType="AreaChart"
         loader={<div>Loading Chart</div>}

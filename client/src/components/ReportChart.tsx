@@ -6,11 +6,15 @@ import Chart from "./Chart"
 import Dropdown from "./Dropdown"
 import { ReportErrorMessage } from "../constants/error"
 
+import "../style/ReportChart.css"
+
 type Props = {
   reportList: ReportData[]
+  removeReportChart: (chartId: string) => void
+  chartId: string
 }
 
-const ReportChart = ({ reportList }: Props) => {
+const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
   const chartList = [
     ChartIndex.SPEED_INDEX,
     ChartIndex.TBT,
@@ -74,14 +78,19 @@ const ReportChart = ({ reportList }: Props) => {
   }
 
   return (
-    <div>
-      {chartData.length > 0 ? <Chart data={chartData} /> : <div>데이터를 선택해주세요</div>}
-      <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
-      <Dropdown
-        selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-        getSelectType={getSelectDateType}
-      />
-      <button onClick={parseChartData}>제출</button>
+    <div className="ChartContainer">
+      <div className="ChartSubmit">
+        <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
+        <Dropdown
+          selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+          getSelectType={getSelectDateType}
+        />
+        <button onClick={parseChartData}>제출</button>
+        <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>
+      </div>
+      <div className="Chart">
+        {chartData.length > 0 ? <Chart data={chartData} /> : <div>데이터를 선택해주세요</div>}
+      </div>
     </div>
   )
 }

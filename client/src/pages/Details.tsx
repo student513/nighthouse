@@ -4,8 +4,9 @@ import uuid from "uuid"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
-
 import { ReportChart, Table } from "../components"
+
+import "../style/Details.css"
 
 type Props = {
   profileId: string
@@ -35,12 +36,17 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   return (
     <div>
       <button onClick={addReportChart}>차트 추가</button>
-      {chartArray.map((chartId) => (
-        <div key={chartId}>
-          <ReportChart reportList={reportList} />
-          <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>
-        </div>
-      ))}
+      <div className="ChartGrid">
+        {chartArray.map((chartId) => (
+          <div key={chartId}>
+            <ReportChart
+              reportList={reportList}
+              removeReportChart={() => removeReportChart(chartId)}
+              chartId={chartId}
+            />
+          </div>
+        ))}
+      </div>
       <Table reportList={reportList} />
     </div>
   )

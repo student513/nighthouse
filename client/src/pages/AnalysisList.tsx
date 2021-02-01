@@ -23,7 +23,7 @@ const AnalysisList = () => {
   }, [])
 
   return (
-    <div className="card-container">
+    <div className="CardContainer">
       {urls.length > 0 ? (
         urls.map(({ name, _id, url }, index) => (
           <ReportCard key={_id} {...{ name, _id, url, deleteAnalysisCard, index }} />

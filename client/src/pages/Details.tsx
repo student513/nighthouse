@@ -10,6 +10,7 @@ import "../style/Details.css"
 
 type Props = {
   profileId: string
+  name: string
 }
 
 const Details = ({ match }: RouteComponentProps<Props>) => {
@@ -35,6 +36,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   return (
     <div>
+      <h2>{match.params.name}</h2>
       <button onClick={addReportChart}>차트 추가</button>
       <div className="ChartGrid">
         {chartArray.map((chartId) => (

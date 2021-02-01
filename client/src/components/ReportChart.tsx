@@ -102,7 +102,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
             }
           />
         ) : (
-          <div>데이터를 선택해주세요</div>
+          <div className="NoneChart">데이터를 선택해주세요</div>
         )}
       </div>
     </div>

@@ -36,8 +36,10 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   return (
     <div>
-      <h2>{match.params.name}</h2>
-      <button onClick={addReportChart}>차트 추가</button>
+      <div className="DetailHeader">
+        <h2>{match.params.name}</h2>
+        <button onClick={addReportChart}>차트 추가</button>
+      </div>
       <div className="ChartGrid">
         {chartArray.map((chartId) => (
           <div key={chartId}>

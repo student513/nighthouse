@@ -3,7 +3,7 @@ export enum ChartIndex {
   TBT = "totalBlockingTime",
   FCP = "firstContentfulPaint",
   TTI = "timeToInteractive",
-  LCP = "largeContentfulPaint",
+  LCP = "largestContentfulPaint",
   CLS = "cumulativeLayoutShift",
   UJ = "unminifiedJavascript",
   SRT = "serverResponseTime",

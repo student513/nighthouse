@@ -20,7 +20,7 @@ export interface ReportData {
   totalBlockingTime: ScoreData
   firstContentfulPaint: ScoreData
   timeToInteractive: ScoreData
-  largeContentfulPaint: ScoreData
+  largestContentfulPaint: ScoreData
   cumulativeLayoutShift: ScoreData
   unminifiedJavascript: ScoreData
   serverResponseTime: ScoreData

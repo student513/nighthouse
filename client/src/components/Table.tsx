@@ -32,7 +32,7 @@ const Table = ({ reportList }: Props) => {
     const TBTBuffer = periodParsedReportList.map((value) => value.totalBlockingTime.numericValue)
     const FCPBuffer = periodParsedReportList.map((value) => value.firstContentfulPaint.numericValue)
     const TTIBuffer = periodParsedReportList.map((value) => value.timeToInteractive.numericValue)
-    const LCPBuffer = periodParsedReportList.map((value) => value.largeContentfulPaint.numericValue)
+    const LCPBuffer = periodParsedReportList.map((value) => value.largestContentfulPaint.numericValue)
     const CLSBuffer = periodParsedReportList.map((value) => value.cumulativeLayoutShift.numericValue)
     const UJBuffer = periodParsedReportList.map((value) => value.unminifiedJavascript.numericValue)
     const SRTBuffer = periodParsedReportList.map((value) => value.serverResponseTime.numericValue)

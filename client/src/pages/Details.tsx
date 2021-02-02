@@ -13,16 +13,18 @@ type Props = {
   name: string
 }
 
+type ChartId = string
+
 const Details = ({ match }: RouteComponentProps<Props>) => {
   const [reportList, setReportList] = useState<ReportData[]>([])
-  const [chartArray, setChartArray] = useState<string[]>([])
+  const [chartIdList, setChartIdList] = useState<ChartId[]>([])
 
   const addReportChart = () => {
-    setChartArray((oldArray) => [...oldArray, uuid.v4()])
+    setChartIdList((oldArray) => [...oldArray, uuid.v4()])
   }
-  const removeReportChart = (id: string) => {
-    const array = chartArray.filter((chart) => chart !== id)
-    setChartArray(array)
+  const removeReportChart = (id: ChartId) => {
+    const array = chartIdList.filter((chartId) => chartId !== id)
+    setChartIdList(array)
   }
 
   const getReportsByProfileId = async (id: string) => {
@@ -41,7 +43,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
         <button onClick={addReportChart}>차트 추가</button>
       </div>
       <div className="ChartGrid">
-        {chartArray.map((chartId) => (
+        {chartIdList.map((chartId) => (
           <div key={chartId}>
             <ReportChart
               reportList={reportList}

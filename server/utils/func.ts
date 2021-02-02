@@ -7,51 +7,19 @@ export const exportProfileId = (filename) => {
 export const getMedianValue = (reportBuffer: any) => {
   if (reportBuffer.length === 0) return
   const keyList = Object.keys(reportBuffer[0])
-  const keyCollection = {
-    requestedUrl: [],
-    finalUrl: [],
-    fetchTime: [],
-    speedIndex: [],
-    totalBlockingTime: [],
-    firstContentfulPaint: [],
-    timeToInteractive: [],
-    largestContentfulPaint: [],
-    cumulativeLayoutShift: [],
-    unminifiedJavascript: [],
-    serverResponseTime: [],
-    performance: [],
-    accessibility: [],
-    bestPractices: [],
-    seo: [],
-  }
+  const keyCollection = {}
   reportBuffer.forEach((report) => {
     keyList.forEach((key) => {
-      keyCollection[key].push(report[key])
+      keyCollection[key] ? keyCollection[key].push(report[key]) : (keyCollection[key] = [report[key]])
     })
   })
 
-  const medianCollection = {
-    requestedUrl: "",
-    finalUrl: "",
-    fetchTime: "",
-    speedIndex: 0,
-    totalBlockingTime: 0,
-    firstContentfulPaint: 0,
-    timeToInteractive: 0,
-    largestContentfulPaint: 0,
-    cumulativeLayoutShift: 0,
-    unminifiedJavascript: 0,
-    serverResponseTime: 0,
-    performance: 0,
-    accessibility: 0,
-    bestPractices: 0,
-    seo: 0,
-  }
-
+  const medianCollection = {}
   keyList.forEach((key) => {
     medianCollection[key] = keyCollection[key].sort((first, second) => first - second)[
       Math.ceil(keyCollection[key].length / 2)
     ]
   })
+  console.log(medianCollection)
   return medianCollection
 }

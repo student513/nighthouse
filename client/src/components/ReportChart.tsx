@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 
 import { ReportData } from "../interfaces/ReportType"
 import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
@@ -40,18 +40,21 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
     setAnalysisType(e.target.value)
   }
 
-  const getSelectDateType = (e: any) => {
-    const period = new Date()
-    if (e.target.value === AnalysisPeriod.WEEK) {
-      period.setDate(period.getDate() - AnalysisDate.WEEK)
-    } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
-      period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
-    } else {
-      period.setDate(period.getDate() - AnalysisDate.MONTH)
-    }
-    setSelectedPeriod(e.target.value) //예외 체크
-    setAnalysisStartDate(period) //실제 계산에 사용될 날짜값
-  }
+  const getSelectDateType = useCallback(
+    (e: any) => {
+      const period = new Date()
+      if (e.target.value === AnalysisPeriod.WEEK) {
+        period.setDate(period.getDate() - AnalysisDate.WEEK)
+      } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
+        period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
+      } else {
+        period.setDate(period.getDate() - AnalysisDate.MONTH)
+      }
+      setSelectedPeriod(e.target.value) //예외 체크
+      setAnalysisStartDate(period) //실제 계산에 사용될 날짜값
+    },
+    [analysisType, selectedPeriod]
+  )
 
   const parseChartData = () => {
     if (selectedPeriod === AnalysisPeriod.NONE) {

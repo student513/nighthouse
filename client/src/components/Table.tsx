@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Table as BootTable } from "react-bootstrap"
 
 import { ReportData, RepresentationValue } from "../interfaces/ReportType"
@@ -85,18 +85,21 @@ const Table = ({ reportList }: Props) => {
     setTableValues(valueList)
   }
 
-  const getSelectDateType = (e: any) => {
-    const period = new Date()
-    if (e.target.value === AnalysisPeriod.WEEK) {
-      period.setDate(period.getDate() - AnalysisDate.WEEK)
-    } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
-      period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
-    } else {
-      period.setDate(period.getDate() - AnalysisDate.MONTH)
-    }
-    setSelectedPeriod(e.target.value)
-    setAnalysisStartDate(period)
-  }
+  const getSelectDateType = useCallback(
+    (e: any) => {
+      const period = new Date()
+      if (e.target.value === AnalysisPeriod.WEEK) {
+        period.setDate(period.getDate() - AnalysisDate.WEEK)
+      } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
+        period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
+      } else {
+        period.setDate(period.getDate() - AnalysisDate.MONTH)
+      }
+      setSelectedPeriod(e.target.value)
+      setAnalysisStartDate(period)
+    },
+    [analysisStartDate, selectedPeriod]
+  )
 
   return (
     <div className="TableContainer">

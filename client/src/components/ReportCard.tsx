@@ -11,7 +11,7 @@ const DeleteButton = styled.button.attrs({
   className: `btn btn-danger`,
 })``
 
-const CardContainer = styled.div.attrs({})`
+const CardContainer = styled.div`
   margin-bottom: 5vh;
 `
 

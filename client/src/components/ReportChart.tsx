@@ -13,6 +13,7 @@ type Props = {
   removeReportChart: (chartId: string) => void
   chartId: string
 }
+type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
 
 const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
   const chartList = [
@@ -30,7 +31,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
     ChartIndex.SEO,
   ]
 
-  const [chartData, setChartData] = useState<(string | number | Date)[][]>([]) // 타입을 어떻게 줘야할지 모르겠음
+  const [chartData, setChartData] = useState<ChartDataType[]>([]) // 타입을 어떻게 줘야할지 모르겠음
   const [analysisStartDate, setAnalysisStartDate] = useState<Date>(new Date())
   const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.SPEED_INDEX)
   const [selectedPeriod, setSelectedPeriod] = useState<AnalysisPeriod>(AnalysisPeriod.NONE)
@@ -57,7 +58,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
       alert(ReportErrorMessage.NOT_SELECT_PERIOD)
       return
     }
-    const chartDataArray = reportList
+    const chartDatas = reportList
       .map((report) => {
         if (
           analysisType === ChartIndex.SPEED_INDEX ||
@@ -73,8 +74,10 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
         else return [new Date(report.fetchTime), report[analysisType]]
       })
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
-    chartDataArray.unshift(["x", analysisType])
-    setChartData(chartDataArray)
+
+    const chartDateArray: any = [["x", analysisType]]
+    chartDateArray.push(...chartDatas)
+    setChartData(chartDateArray)
   }
 
   return (

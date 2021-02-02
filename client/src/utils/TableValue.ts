@@ -1,8 +1,8 @@
 const getMax = (numArray: number[]) => {
-  return Math.max.apply(null, numArray)
+  return Math.max(...numArray)
 }
 const getMin = (numArray: number[]) => {
-  return Math.min.apply(null, numArray)
+  return Math.min(...numArray)
 }
 export const getRepresentativeValues = (parsedList: number[], valueName: string) => {
   const len = parsedList.length

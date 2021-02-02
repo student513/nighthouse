@@ -26,8 +26,6 @@ const Table = ({ reportList }: Props) => {
     }
     const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > analysisStartDate)
 
-    // speedIndexBuffer=[보고서별 numericValue]
-    // value.[ ].numericValue로 동적으로 할당하고 싶다.
     const speedIndexBuffer = periodParsedReportList.map((value) => value.speedIndex.numericValue)
     const TBTBuffer = periodParsedReportList.map((value) => value.totalBlockingTime.numericValue)
     const FCPBuffer = periodParsedReportList.map((value) => value.firstContentfulPaint.numericValue)
@@ -40,7 +38,36 @@ const Table = ({ reportList }: Props) => {
     const accessibilityBuffer = periodParsedReportList.map((value) => value.accessibility)
     const bestPracticeBuffer = periodParsedReportList.map((value) => value.bestPractices)
     const seoBuffer = periodParsedReportList.map((value) => value.seo)
+    setTableParsedValues(
+      speedIndexBuffer,
+      TBTBuffer,
+      FCPBuffer,
+      TTIBuffer,
+      LCPBuffer,
+      CLSBuffer,
+      UJBuffer,
+      SRTBuffer,
+      performanceBuffer,
+      accessibilityBuffer,
+      bestPracticeBuffer,
+      seoBuffer
+    )
+  }
 
+  const setTableParsedValues = (
+    speedIndexBuffer: number[],
+    TBTBuffer: number[],
+    FCPBuffer: number[],
+    TTIBuffer: number[],
+    LCPBuffer: number[],
+    CLSBuffer: number[],
+    UJBuffer: number[],
+    SRTBuffer: number[],
+    performanceBuffer: number[],
+    accessibilityBuffer: number[],
+    bestPracticeBuffer: number[],
+    seoBuffer: number[]
+  ) => {
     const speedIndex = getRepresentativeValues(speedIndexBuffer, ChartIndex.SPEED_INDEX)
     const TBT = getRepresentativeValues(TBTBuffer, ChartIndex.TBT)
     const FCP = getRepresentativeValues(FCPBuffer, ChartIndex.FCP)
@@ -91,13 +118,13 @@ const Table = ({ reportList }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {tableValues?.map((tableValue, index) => (
+          {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
             <tr key={index}>
-              <td>{tableValue.valueName}</td>
-              <td>{tableValue.mean}</td>
-              <td>{tableValue.median}</td>
-              <td>{tableValue.min}</td>
-              <td>{tableValue.max}</td>
+              <td>{valueName}</td>
+              <td>{mean}</td>
+              <td>{median}</td>
+              <td>{min}</td>
+              <td>{max}</td>
             </tr>
           ))}
         </tbody>

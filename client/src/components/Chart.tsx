@@ -1,7 +1,11 @@
 import { Chart as LineChart } from "react-google-charts"
 
+import { ReportData } from "../interfaces/ReportType"
+
+type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
+
 type Props = {
-  data: (string | number | Date)[][]
+  data: ChartDataType[]
   hAxis?: string
   vAxis?: string
 }

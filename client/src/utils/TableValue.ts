@@ -8,7 +8,7 @@ export const getRepresentativeValues = (parsedList: number[], valueName: string)
   const len = parsedList.length
   // 1보다 크면 반올림
   const rawMean = parsedList.reduce((acc, cur) => acc + cur) / len
-  const rawMedian = parsedList.sort((first, second) => first - second)[Math.ceil(len / 2)]
+  const rawMedian = len >= 2 ? parsedList.sort((first, second) => first - second)[Math.ceil(len / 2)] : parsedList[0]
   const rawMax = getMax(parsedList)
   const rawMin = getMin(parsedList)
 

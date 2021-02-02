@@ -16,14 +16,14 @@ export interface ReportData {
   requestedUrl: string
   finalUrl: string
   fetchTime: string
-  speedIndex: ScoreData
-  totalBlockingTime: ScoreData
-  firstContentfulPaint: ScoreData
-  timeToInteractive: ScoreData
-  largestContentfulPaint: ScoreData
-  cumulativeLayoutShift: ScoreData
-  unminifiedJavascript: ScoreData
-  serverResponseTime: ScoreData
+  speedIndex: number
+  totalBlockingTime: number
+  firstContentfulPaint: number
+  timeToInteractive: number
+  largestContentfulPaint: number
+  cumulativeLayoutShift: number
+  unminifiedJavascript: number
+  serverResponseTime: number
   performance: number
   accessibility: number
   bestPractices: number

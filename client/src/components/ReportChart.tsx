@@ -59,20 +59,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
       return
     }
     const chartDatas = reportList
-      .map((report) => {
-        if (
-          analysisType === ChartIndex.SPEED_INDEX ||
-          analysisType === ChartIndex.TBT ||
-          analysisType === ChartIndex.FCP ||
-          analysisType === ChartIndex.TTI ||
-          analysisType === ChartIndex.LCP ||
-          analysisType === ChartIndex.CLS ||
-          analysisType === ChartIndex.UJ ||
-          analysisType === ChartIndex.SRT
-        )
-          return [new Date(report.fetchTime), report[analysisType].numericValue]
-        else return [new Date(report.fetchTime), report[analysisType]]
-      })
+      .map((report) => [new Date(report.fetchTime), report[analysisType]])
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
 
     const chartDateArray: any = [["x", analysisType]]

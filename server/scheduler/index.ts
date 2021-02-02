@@ -55,14 +55,14 @@ agenda.on("ready", async () => {
               finalUrl,
               fetchTime,
               audits: {
-                "speed-index": speedIndex,
-                "total-blocking-time": totalBlockingTime,
-                "first-contentful-paint": firstContentfulPaint,
-                interactive: timeToInteractive,
-                "largest-contentful-paint": largestContentfulPaint,
-                "cumulative-layout-shift": cumulativeLayoutShift,
-                "unminified-javascript": unminifiedJavascript,
-                "server-response-time": serverResponseTime,
+                "speed-index": { numericValue: speedIndex },
+                "total-blocking-time": { numericValue: totalBlockingTime },
+                "first-contentful-paint": { numericValue: firstContentfulPaint },
+                interactive: { numericValue: timeToInteractive },
+                "largest-contentful-paint": { numericValue: largestContentfulPaint },
+                "cumulative-layout-shift": { numericValue: cumulativeLayoutShift },
+                "unminified-javascript": { numericValue: unminifiedJavascript },
+                "server-response-time": { numericValue: serverResponseTime },
               },
               categories: {
                 performance: { score: performance },
@@ -107,7 +107,7 @@ agenda.on("ready", async () => {
   ;(async () => {
     await agenda.start()
     await agenda.every("00 * * * *", agendaJobName.GET_ANALYSIS)
-    await agenda.every("10 * * * *", agendaJobName.UPLOAD_REPORT)
+    await agenda.every("25 * * * *", agendaJobName.UPLOAD_REPORT)
     await agenda.every("58 * * * *", agendaJobName.RESET_REPORT)
   })()
 })

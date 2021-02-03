@@ -2,7 +2,7 @@ import { useState, useCallback } from "react"
 import { Table as BootTable } from "react-bootstrap"
 
 import { ReportData, RepresentationValue } from "../interfaces/ReportType"
-import { ChartIndex } from "../constants/ChartIndex"
+import { NotReportScore } from "../constants/ChartIndex"
 import Dropdown from "./Dropdown"
 import { AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { ReportErrorMessage } from "../constants/error"
@@ -26,62 +26,35 @@ const Table = ({ reportList }: Props) => {
     }
     const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > analysisStartDate)
 
-    const speedIndexBuffer = periodParsedReportList.map((value) => value.speedIndex)
-    const TBTBuffer = periodParsedReportList.map((value) => value.totalBlockingTime)
-    const FCPBuffer = periodParsedReportList.map((value) => value.firstContentfulPaint)
-    const TTIBuffer = periodParsedReportList.map((value) => value.timeToInteractive)
-    const LCPBuffer = periodParsedReportList.map((value) => value.largestContentfulPaint)
-    const CLSBuffer = periodParsedReportList.map((value) => value.cumulativeLayoutShift)
-    const UJBuffer = periodParsedReportList.map((value) => value.unminifiedJavascript)
-    const SRTBuffer = periodParsedReportList.map((value) => value.serverResponseTime)
-    const performanceBuffer = periodParsedReportList.map((value) => value.performance)
-    const accessibilityBuffer = periodParsedReportList.map((value) => value.accessibility)
-    const bestPracticeBuffer = periodParsedReportList.map((value) => value.bestPractices)
-    const seoBuffer = periodParsedReportList.map((value) => value.seo)
-    setTableParsedValues(
-      speedIndexBuffer,
-      TBTBuffer,
-      FCPBuffer,
-      TTIBuffer,
-      LCPBuffer,
-      CLSBuffer,
-      UJBuffer,
-      SRTBuffer,
-      performanceBuffer,
-      accessibilityBuffer,
-      bestPracticeBuffer,
-      seoBuffer
-    )
+    const parsedReportCollection: any = {} //타입정의 필요
+    ;(Object.keys(periodParsedReportList[0]) as Array<keyof ReportData>).forEach((key: keyof ReportData) => {
+      periodParsedReportList.forEach((periodParsedReport: ReportData) => {
+        if (
+          ![
+            NotReportScore.ID,
+            NotReportScore.PROFILE_ID,
+            NotReportScore.REQUESTED_URL,
+            NotReportScore.UPDATED_AT,
+            NotReportScore.V,
+            NotReportScore.CREATED_AT,
+            NotReportScore.FETCH_TIME,
+            NotReportScore.FINAL_URL,
+          ].includes(key)
+        ) {
+          parsedReportCollection[key]
+            ? parsedReportCollection[key].push(periodParsedReport[key])
+            : (parsedReportCollection[key] = [periodParsedReport[key]])
+        }
+      })
+    })
+    setTableParsedValues(parsedReportCollection)
   }
 
-  const setTableParsedValues = (
-    speedIndexBuffer: number[],
-    TBTBuffer: number[],
-    FCPBuffer: number[],
-    TTIBuffer: number[],
-    LCPBuffer: number[],
-    CLSBuffer: number[],
-    UJBuffer: number[],
-    SRTBuffer: number[],
-    performanceBuffer: number[],
-    accessibilityBuffer: number[],
-    bestPracticeBuffer: number[],
-    seoBuffer: number[]
-  ) => {
-    const speedIndex = getRepresentativeValues(speedIndexBuffer, ChartIndex.SPEED_INDEX)
-    const TBT = getRepresentativeValues(TBTBuffer, ChartIndex.TBT)
-    const FCP = getRepresentativeValues(FCPBuffer, ChartIndex.FCP)
-    const TTI = getRepresentativeValues(TTIBuffer, ChartIndex.TTI)
-    const LCP = getRepresentativeValues(LCPBuffer, ChartIndex.LCP)
-    const CLS = getRepresentativeValues(CLSBuffer, ChartIndex.CLS)
-    const UJ = getRepresentativeValues(UJBuffer, ChartIndex.UJ)
-    const SRT = getRepresentativeValues(SRTBuffer, ChartIndex.SRT)
-    const performance = getRepresentativeValues(performanceBuffer, ChartIndex.PERFORMANCE)
-    const accessibility = getRepresentativeValues(accessibilityBuffer, ChartIndex.ACCESSIBILITY)
-    const bestPractices = getRepresentativeValues(bestPracticeBuffer, ChartIndex.BEST_PRACTICE)
-    const seo = getRepresentativeValues(seoBuffer, ChartIndex.SEO)
-
-    const valueList = [speedIndex, TBT, FCP, TTI, LCP, CLS, UJ, SRT, performance, accessibility, bestPractices, seo]
+  const setTableParsedValues = (reportListCollection: any) => {
+    // _id, url등 불필요한 데이터도 전송됨
+    const valueList = Object.keys(reportListCollection).map((key) => {
+      return getRepresentativeValues(reportListCollection[key], key)
+    })
     setTableValues(valueList)
   }
 

@@ -37,24 +37,28 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   }, [])
 
   return (
-    <div>
+    <>
       <div className="DetailHeader">
         <h2>{match.params.name}</h2>
         <button onClick={addReportChart}>차트 추가</button>
       </div>
       <div className="ChartGrid">
-        {chartIdList.map((chartId) => (
-          <div key={chartId}>
-            <ReportChart
-              reportList={reportList}
-              removeReportChart={() => removeReportChart(chartId)}
-              chartId={chartId}
-            />
-          </div>
-        ))}
+        {reportList.length > 0 ? (
+          chartIdList.map((chartId) => (
+            <div key={chartId}>
+              <ReportChart
+                reportList={reportList}
+                removeReportChart={() => removeReportChart(chartId)}
+                chartId={chartId}
+              />
+            </div>
+          ))
+        ) : (
+          <div>분석 결과가 없습니다!</div>
+        )}
       </div>
       <Table reportList={reportList} />
-    </div>
+    </>
   )
 }
 

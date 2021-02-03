@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const Links = () => {
   return (
-    <React.Fragment>
+    <>
       <Link to="/" className="navbar-brand">
         Night House
       </Link>
@@ -41,7 +41,7 @@ const Links = () => {
           </div> */}
         </div>
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

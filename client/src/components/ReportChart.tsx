@@ -66,8 +66,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
 
     const chartDateArray: any = [["x", analysisType]]
-    chartDateArray.push(...chartDatas)
-    setChartData(chartDateArray)
+    setChartData([...chartDateArray, ...chartDatas])
   }
 
   return (

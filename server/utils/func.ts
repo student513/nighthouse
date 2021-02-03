@@ -20,6 +20,5 @@ export const getMedianValue = (reportBuffer: any) => {
       Math.ceil(keyCollection[key].length / 2)
     ]
   })
-  console.log(medianCollection)
   return medianCollection
 }

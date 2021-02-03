@@ -27,13 +27,13 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
     setChartIdList(array)
   }
 
-  const getReportsByProfileId = async (id: string) => {
+  const getReportListByProfileId = async (id: string) => {
     const reports = await getReports(id)
     setReportList(reports.data.data)
   }
 
   useEffect(() => {
-    getReportsByProfileId(match.params.profileId)
+    getReportListByProfileId(match.params.profileId)
   }, [])
 
   return (

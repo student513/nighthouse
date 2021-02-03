@@ -11,6 +11,7 @@ export enum UrlResolveMessageType {
 export enum ReportErrorMessageType {
   MUST_PROVIDE_REPORT = "You must provide a Report!",
   REPORT_NOT_SAVED = "Report not saved!",
+  REPORT_NOT_FOUND = "Report not found",
 }
 
 export enum ReportResolveMessageType {

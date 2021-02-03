@@ -1,5 +1,4 @@
 import Report from "../models/report-model"
-import logger from "../utils/logger"
 
 import { ReportErrorMessageType, ReportResolveMessageType } from "../constants/messages"
 
@@ -32,17 +31,15 @@ export const insertReports = (req, res) => {
     })
 }
 export const getReports = async (req, res) => {
-  const reports = await Report.find({ profileId: { $in: req.params.profileId } })
-    .exec()
-    .then((report) => {
-      if (!report.length) {
-        return res.status(404).json({ success: false, error: `Report not found` })
-      }
-      return res.status(200).json({ success: true, data: report })
-    })
-    .catch((error) => {
-      return res.status(400).json({ success: false, error })
-    })
+  try {
+    const reports = await Report.find({ profileId: { $in: req.params.profileId } })
+    if (!reports.length) {
+      return res.status(404).json({ success: false, error: ReportErrorMessageType.REPORT_NOT_FOUND })
+    }
+    return res.status(200).json({ success: true, data: reports })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
 }
 // getReportByProfileId = async (req, res) => {
 //   await Report.find({ profileId: req.params.profileId }, (err, report) => {

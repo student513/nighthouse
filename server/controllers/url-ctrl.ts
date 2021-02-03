@@ -1,5 +1,4 @@
 import Url from "../models/url-model"
-import logger from "../utils/logger"
 import { UrlErrorMessageType, UrlResolveMessageType } from "../constants/messages"
 
 export const createURL = (req, res) => {
@@ -32,25 +31,24 @@ export const createURL = (req, res) => {
     })
 }
 
-export const deleteURL = (req, res) => {
-  Url.findOneAndDelete({ _id: req.params.id })
-    .then((url) => {
-      return url
-        ? res.status(200).json({ success: true, data: url })
-        : res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
-    })
-    .catch((err) => logger.debug(err))
+export const deleteURL = async (req, res) => {
+  try {
+    const url = await Url.findOneAndDelete({ _id: req.params.id })
+    if (!url) return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
+    return res.status(200).json({ success: true, data: url })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
 }
 
-export const getURLs = (req, res) => {
-  Url.find({})
-    .then((urls) => {
-      if (!urls.length) {
-        return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
-      }
-      return res.status(200).json({ success: true, data: urls })
-    })
-    .catch((error) => {
-      return res.status(400).json({ success: false, error })
-    })
+export const getURLs = async (req, res) => {
+  try {
+    const urls = await Url.find({})
+    if (!urls.length) {
+      return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
+    }
+    return res.status(200).json({ success: true, data: urls })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
 }

@@ -9,7 +9,6 @@
 - react-dom
 - react-router-dom
 - react-google-charts
-- styled-components
 - axios
 
 ---

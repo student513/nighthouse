@@ -41,6 +41,7 @@ const Table = ({ reportList }: Props) => {
       .map((key) => {
         return getRepresentativeValues(reportListCollection[key], key)
       })
+    valueList.pop() // __v 제거
     setTableValues(valueList)
   }
 

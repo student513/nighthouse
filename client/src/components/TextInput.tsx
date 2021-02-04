@@ -7,7 +7,7 @@ type Props = {
   handleChange: (event: any) => void
 }
 
-const TextInput = ({ label = "defaultLabel", value = "defaultValue", handleChange }: Props) => {
+const TextInput = ({ label, value, handleChange }: Props) => {
   return (
     <div className="input-container">
       <InputGroup size="lg">

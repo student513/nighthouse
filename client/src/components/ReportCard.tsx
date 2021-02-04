@@ -10,13 +10,7 @@ type Props = {
   deleteAnalysisCard: (id: string) => void
 }
 
-const ReportCard = ({
-  name = "defaultName",
-  url = "defaultUrl",
-  _id = "defaultId",
-  deleteAnalysisCard,
-  index = 0,
-}: Props) => {
+const ReportCard = ({ name, url, _id, deleteAnalysisCard, index = 0 }: Props) => {
   return (
     <Card>
       <Card.Body>

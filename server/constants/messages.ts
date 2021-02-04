@@ -17,3 +17,12 @@ export enum ReportErrorMessageType {
 export enum ReportResolveMessageType {
   REPORT_SAVED = "Report saved!",
 }
+
+export enum LHReportErrorMessageType {
+  LHREPORT_NOT_FOUND = "Lighthouse report not found!",
+  LHREPORT_NOT_CREATED = "Lighthouse report not created!",
+  MUST_PROVIDE_LHREPORT = "You must provide Lighthouse report!",
+}
+export enum LHReportResolveMessageType {
+  LHREPORT_CREATED = "Lighthouse report created!",
+}

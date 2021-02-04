@@ -1,10 +1,11 @@
-import { useState, useCallback } from "react"
+import { useState } from "react"
 
 import { ReportData } from "../interfaces/ReportType"
-import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
+import { ChartIndex, AnalysisPeriod } from "../constants/ChartIndex"
 import Chart from "./Chart"
 import Dropdown from "./Dropdown"
 import { ReportErrorMessage } from "../constants/error"
+import { useSelectDate } from "../utils/customHook/useSelectDate"
 
 import "../style/ReportChart.css"
 
@@ -31,40 +32,23 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
     ChartIndex.SEO,
   ]
 
-  const [chartData, setChartData] = useState<ChartDataType[]>([]) // 타입을 어떻게 줘야할지 모르겠음
-  const [analysisStartDate, setAnalysisStartDate] = useState<Date>(new Date())
+  const [chartData, setChartData] = useState<ChartDataType[]>([])
+  const [analysisStartDate, setAnalysisStartDate] = useSelectDate(new Date()) //useState<Date>(new Date())
   const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.SPEED_INDEX)
-  const [selectedPeriod, setSelectedPeriod] = useState<AnalysisPeriod>(AnalysisPeriod.NONE)
 
   const getSelectChartType = (e: any) => {
     setAnalysisType(e.target.value)
   }
 
-  const getSelectDateType = useCallback(
-    (e: any) => {
-      const period = new Date()
-      if (e.target.value === AnalysisPeriod.WEEK) {
-        period.setDate(period.getDate() - AnalysisDate.WEEK)
-      } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
-        period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
-      } else {
-        period.setDate(period.getDate() - AnalysisDate.MONTH)
-      }
-      setSelectedPeriod(e.target.value) //예외 체크
-      setAnalysisStartDate(period) //실제 계산에 사용될 날짜값
-    },
-    [analysisType, selectedPeriod]
-  )
-
   const parseChartData = () => {
-    if (selectedPeriod === AnalysisPeriod.NONE) {
-      alert(ReportErrorMessage.NOT_SELECT_PERIOD)
-      return
-    }
     const chartDatas = reportList
       .map((report) => [new Date(report.fetchTime), report[analysisType]])
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
 
+    if (chartDatas.length === 0) {
+      alert(ReportErrorMessage.NOT_SELECT_PERIOD)
+      return
+    }
     const chartDateArray: any = [["x", analysisType]]
     setChartData([...chartDateArray, ...chartDatas])
   }
@@ -75,7 +59,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
         <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
         <Dropdown
           selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-          getSelectType={getSelectDateType}
+          getSelectType={setAnalysisStartDate}
         />
         <button onClick={parseChartData}>제출</button>
         <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>

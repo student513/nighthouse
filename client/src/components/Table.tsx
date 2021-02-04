@@ -1,12 +1,12 @@
-import { useState, useCallback } from "react"
+import { useState } from "react"
 import { Table as BootTable } from "react-bootstrap"
 
 import { ReportData, RepresentationValue } from "../interfaces/ReportType"
-import { ChartIndex } from "../constants/ChartIndex"
 import Dropdown from "./Dropdown"
-import { AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
+import { AnalysisPeriod } from "../constants/ChartIndex"
 import { ReportErrorMessage } from "../constants/error"
 import { getRepresentativeValues } from "../utils/TableValue"
+import { useSelectDate } from "../utils/customHook/useSelectDate"
 
 import "../style/Table.css"
 
@@ -15,18 +15,16 @@ type Props = {
 }
 
 const Table = ({ reportList }: Props) => {
-  const [selectedPeriod, setSelectedPeriod] = useState<AnalysisPeriod>(AnalysisPeriod.NONE)
-  const [analysisStartDate, setAnalysisStartDate] = useState<Date>(new Date())
+  const [analysisStartDate, setAnalysisStartDate] = useSelectDate(new Date())
   const [tableValues, setTableValues] = useState<RepresentationValue[]>()
 
   const parseReportByPeriod = () => {
-    if (selectedPeriod === AnalysisPeriod.NONE) {
+    const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > analysisStartDate)
+    if (periodParsedReportList.length === 0) {
       alert(ReportErrorMessage.NOT_SELECT_PERIOD)
       return
     }
-    const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > analysisStartDate)
-
-    const parsedReportCollection: any = {} //타입정의 필요
+    const parsedReportCollection: any = {}
     ;(Object.keys(periodParsedReportList[0]) as Array<keyof ReportData>).forEach((key: keyof ReportData) => {
       periodParsedReportList.forEach((periodParsedReport: ReportData) => {
         parsedReportCollection[key]
@@ -46,28 +44,12 @@ const Table = ({ reportList }: Props) => {
     setTableValues(valueList)
   }
 
-  const getSelectDateType = useCallback(
-    (e: any) => {
-      const period = new Date()
-      if (e.target.value === AnalysisPeriod.WEEK) {
-        period.setDate(period.getDate() - AnalysisDate.WEEK)
-      } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
-        period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
-      } else {
-        period.setDate(period.getDate() - AnalysisDate.MONTH)
-      }
-      setSelectedPeriod(e.target.value)
-      setAnalysisStartDate(period)
-    },
-    [analysisStartDate, selectedPeriod]
-  )
-
   return (
     <div className="TableContainer">
       <div className="TableSubmit">
         <Dropdown
           selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-          getSelectType={getSelectDateType}
+          getSelectType={setAnalysisStartDate}
         />
         <button onClick={parseReportByPeriod}>조회</button>
       </div>

@@ -45,11 +45,7 @@ agenda.on("ready", async () => {
 
   agenda.define(agendaJobName.UPLOAD_REPORT, async () => {
     console.log("start upload")
-    const urlsDocuments = await axios.get(`${process.env.SERVER_API_URL}/urls`)
-
     const filenames = await fs.readdir("./reports", "utf8")
-
-    // idCollection에 profileId가 동일한 파일명 분류
     const idCollection = {}
     filenames.map((filename) => {
       if (filename.includes(".json") && filename !== "manifest.json") {
@@ -60,7 +56,6 @@ agenda.on("ready", async () => {
           : (idCollection[profileId] = [filename])
       }
     })
-    // 각 id에 따라
     const uniqueProfileIdList = Object.keys(idCollection)
     uniqueProfileIdList.map(async (profileId) => {
       const sameProfileBuffer: any = []

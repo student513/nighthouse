@@ -8,13 +8,12 @@ export const useSelectDate = (initialState: any) => {
   const handleDropdown = useCallback(
     (e: any) => {
       const period = new Date()
-      if (e.target.value === AnalysisPeriod.WEEK) {
-        period.setDate(period.getDate() - AnalysisDate.WEEK)
-      } else if (e.target.value === AnalysisPeriod.HALF_MONTH) {
-        period.setDate(period.getDate() - AnalysisDate.HALF_MONTH)
-      } else if (e.target.value === AnalysisPeriod.MONTH) {
-        period.setDate(period.getDate() - AnalysisDate.MONTH)
+      const analysisMap = {
+        [String(AnalysisPeriod.WEEK)]: AnalysisDate.WEEK,
+        [String(AnalysisPeriod.HALF_MONTH)]: AnalysisDate.HALF_MONTH,
+        [String(AnalysisPeriod.MONTH)]: AnalysisDate.MONTH,
       }
+      period.setDate(period.getDate() - analysisMap[e.target.value])
       setAnalysisStartDate(period)
     },
     [analysisStartDate]

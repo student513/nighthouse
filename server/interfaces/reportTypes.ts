@@ -40,6 +40,7 @@ interface CategoriesType {
 export interface ReportType {
   requestedUrl: string
   finalUrl: string
+  fetchTime: string
   audits: AuditsType
   categories: CategoriesType
 }

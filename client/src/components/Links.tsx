@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 
 const Links = () => {
   return (
-    <React.Fragment>
+    <>
       <Link to="/" className="navbar-brand">
         Night House
       </Link>
@@ -41,8 +41,8 @@ const Links = () => {
           </div> */}
         </div>
       </div>
-    </React.Fragment>
-  );
-};
+    </>
+  )
+}
 
-export default Links;
+export default Links

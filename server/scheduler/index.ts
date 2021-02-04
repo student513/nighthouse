@@ -5,7 +5,7 @@ import axios from "axios"
 import dotenv from "dotenv"
 dotenv.config()
 
-import { exportProfileId } from "../utils/func"
+import { exportProfileId, getMedianValue } from "../utils/func"
 import { agendaJobName } from "../constants/agendaJobs"
 import { ReportType } from "../interfaces/reportTypes"
 import logger from "../utils/logger"
@@ -31,9 +31,9 @@ agenda.on("ready", async () => {
 
     urls.forEach((url) => {
       const lhciCollect = exec(
-        `lhci collect --url=${url.url} && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports`,
+        `lhci collect --url=${url.url} --numberOfRuns=5 && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`,
         (error, stdout, stderr) => {
-          console.log(stdout)
+          logger.debug("exec log: ", stdout)
           if (error !== null) {
             logger.debug("exec error: ", error)
           }
@@ -42,26 +42,40 @@ agenda.on("ready", async () => {
     })
     console.log("finish Analysis", Date())
   })
+
   agenda.define(agendaJobName.UPLOAD_REPORT, async () => {
     console.log("start upload")
     const filenames = await fs.readdir("./reports", "utf8")
-    await Promise.all(
-      filenames.map((filename) => {
-        if (filename.includes(".json") && filename !== "manifest.json") {
-          fs.readFile(`./reports/${filename}`, "utf8").then(async (content) => {
+    const idCollection = {}
+    filenames.map((filename) => {
+      if (filename.includes(".json") && filename !== "manifest.json") {
+        const profileId = exportProfileId(filename)
+        const keyList = Object.keys(idCollection)
+        keyList.find((key) => key === profileId)
+          ? idCollection[profileId].push(filename)
+          : (idCollection[profileId] = [filename])
+      }
+    })
+    const uniqueProfileIdList = Object.keys(idCollection)
+    uniqueProfileIdList.map(async (profileId) => {
+      const sameProfileBuffer: any = []
+      await Promise.all(
+        idCollection[profileId].map((filename) => {
+          return fs.readFile(`./reports/${filename}`, "utf-8").then((content) => {
             const report = JSON.parse(content)
             const {
               requestedUrl,
               finalUrl,
+              fetchTime,
               audits: {
-                "speed-index": speedIndex,
-                "total-blocking-time": totalBlockingTime,
-                "first-contentful-paint": firstContentfulPaint,
-                interactive: timeToInteractive,
-                "largest-contentful-paint": largeContentfulPaint,
-                "cumulative-layout-shift": cumulativeLayoutShift,
-                "unminified-javascript": unminifiedJavascript,
-                "server-response-time": serverResponseTime,
+                "speed-index": { numericValue: speedIndex },
+                "total-blocking-time": { numericValue: totalBlockingTime },
+                "first-contentful-paint": { numericValue: firstContentfulPaint },
+                interactive: { numericValue: timeToInteractive },
+                "largest-contentful-paint": { numericValue: largestContentfulPaint },
+                "cumulative-layout-shift": { numericValue: cumulativeLayoutShift },
+                "unminified-javascript": { numericValue: unminifiedJavascript },
+                "server-response-time": { numericValue: serverResponseTime },
               },
               categories: {
                 performance: { score: performance },
@@ -70,16 +84,15 @@ agenda.on("ready", async () => {
                 seo: { score: seo },
               },
             }: ReportType = report
-
-            await axios.post(`${process.env.SERVER_API_URL}/report`, {
-              profileId: exportProfileId(filename),
+            return sameProfileBuffer.push({
               requestedUrl,
               finalUrl,
+              fetchTime,
               speedIndex,
               totalBlockingTime,
               firstContentfulPaint,
               timeToInteractive,
-              largeContentfulPaint,
+              largestContentfulPaint,
               cumulativeLayoutShift,
               unminifiedJavascript,
               serverResponseTime,
@@ -89,9 +102,17 @@ agenda.on("ready", async () => {
               seo,
             })
           })
-        }
-      })
-    )
+        })
+      ).catch((error) => logger.debug(error))
+
+      const medianReport = getMedianValue(sameProfileBuffer)
+      await axios
+        .post(`${process.env.SERVER_API_URL}/report`, {
+          ...medianReport,
+          profileId,
+        })
+        .catch((error) => logger.debug(error))
+    })
     console.log("finish upload", Date())
   })
   agenda.define(agendaJobName.RESET_REPORT, () => {
@@ -104,9 +125,9 @@ agenda.on("ready", async () => {
   })
   ;(async () => {
     await agenda.start()
-    await agenda.every("24 * * * *", agendaJobName.GET_ANALYSIS)
-    await agenda.every("26 * * * *", agendaJobName.UPLOAD_REPORT)
-    await agenda.every("58 * * * *", agendaJobName.RESET_REPORT)
+    await agenda.every("12 * * * *", agendaJobName.GET_ANALYSIS)
+    await agenda.every("21 * * * *", agendaJobName.UPLOAD_REPORT)
+    await agenda.every("55 * * * *", agendaJobName.RESET_REPORT)
   })()
 })
 

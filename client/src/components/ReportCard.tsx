@@ -1,47 +1,30 @@
-import { Card } from "react-bootstrap";
-import styled from "styled-components";
+import { Card } from "react-bootstrap"
 
-const Button = styled.a.attrs({
-  className: `btn btn-primary`,
-})`
-  margin-right: 30px;
-`;
-
-const DeleteButton = styled.button.attrs({
-  className: `btn btn-danger`,
-})``;
-
-const CardContainer = styled.div.attrs({})`
-  margin-bottom: 5vh;
-`;
+import "../style/ReportCard.css"
 
 type Props = {
-  name: string;
-  url: string;
-  _id: string;
-  deleteAnalysisCard: (id: string) => void;
-};
+  name: string
+  url: string
+  _id: string
+  index: number
+  deleteAnalysisCard: (id: string) => void
+}
 
-const ReportCard = ({
-  name = "defaultName",
-  url = "defaultUrl",
-  _id = "defaultId",
-  deleteAnalysisCard,
-}: Props) => {
+const ReportCard = ({ name, url, _id, deleteAnalysisCard, index = 0 }: Props) => {
   return (
-    <CardContainer>
-      <Card>
-        <Card.Body>
-          <Card.Title>{name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{url}</Card.Subtitle>
-          <Button href="#">Detail</Button>
-          <DeleteButton onClick={() => deleteAnalysisCard(_id)}>
-            Delete
-          </DeleteButton>
-        </Card.Body>
-      </Card>
-    </CardContainer>
-  );
-};
+    <Card>
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{url}</Card.Subtitle>
+        <a className="btn btn-primary" href={`/url/list/${name}/${_id}`}>
+          Detail
+        </a>
+        <button className="btn btn-danger" onClick={() => deleteAnalysisCard(_id)}>
+          Delete
+        </button>
+      </Card.Body>
+    </Card>
+  )
+}
 
-export default ReportCard;
+export default ReportCard

@@ -1,0 +1,22 @@
+.ChartContainer {
+  width: 100%;
+  position: relative;
+}
+
+.ChartSubmit {
+  position: absolute;
+  right: 0;
+}
+
+.Chart {
+  padding-top: 30px;
+}
+
+.NoneChart {
+  height: 400px;
+  background-color: #d8d8d8;
+  text-align: center;
+  padding-top: 20%;
+  color: #848484;
+  font-size: xx-large;
+}

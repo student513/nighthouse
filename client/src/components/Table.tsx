@@ -20,18 +20,19 @@ const Table = ({ reportList }: Props) => {
 
   const parseReportByPeriod = () => {
     const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > analysisStartDate)
+    parseReportDataByTimeSeries(periodParsedReportList)
+  }
+  const parseReportDataByTimeSeries = (periodParsedReportList: ReportData[]) => {
     if (periodParsedReportList.length === 0) {
       alert(ReportErrorMessage.NOT_SELECT_PERIOD)
       return
     }
-    const parsedReportCollection: any = {}
-    ;(Object.keys(periodParsedReportList[0]) as Array<keyof ReportData>).forEach((key: keyof ReportData) => {
-      periodParsedReportList.forEach((periodParsedReport: ReportData) => {
-        parsedReportCollection[key]
-          ? parsedReportCollection[key].push(periodParsedReport[key])
-          : (parsedReportCollection[key] = [periodParsedReport[key]])
+    const parsedReportCollection = periodParsedReportList.reduce((acc, cur) => {
+      ;(Object.keys(periodParsedReportList[0]) as Array<keyof ReportData>).forEach((key: keyof ReportData) => {
+        acc[key] ? acc[key].push(cur[key]) : (acc[key] = [cur[key]])
       })
-    })
+      return acc
+    }, {} as any)
     setTableParsedValues(parsedReportCollection)
   }
 

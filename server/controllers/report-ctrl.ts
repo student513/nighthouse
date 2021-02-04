@@ -1,4 +1,4 @@
-import Report from "../models/report-model"
+import { reportModel as Report } from "../models"
 
 import { ReportErrorMessageType, ReportResolveMessageType } from "../constants/messages"
 

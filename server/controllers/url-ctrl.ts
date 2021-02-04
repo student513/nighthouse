@@ -1,4 +1,5 @@
-import Url from "../models/url-model"
+import { urlModel as Url } from "../models"
+
 import { UrlErrorMessageType, UrlResolveMessageType } from "../constants/messages"
 
 export const createURL = (req, res) => {

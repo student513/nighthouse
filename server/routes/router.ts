@@ -2,6 +2,7 @@ import express from "express"
 
 import { createURL, deleteURL, getURLs } from "../controllers/url-ctrl"
 import { insertReports, getReports } from "../controllers/report-ctrl"
+import { insertLHReport, getLatestLHReport } from "../controllers/lhreport-ctrl"
 
 const router = express.Router()
 
@@ -12,6 +13,8 @@ router.get("/urls", getURLs)
 router.post("/report", insertReports)
 router.get("/report/:profileId", getReports)
 
+router.post("/lhreport", insertLHReport)
+router.get("/lhreport/:profileId", getLatestLHReport)
 // router.get("/report/:id/:reportId", ReportCtrl.getReportByProfileId);
 
 export default router

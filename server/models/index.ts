@@ -2,6 +2,14 @@ import mongoose from "mongoose"
 
 const Schema = mongoose.Schema
 
+const Url = new Schema(
+  {
+    name: { type: String, required: true },
+    url: { type: String, required: true },
+  },
+  { timestamps: true }
+)
+
 const Report = new Schema(
   {
     requestedUrl: { type: String, required: true },
@@ -27,4 +35,18 @@ const Report = new Schema(
   }
 )
 
-export default mongoose.model("reports", Report) // reports: 컬랙션 지정
+const LHReport = new Schema(
+  {
+    profileId: { type: String, required: true },
+    reportLink: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+)
+
+const urlModel = mongoose.model("urls", Url)
+const reportModel = mongoose.model("reports", Report) // reports: 컬랙션 지정
+const LHReportModel = mongoose.model("LHReport", LHReport)
+
+export { urlModel, reportModel, LHReportModel }

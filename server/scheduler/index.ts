@@ -1,7 +1,8 @@
 import Agenda from "agenda"
-import { exec } from "child_process"
 import { promises as fs } from "fs"
 import axios from "axios"
+import util from "util"
+import got from "got"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -9,6 +10,8 @@ import { exportProfileId, getMedianValue } from "../utils/func"
 import { agendaJobName } from "../constants/agendaJobs"
 import { ReportType } from "../interfaces/reportTypes"
 import logger from "../utils/logger"
+
+const exec = util.promisify(require("child_process").exec)
 
 const agenda = new Agenda({
   db: {
@@ -27,19 +30,31 @@ agenda.on("ready", async () => {
     const urls = urlsDocuments.data.data.map((doc) => ({
       url: doc.url,
       _id: doc._id,
+      deviceType: doc.deviceType,
     }))
 
-    urls.forEach((url) => {
-      const lhciCollect = exec(
-        `lhci collect --url=${url.url} --numberOfRuns=5 && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`,
-        (error, stdout, stderr) => {
-          logger.debug("exec log: ", stdout)
-          if (error !== null) {
-            logger.debug("exec error: ", error)
-          }
-        }
+    for (let url of urls) {
+      await exec(
+        `lhci collect --url=${url.url} --numberOfRuns=5 --settings.emulatedFormFactor=${url.deviceType} && lhci upload --target=temporary-public-storage && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`
       )
-    })
+        .then((message) => {
+          logger.debug(message)
+        })
+        .catch((error) => {
+          logger.debug(error)
+        })
+
+      await fs.readFile("./.lighthouseci/links.json", "utf-8").then((content) => {
+        const parsedContent = JSON.parse(content)
+        axios
+          .post(`${process.env.SERVER_API_URL}/lhreport`, {
+            profileId: url._id,
+            reportLink: parsedContent[Object.keys(parsedContent)[0]],
+          })
+          .then((message) => logger.debug(message))
+          .catch((error) => logger.error(error))
+      })
+    }
     console.log("finish Analysis", Date())
   })
 
@@ -59,6 +74,9 @@ agenda.on("ready", async () => {
     const uniqueProfileIdList = Object.keys(idCollection)
     uniqueProfileIdList.map(async (profileId) => {
       const sameProfileBuffer: any = []
+      const reportLink = await axios.get(`${process.env.SERVER_API_URL}/lhreport/${profileId}`)
+      const reportCode = await got(reportLink.data.data[0].reportLink)
+
       await Promise.all(
         idCollection[profileId].map((filename) => {
           return fs.readFile(`./reports/${filename}`, "utf-8").then((content) => {
@@ -110,6 +128,7 @@ agenda.on("ready", async () => {
         .post(`${process.env.SERVER_API_URL}/report`, {
           ...medianReport,
           profileId,
+          reportCode: reportCode.body,
         })
         .catch((error) => logger.debug(error))
     })

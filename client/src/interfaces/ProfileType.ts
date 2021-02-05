@@ -8,6 +8,7 @@ export interface AnalysisTargetUrl {
   _id: string
   name: string
   url: string
+  deviceType: string
   createdAt: string
   updatedAt: string
 }

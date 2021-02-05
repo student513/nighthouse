@@ -1,5 +1,5 @@
 import Agenda from "agenda"
-import { exec } from "child_process"
+import { exec, execSync } from "child_process"
 import { promises as fs } from "fs"
 import axios from "axios"
 import dotenv from "dotenv"
@@ -29,16 +29,12 @@ agenda.on("ready", async () => {
       _id: doc._id,
     }))
 
-    urls.forEach((url) => {
-      const lhciCollect = exec(
-        `lhci collect --url=${url.url} --numberOfRuns=5 && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`,
-        (error, stdout, stderr) => {
-          logger.debug("exec log: ", stdout)
-          if (error !== null) {
-            logger.debug("exec error: ", error)
-          }
-        }
+    urls.map((url) => {
+      const lhciCollect = execSync(
+        // 비동기 exec로 돌리면서 네이밍 패턴 보장하는 방법은 없나
+        `lhci collect --url=${url.url} --numberOfRuns=5 && lhci upload --target=temporary-public-storage && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`
       )
+      console.log(lhciCollect)
     })
     console.log("finish Analysis", Date())
   })

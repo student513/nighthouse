@@ -1,6 +1,7 @@
 export interface UrlPayload {
   name: string
   url: string
+  deviceType: string
 }
 
 export interface AnalysisTargetUrl {

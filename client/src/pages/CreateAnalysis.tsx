@@ -4,10 +4,14 @@ import Card from "react-bootstrap/Card"
 import { createURL } from "../api"
 import TextInput from "../components/TextInput"
 import { UrlPayload } from "../interfaces/ProfileType"
+import Dropdown from "../components/Dropdown"
+import { useDropdown } from "../utils/customHook/useDropdown"
+import { DeviceType } from "../constants/Options"
 
 const CreateAnalysis = () => {
   const [name, setName] = useState("")
   const [url, setUrl] = useState("")
+  const [deviceType, setDeviceType] = useDropdown(DeviceType.MOBILE)
 
   const handleChangeName = (event: any) => {
     setName(event.target.value)
@@ -17,7 +21,7 @@ const CreateAnalysis = () => {
   }
 
   const insertUrlInfo = async () => {
-    const payload: UrlPayload = { name, url }
+    const payload: UrlPayload = { name, url, deviceType }
     await createURL(payload)
   }
 
@@ -28,6 +32,9 @@ const CreateAnalysis = () => {
         <Card.Body style={{ paddingTop: 30, paddingRight: 200, paddingLeft: 200 }}>
           <TextInput label="name" value={name} handleChange={handleChangeName} />
           <TextInput label="url" value={url} handleChange={handleChangeUrl} />
+          <Dropdown selectTypes={[DeviceType.MOBILE, DeviceType.DESKTOP]} getSelectType={setDeviceType} />
+          <br />
+          <br />
           <a className="btn btn-primary" onClick={insertUrlInfo} href={"/url/list"}>
             Create
           </a>

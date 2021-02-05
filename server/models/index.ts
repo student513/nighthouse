@@ -29,6 +29,7 @@ const Report = new Schema(
     accessibility: { type: Number, required: true },
     bestPractices: { type: Number, required: true },
     seo: { type: Number, required: true },
+    reportCode: { type: String },
   },
   {
     strict: false,

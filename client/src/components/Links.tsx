@@ -11,24 +11,15 @@ const Links = () => {
         <div className="navbar-nav mr-auto">
           <div className="collpase navbar-collapse">
             <Link to="/url/create" className="nav-link">
-              Create Analysis
+              Create Real Device{" "}
             </Link>
           </div>
           <div className="collpase navbar-collapse">
             <Link to="/url/list" className="nav-link">
-              Analysis List
-            </Link>
-          </div>
-          <div className="collpase navbar-collapse">
-            <Link to="/url/real-device/create" className="nav-link">
-              Create Real Device
-            </Link>
-          </div>
-          <div className="collpase navbar-collapse">
-            <Link to="/url/real-device/list" className="nav-link">
               Real Device List
             </Link>
           </div>
+
           {/* <div className="collpase navbar-collapse">
             <Link to="/url/headless/create" className="nav-link">
               Create Headless

@@ -15,6 +15,5 @@ router.get("/report/:profileId", getReports)
 
 router.post("/lhreport", insertLHReport)
 router.get("/lhreport/:profileId", getLatestLHReport)
-// router.get("/report/:id/:reportId", ReportCtrl.getReportByProfileId);
 
 export default router

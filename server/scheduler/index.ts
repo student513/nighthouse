@@ -51,7 +51,7 @@ agenda.on("ready", async () => {
             profileId: url._id,
             reportLink: parsedContent[Object.keys(parsedContent)[0]],
           })
-          .then((message) => logger.debug(message))
+          .then((message) => logger.debug(message.data))
           .catch((error) => logger.error(error))
       })
     }
@@ -123,7 +123,8 @@ agenda.on("ready", async () => {
             })
           })
         })
-      ).catch((error) => logger.debug(error))
+      ) //.then((message) => logger.debug(message))
+        .catch((error) => logger.debug(error.message))
 
       const medianReport = getMedianValue(sameProfileBuffer)
       await axios
@@ -132,7 +133,8 @@ agenda.on("ready", async () => {
           profileId,
           reportCode: reportCode.body,
         })
-        .catch((error) => logger.debug(error))
+        .then((message) => logger.debug(message.data))
+        .catch((error) => logger.debug(error.message))
     })
     console.log("finish upload", Date())
   })

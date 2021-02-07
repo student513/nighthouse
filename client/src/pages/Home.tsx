@@ -55,11 +55,14 @@ const Home = () => {
           </tr>
           <tr>
             <td>Speed Index</td>
-            <td>페이지의 내용이 눈에 띄게 채워지는 속도를 보여줍니다.</td>
+            <td>페이지 콘텐츠가 얼마나 빨리 표시되는지 보여줍니다.</td>
           </tr>
           <tr>
             <td>Total Blocking Time</td>
-            <td>First Contentful Paint와 Time to Interactive 사이를 합한 시간입니다. 50ms를 초과했을 때 표시됩니다.</td>
+            <td>
+              First Contentful Paint와 Time to Interactive 모든 시간의 합으로, 작업 지속 시간이 50ms를 넘으면 밀리초
+              단위로 표현됩니다.
+            </td>
           </tr>
           <tr>
             <td>First Contentful Paint</td>

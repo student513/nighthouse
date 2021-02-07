@@ -100,6 +100,7 @@ agenda.on("ready", async () => {
                 accessibility: { score: accessibility },
                 "best-practices": { score: bestPractices },
                 seo: { score: seo },
+                pwa: { score: pwa },
               },
             }: ReportType = report
             return sameProfileBuffer.push({
@@ -118,6 +119,7 @@ agenda.on("ready", async () => {
               accessibility,
               bestPractices,
               seo,
+              pwa,
             })
           })
         })

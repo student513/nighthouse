@@ -22,6 +22,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
     ChartIndex.ACCESSIBILITY,
     ChartIndex.BEST_PRACTICE,
     ChartIndex.SEO,
+    ChartIndex.PWA,
     ChartIndex.SPEED_INDEX,
     ChartIndex.TBT,
     ChartIndex.FCP,
@@ -72,7 +73,8 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
               analysisType === ChartIndex.PERFORMANCE ||
               analysisType === ChartIndex.ACCESSIBILITY ||
               analysisType === ChartIndex.BEST_PRACTICE ||
-              analysisType === ChartIndex.SEO
+              analysisType === ChartIndex.SEO ||
+              analysisType === ChartIndex.PWA
                 ? "score"
                 : "milliseconds"
             }

@@ -38,6 +38,7 @@ const Table = ({ reportList }: Props) => {
           ? acc["bestPractices"].push(cur.bestPractices)
           : (acc["bestPractices"] = [cur.bestPractices])
         acc["seo"] ? acc["seo"].push(cur.seo) : (acc["seo"] = [cur.seo])
+        acc["pwa"] ? acc["pwa"].push(cur.pwa) : (acc["pwa"] = [cur.pwa])
         acc["speedIndex"] ? acc["speedIndex"].push(cur.speedIndex) : (acc["speedIndex"] = [cur["speedIndex"]])
         acc["totalBlockingTime"]
           ? acc["totalBlockingTime"].push(cur.totalBlockingTime)
@@ -68,6 +69,7 @@ const Table = ({ reportList }: Props) => {
         accessibility: [] as number[],
         bestPractices: [] as number[],
         seo: [] as number[],
+        pwa: [] as number[],
         speedIndex: [] as number[],
         totalBlockingTime: [] as number[],
         firstContentfulPaint: [] as number[],

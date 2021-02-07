@@ -50,6 +50,10 @@ const Home = () => {
             <td>페이지가 검색엔진 결과 순위에 최적화되도록 할 수 있습니다.</td>
           </tr>
           <tr>
+            <td>PWA(Progressive Web App)</td>
+            <td>이 검사는 프로그레시브 웹 앱의 요소를 검사합니다.</td>
+          </tr>
+          <tr>
             <td>Speed Index</td>
             <td>페이지의 내용이 눈에 띄게 채워지는 속도를 보여줍니다.</td>
           </tr>

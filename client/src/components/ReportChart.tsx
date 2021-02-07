@@ -55,8 +55,8 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
   }
 
   return (
-    <div className="ChartContainer">
-      <div className="ChartSubmit">
+    <div className="chart-container">
+      <div className="chart-submit">
         <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
         <Dropdown
           selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
@@ -65,7 +65,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
         <button onClick={parseChartData}>제출</button>
         <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>
       </div>
-      <div className="Chart">
+      <div className="chart">
         {chartData.length > 0 ? (
           <Chart
             data={chartData}
@@ -80,7 +80,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
             }
           />
         ) : (
-          <div className="NoneChart">데이터를 선택해주세요</div>
+          <div className="none-chart">데이터를 선택해주세요</div>
         )}
       </div>
     </div>

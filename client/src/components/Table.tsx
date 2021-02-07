@@ -93,8 +93,8 @@ const Table = ({ reportList }: Props) => {
   }
 
   return (
-    <div className="TableContainer">
-      <div className="TableSubmit">
+    <>
+      <div className="table-submit">
         <Dropdown
           selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
           getSelectType={setAnalysisStartDate}
@@ -123,7 +123,7 @@ const Table = ({ reportList }: Props) => {
           ))}
         </tbody>
       </BootTable>
-    </div>
+    </>
   )
 }
 export default Table

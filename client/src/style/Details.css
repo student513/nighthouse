@@ -1,8 +1,8 @@
-.ChartGrid {
+.chart-grid {
   display: grid;
   grid-template-columns: 50% 50%;
 }
 
-.DetailHeader {
+.detail-header {
   display: flex;
 }

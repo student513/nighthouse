@@ -42,11 +42,11 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
       <h2>{match.params.name}</h2>
 
       <hr />
-      <div className="DetailHeader">
+      <div className="detail-header">
         <h4>주요지표 차트</h4>
         <button onClick={addReportChart}>차트 추가</button>
       </div>
-      <div className="ChartGrid">
+      <div className="chart-grid">
         {reportList.length > 0 ? (
           chartIdList.map((chartId) => (
             <div key={chartId}>

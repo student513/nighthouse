@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <NavBar />
-      <div className="Container">
+      <div className="app-container">
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/url/create" exact component={CreateAnalysis} />

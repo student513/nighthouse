@@ -29,6 +29,15 @@ const Table = ({ reportList }: Props) => {
     }
     const parsedReportCollection = periodParsedReportList.reduce(
       (acc, cur) => {
+        acc["performance"] ? acc["performance"].push(cur.performance) : (acc["performance"] = [cur.performance])
+        acc["accessibility"]
+          ? acc["accessibility"].push(cur.accessibility)
+          : (acc["accessibility"] = [cur.accessibility])
+
+        acc["bestPractices"]
+          ? acc["bestPractices"].push(cur.bestPractices)
+          : (acc["bestPractices"] = [cur.bestPractices])
+        acc["seo"] ? acc["seo"].push(cur.seo) : (acc["seo"] = [cur.seo])
         acc["speedIndex"] ? acc["speedIndex"].push(cur.speedIndex) : (acc["speedIndex"] = [cur["speedIndex"]])
         acc["totalBlockingTime"]
           ? acc["totalBlockingTime"].push(cur.totalBlockingTime)
@@ -51,19 +60,14 @@ const Table = ({ reportList }: Props) => {
         acc["serverResponseTime"]
           ? acc["serverResponseTime"].push(cur.serverResponseTime)
           : (acc["serverResponseTime"] = [cur.serverResponseTime])
-        acc["performance"] ? acc["performance"].push(cur.performance) : (acc["performance"] = [cur.performance])
-        acc["accessibility"]
-          ? acc["accessibility"].push(cur.accessibility)
-          : (acc["accessibility"] = [cur.accessibility])
-
-        acc["bestPractices"]
-          ? acc["bestPractices"].push(cur.bestPractices)
-          : (acc["bestPractices"] = [cur.bestPractices])
-        acc["seo"] ? acc["seo"].push(cur.seo) : (acc["seo"] = [cur.seo])
 
         return acc
       },
       {
+        performance: [] as number[],
+        accessibility: [] as number[],
+        bestPractices: [] as number[],
+        seo: [] as number[],
         speedIndex: [] as number[],
         totalBlockingTime: [] as number[],
         firstContentfulPaint: [] as number[],
@@ -72,10 +76,6 @@ const Table = ({ reportList }: Props) => {
         cumulativeLayoutShift: [] as number[],
         unminifiedJavascript: [] as number[],
         serverResponseTime: [] as number[],
-        performance: [] as number[],
-        accessibility: [] as number[],
-        bestPractices: [] as number[],
-        seo: [] as number[],
       }
     )
     setTableParsedValues(parsedReportCollection)

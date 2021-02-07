@@ -18,6 +18,10 @@ type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
 
 const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
   const chartList = [
+    ChartIndex.PERFORMANCE,
+    ChartIndex.ACCESSIBILITY,
+    ChartIndex.BEST_PRACTICE,
+    ChartIndex.SEO,
     ChartIndex.SPEED_INDEX,
     ChartIndex.TBT,
     ChartIndex.FCP,
@@ -26,15 +30,11 @@ const ReportChart = ({ reportList, removeReportChart, chartId }: Props) => {
     ChartIndex.CLS,
     ChartIndex.UJ,
     ChartIndex.SRT,
-    ChartIndex.PERFORMANCE,
-    ChartIndex.ACCESSIBILITY,
-    ChartIndex.BEST_PRACTICE,
-    ChartIndex.SEO,
   ]
 
   const [chartData, setChartData] = useState<ChartDataType[]>([])
   const [analysisStartDate, setAnalysisStartDate] = useSelectDate(new Date()) //useState<Date>(new Date())
-  const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.SPEED_INDEX)
+  const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.PERFORMANCE)
 
   const getSelectChartType = (e: any) => {
     setAnalysisType(e.target.value)

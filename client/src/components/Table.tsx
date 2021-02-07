@@ -103,9 +103,9 @@ const Table = ({ reportList }: Props) => {
         <thead>
           <tr>
             <th>지표</th>
-            <th>평균값</th>
-            <th>중앙값</th>
             <th>최소값</th>
+            {/* <th>평균값</th> */}
+            <th>중앙값</th>
             <th>최대값</th>
           </tr>
         </thead>
@@ -113,9 +113,9 @@ const Table = ({ reportList }: Props) => {
           {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
             <tr key={index}>
               <td>{valueName}</td>
-              <td>{mean}</td>
-              <td>{median}</td>
               <td>{min}</td>
+              {/* <td>{mean}</td> */}
+              <td>{median}</td>
               <td>{max}</td>
             </tr>
           ))}

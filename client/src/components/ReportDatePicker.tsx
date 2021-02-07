@@ -46,7 +46,13 @@ const ReportDatePicker = ({ reportList }: Props) => {
         selectedDateReports.map((selectedDateReport) => {
           const winUrl = URL.createObjectURL(new Blob([selectedDateReport.reportCode], { type: "text/html" }))
           return (
-            <a className="btn btn-primary" onClick={() => window.open(winUrl)} key={selectedDateReport.fetchTime}>
+            <a
+              className="btn btn-primary"
+              onClick={() => window.open(winUrl)}
+              key={selectedDateReport.fetchTime}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {TimeParser(selectedDateReport.fetchTime)}
             </a>
           )

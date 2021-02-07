@@ -124,7 +124,7 @@ agenda.on("ready", async () => {
           })
         })
       ) //.then((message) => logger.debug(message))
-        .catch((error) => logger.debug(error.message))
+        .catch((error) => logger.debug("promise error:", error.message))
 
       const medianReport = getMedianValue(sameProfileBuffer)
       await axios
@@ -134,7 +134,7 @@ agenda.on("ready", async () => {
           reportCode: reportCode.body,
         })
         .then((message) => logger.debug(message.data))
-        .catch((error) => logger.debug(error.message))
+        .catch((error) => logger.debug("axios error:", error.message))
     })
     console.log("finish upload", Date())
   })

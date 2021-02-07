@@ -35,6 +35,7 @@ interface CategoriesType {
   accessibility: CategoryType
   "best-practices": CategoryType
   seo: CategoryType
+  pwa: CategoryType
 }
 
 export interface ReportType {

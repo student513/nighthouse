@@ -20,7 +20,12 @@ const Links = () => {
             </Link>
           </div>
           <div className="collpase navbar-collapse">
-            <a href="https://oss.navercorp.com/today-we-learned/nighthouse" className="nav-link">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://oss.navercorp.com/today-we-learned/nighthouse"
+              className="nav-link"
+            >
               Repository
             </a>
           </div>

@@ -30,6 +30,7 @@ export interface ReportData {
   seo: number
   createdAt: string
   updatedAt: string
+  reportCode: string
 }
 
 export interface RepresentationValue {

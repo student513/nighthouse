@@ -5,6 +5,9 @@
 /server/node_modules
 /.pnp
 .pnp.js
+/client/.eslintcache
+/server/.lighthouseci
+/server/reports
 
 # testing
 /coverage

@@ -1,25 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import { Navbar } from "react-bootstrap"
 
-import Links from "./Links";
+import Links from "./Links"
 
-const Container = styled.div.attrs({
-  className: "container",
-})``;
-
-const Nav = styled.nav.attrs({
-  className: "navbar navbar-expand-lg navbar-dark bg-dark",
-})`
-  margin-bottom: 20 px;
-`;
 const NavBar = () => {
   return (
-    <Container>
-      <Nav>
-        <Links />
-      </Nav>
-    </Container>
-  );
-};
+    <Navbar bg="light" expand="lg">
+      <Links />
+    </Navbar>
+  )
+}
 
-export default NavBar;
+export default NavBar

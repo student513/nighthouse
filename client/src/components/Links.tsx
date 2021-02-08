@@ -11,7 +11,7 @@ const Links = () => {
         <div className="navbar-nav mr-auto">
           <div className="collpase navbar-collapse">
             <Link to="/url/create" className="nav-link">
-              Create Real Device{" "}
+              Create Real Device
             </Link>
           </div>
           <div className="collpase navbar-collapse">

@@ -1,11 +1,6 @@
 import { urlModel as Url, reportModel as Report, LHReportModel as LHReport } from "../models"
 
-import {
-  LHReportErrorMessageType,
-  ReportErrorMessageType,
-  UrlErrorMessageType,
-  UrlResolveMessageType,
-} from "../constants/messages"
+import { UrlErrorMessageType, UrlResolveMessageType } from "../constants/messages"
 
 export const createURL = (req, res) => {
   const body = req.body

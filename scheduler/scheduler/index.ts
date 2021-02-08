@@ -35,7 +35,7 @@ agenda.on("ready", async () => {
 
     for (let url of urls) {
       await exec(
-        `lhci collect --url=${url.url} --numberOfRuns=5 --settings.emulatedFormFactor=${url.deviceType} --settings.locale=ko-KR && lhci upload --target=temporary-public-storage && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`
+        `lhci collect --url=${url.url} --numberOfRuns=5 --settings.formFactor=${url.deviceType} --settings.screenEmulation.disabled --settings.locale=ko-KR && lhci upload --target=temporary-public-storage && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`
       )
         .then((message) => {
           logger.debug(message)
@@ -148,9 +148,9 @@ agenda.on("ready", async () => {
   })
   ;(async () => {
     await agenda.start()
-    await agenda.every("00 * * * *", agendaJobName.GET_ANALYSIS)
-    await agenda.every("30 * * * *", agendaJobName.UPLOAD_REPORT)
-    await agenda.every("59 * * * *", agendaJobName.RESET_REPORT)
+    await agenda.every("26 * * * *", agendaJobName.GET_ANALYSIS)
+    await agenda.every("32 * * * *", agendaJobName.UPLOAD_REPORT)
+    await agenda.every("25 * * * *", agendaJobName.RESET_REPORT)
   })()
 })
 

@@ -1,6 +1,7 @@
 import { LHReportModel as LHReport } from "../models"
 
 import { LHReportErrorMessageType, LHReportResolveMessageType } from "../constants/messages"
+
 export const insertLHReport = (req, res) => {
   const body = req.body
   if (!body) {

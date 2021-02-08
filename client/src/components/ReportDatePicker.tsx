@@ -5,6 +5,7 @@ import { ReportData } from "../interfaces/ReportType"
 import { reportDateParser } from "../utils/TimeParser"
 
 import "react-datepicker/dist/react-datepicker.css"
+import "../style/ReportDatePicker.css"
 
 type Props = {
   reportList: ReportData[]
@@ -47,7 +48,7 @@ const ReportDatePicker = ({ reportList }: Props) => {
           const winUrl = URL.createObjectURL(new Blob([selectedDateReport.reportCode], { type: "text/html" }))
           return (
             <a
-              className="btn btn-primary"
+              className="btn btn-primary report-link"
               onClick={() => window.open(winUrl)}
               key={selectedDateReport.fetchTime}
               target="_blank"

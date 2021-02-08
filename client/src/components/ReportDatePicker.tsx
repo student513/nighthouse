@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react"
 import DatePicker from "react-datepicker"
 
 import { ReportData } from "../interfaces/ReportType"
-import { ReportDateParser } from "../utils/TimeParser"
+import { reportDateParser } from "../utils/TimeParser"
 
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -53,7 +53,7 @@ const ReportDatePicker = ({ reportList }: Props) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {ReportDateParser(selectedDateReport.fetchTime)}
+              {reportDateParser(selectedDateReport.fetchTime)}
             </a>
           )
         })

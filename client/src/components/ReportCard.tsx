@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap"
 
-import { CardDateParser } from "../utils/TimeParser"
+import { cardDateParser } from "../utils/TimeParser"
 
 import "../style/ReportCard.css"
 
@@ -32,7 +32,7 @@ const ReportCard = ({ name, url, _id, deviceType, deleteAnalysisCard, createdAt,
           Delete
         </button>
         <hr />
-        생성: {CardDateParser(createdAt)}
+        생성: {cardDateParser(createdAt)}
       </Card.Body>
     </Card>
   )

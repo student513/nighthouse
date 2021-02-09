@@ -28,8 +28,10 @@ export interface ReportData {
   accessibility: number
   bestPractices: number
   seo: number
+  pwa: number
   createdAt: string
   updatedAt: string
+  reportCode: string
 }
 
 export interface RepresentationValue {

@@ -8,14 +8,18 @@ lighthouse ci로 분석한 리포트의 주요지표를 시계열로 확인할 �
 
 - [server](./server/README.md)
 - [client](./client/README.md)
+- [scheduler](./scheduler/README.md)
 
 ### 빌드
 
 - 클라이언트 실행
-  `cd client && yarn start`
+  `$ cd client && yarn start`
 
 - 서버 실행
-  `cd server && yarn server`
+  `$ cd server && yarn server`
+
+- 스케줄러 실행
+  `$ cd scheduler && yarn server`
 
 ### 실행방법
 

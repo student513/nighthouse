@@ -6,6 +6,7 @@ import Dropdown from "./Dropdown"
 import { AnalysisPeriod } from "../constants/ChartIndex"
 import { ReportErrorMessage } from "../constants/error"
 import { getRepresentativeValues } from "../utils/TableValue"
+import { pushScoreToCollection } from "../utils/ScoreCollection"
 import { useSelectDate } from "../utils/customHook/useSelectDate"
 
 import "../style/Table.css"
@@ -27,12 +28,7 @@ const Table = ({ reportList }: Props) => {
       alert(ReportErrorMessage.NOT_SELECT_PERIOD)
       return
     }
-    const parsedReportCollection = periodParsedReportList.reduce((acc, cur) => {
-      ;(Object.keys(periodParsedReportList[0]) as Array<keyof ReportData>).forEach((key: keyof ReportData) => {
-        acc[key] ? acc[key].push(cur[key]) : (acc[key] = [cur[key]])
-      })
-      return acc
-    }, {} as any)
+    const parsedReportCollection = pushScoreToCollection(periodParsedReportList)
     setTableParsedValues(parsedReportCollection)
   }
 
@@ -42,13 +38,12 @@ const Table = ({ reportList }: Props) => {
       .map((key) => {
         return getRepresentativeValues(reportListCollection[key], key)
       })
-    valueList.pop() // __v 제거
     setTableValues(valueList)
   }
 
   return (
-    <div className="TableContainer">
-      <div className="TableSubmit">
+    <>
+      <div className="table-submit">
         <Dropdown
           selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
           getSelectType={setAnalysisStartDate}
@@ -59,9 +54,9 @@ const Table = ({ reportList }: Props) => {
         <thead>
           <tr>
             <th>지표</th>
-            <th>평균값</th>
-            <th>중앙값</th>
             <th>최소값</th>
+            {/* <th>평균값</th> */}
+            <th>중앙값</th>
             <th>최대값</th>
           </tr>
         </thead>
@@ -69,15 +64,15 @@ const Table = ({ reportList }: Props) => {
           {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
             <tr key={index}>
               <td>{valueName}</td>
-              <td>{mean}</td>
-              <td>{median}</td>
               <td>{min}</td>
+              {/* <td>{mean}</td> */}
+              <td>{median}</td>
               <td>{max}</td>
             </tr>
           ))}
         </tbody>
       </BootTable>
-    </div>
+    </>
   )
 }
 export default Table

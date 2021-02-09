@@ -1,4 +1,5 @@
-import Url from "../models/url-model"
+import { urlModel as Url, reportModel as Report, LHReportModel as LHReport } from "../models"
+
 import { UrlErrorMessageType, UrlResolveMessageType } from "../constants/messages"
 
 export const createURL = (req, res) => {
@@ -35,7 +36,10 @@ export const deleteURL = async (req, res) => {
   try {
     const url = await Url.findOneAndDelete({ _id: req.params.id })
     if (!url) return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
-    return res.status(200).json({ success: true, data: url })
+    const report = await Report.deleteMany({ profileId: req.params.id })
+    const lhReport = await LHReport.deleteMany({ profileId: req.params.id })
+
+    return res.status(200).json({ success: true, data: { url, report, lhReport } })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

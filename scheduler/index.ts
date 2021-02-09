@@ -5,11 +5,11 @@ import dotenv from "dotenv"
 dotenv.config()
 
 import db from "./db"
+import "./scheduler"
 import router from "./routes/router"
 
 const app = express()
-const apiPort = 3001
-
+const apiPort = 3002
 app
   .use(bodyParser.urlencoded({ extended: true, limit: "50mb" }))
   .use(bodyParser.json({ limit: "50mb" }))

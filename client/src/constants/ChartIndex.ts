@@ -11,6 +11,7 @@ export enum ChartIndex {
   ACCESSIBILITY = "accessibility",
   BEST_PRACTICE = "bestPractices",
   SEO = "seo",
+  PWA = "pwa",
 }
 
 export enum AnalysisPeriod {

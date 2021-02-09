@@ -1,18 +1,18 @@
-.ChartContainer {
+.chart-container {
   width: 100%;
   position: relative;
 }
 
-.ChartSubmit {
+.chart-submit {
   position: absolute;
   right: 0;
 }
 
-.Chart {
+.chart {
   padding-top: 30px;
 }
 
-.NoneChart {
+.none-chart {
   height: 400px;
   background-color: #d8d8d8;
   text-align: center;

@@ -4,9 +4,10 @@ import uuid from "uuid"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
-import { ReportChart, Table } from "../components"
+import { ReportChart, Table, ReportDatePicker } from "../components"
 
 import "../style/Details.css"
+import "react-datepicker/dist/react-datepicker.css"
 
 type Props = {
   profileId: string
@@ -38,11 +39,14 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   return (
     <>
-      <div className="DetailHeader">
-        <h2>{match.params.name}</h2>
+      <h2>{match.params.name}</h2>
+
+      <hr />
+      <div className="detail-header">
+        <h4>주요지표 차트</h4>
         <button onClick={addReportChart}>차트 추가</button>
       </div>
-      <div className="ChartGrid">
+      <div className="chart-grid">
         {reportList.length > 0 ? (
           chartIdList.map((chartId) => (
             <div key={chartId}>
@@ -57,6 +61,11 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
           <div>분석 결과가 없습니다!</div>
         )}
       </div>
+      <hr />
+      <h4>날짜별 리포트 조회</h4>
+      <ReportDatePicker reportList={reportList} />
+      <hr />
+      <h4>주요지표</h4>
       <Table reportList={reportList} />
     </>
   )

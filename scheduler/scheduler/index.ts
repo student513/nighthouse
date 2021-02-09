@@ -150,9 +150,9 @@ agenda.on("ready", async () => {
   })
   ;(async () => {
     await agenda.start()
-    await agenda.every("26 * * * *", agendaJobName.GET_ANALYSIS)
-    await agenda.every("32 * * * *", agendaJobName.UPLOAD_REPORT)
-    await agenda.every("25 * * * *", agendaJobName.RESET_REPORT)
+    await agenda.every("00 * * * *", agendaJobName.GET_ANALYSIS)
+    await agenda.every("30 * * * *", agendaJobName.UPLOAD_REPORT)
+    await agenda.every("59 * * * *", agendaJobName.RESET_REPORT)
   })()
 })
 

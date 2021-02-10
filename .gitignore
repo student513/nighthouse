@@ -23,10 +23,10 @@
 .env.test.local
 .env.production.local
 
-/client/.env.development
-/client/.env.production
 /server/.env
 /scheduler/.env
+/client/.env.development
+/client/.env.production
 
 npm-debug.log*
 yarn-debug.log*

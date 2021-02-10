@@ -37,7 +37,7 @@ agenda.on("ready", async () => {
       const screenEmulation =
         url.deviceType === "desktop" ? "--settings.screenEmulation.disabled" : "--settings.screenEmulation.mobile"
       await exec(
-        `lhci collect --url=${url.url} --numberOfRuns=5 --settings.formFactor=${url.deviceType} ${screenEmulation} --settings.locale=ko-KR && lhci upload --target=temporary-public-storage && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`
+        `lhci collect --url=${url.url} --numberOfRuns=5 --settings.chromeFlags=--no-sandbox --settings.formFactor=${url.deviceType} ${screenEmulation} --settings.locale=ko-KR && lhci upload --target=temporary-public-storage && lhci upload --target=filesystem --reportFilenamePattern=%%DATETIME%%-${url._id}.%%EXTENSION%% --outputDir=./reports && rm -rf ./.lighthouseci/lhr-*`
       )
         .then((message) => {
           logger.debug(message)

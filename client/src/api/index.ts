@@ -1,8 +1,9 @@
 import axios from "axios"
+
 import { UrlPayload } from "../interfaces/ProfileType"
 
 const api = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: `${process.env.REACT_APP_SERVER_API_URL}`,
 })
 
 export const createURL = (payload: UrlPayload) => api.post(`/url`, payload)

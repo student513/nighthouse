@@ -29,13 +29,17 @@ lighthouse ci로 분석한 리포트의 주요지표를 시계열로 확인할 �
 
 ## Production Build
 
+## setting
+
+- 크롬 설치: `$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm \ && yum -y install google-chrome*.rpm`
+
 ### server 실행
 
 1. ssh 로그인
 2. `$ kinit`
 3. `$ rlogin -l irteamsu dev-hyeongjunjo-ncl`
 4. `$ cd nighthouse`
-5. `$ nohup ./client.sh cli_log.out & nohup ./server.sh serv_log.out & nohup ./scheduler.sh sche_log.out &`
+5. `$ nohup ./client.sh & nohup ./server.sh & nohup ./scheduler.sh &`
 
 ### Command
 

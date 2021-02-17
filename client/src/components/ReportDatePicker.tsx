@@ -38,7 +38,7 @@ const ReportDatePicker = ({ reportList }: Props) => {
 
   useEffect(() => {
     showReportsBySelectedDate()
-  }, [selectedDate])
+  }, [selectedDate, reportList])
 
   return (
     <>

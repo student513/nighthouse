@@ -1,16 +1,21 @@
-const reportDateParser = (time: string) => {
-  const Time = new Date(time)
-  return `${Time.getFullYear()}년 ${Time.getMonth() + 1}월 ${Time.getDate()}일 ${Time.getHours()}시`
+const addZeroUnderTen = (time: Date) => {
+  const parsedMonth = time.getMonth() < 9 ? `0${time.getMonth() + 1}` : `${time.getMonth()}`
+  const parsedDate = time.getDate() < 10 ? `0${time.getDate()}` : `${time.getDate()}`
+  const parsedHours = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
+  const parsedMinutes = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
+  return { parsedMonth, parsedDate, parsedHours, parsedMinutes }
 }
 
-const cardDateParser = (time: string) => {
-  const Time = new Date(time)
-  const parsedMonth = Time.getMonth() < 10 ? `0${Time.getMonth() + 1}` : `${Time.getMonth()}`
-  const parsedDate = Time.getDate() < 10 ? `0${Time.getDate()}` : `${Time.getDate()}`
-  const parsedHours = Time.getHours() < 10 ? `0 ${Time.getHours()}` : `${Time.getHours()}`
-  const parsedMinutes = Time.getMinutes() < 10 ? `0${Time.getMinutes()}` : `${Time.getMinutes()}`
+const reportDateParser = (stringTime: string) => {
+  const time = new Date(stringTime)
+  const { parsedMonth, parsedDate, parsedHours } = addZeroUnderTen(time)
+  return `${time.getFullYear()}년 ${parsedMonth}월 ${parsedDate}일 ${parsedHours}시`
+}
 
-  return `${Time.getFullYear()}.${parsedMonth}.${parsedDate} ${parsedHours}:${parsedMinutes}`
+const cardDateParser = (stringTime: string) => {
+  const time = new Date(stringTime)
+  const { parsedMonth, parsedDate, parsedHours, parsedMinutes } = addZeroUnderTen(time)
+  return `${time.getFullYear()}.${parsedMonth}.${parsedDate} ${parsedHours}:${parsedMinutes}`
 }
 
 export { reportDateParser, cardDateParser }

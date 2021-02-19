@@ -45,3 +45,22 @@ export interface ReportType {
   audits: AuditsType
   categories: CategoriesType
 }
+
+export interface ProfileType {
+  requestedUrl: string
+  finalUrl: string
+  fetchTime: string
+  speedIndex: number
+  totalBlockingTime: number
+  firstContentfulPaint: number
+  timeToInteractive: number
+  largestContentfulPaint: number
+  cumulativeLayoutShift: number
+  unminifiedJavascript: number
+  serverResponseTime: number
+  performance: number
+  accessibility: number
+  bestPractices: number
+  seo: number
+  pwa: number
+}

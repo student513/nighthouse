@@ -28,8 +28,11 @@ const CreateAnalysis = () => {
   return (
     <div className="create-container">
       <Card>
-        <Card.Header as="h5">Create Report</Card.Header>
+        <Card.Header as="h4">프로파일 생성</Card.Header>
         <Card.Body style={{ paddingTop: 30, paddingRight: 200, paddingLeft: 200 }}>
+          <span>성능 분석을 원하는 웹 사이트의 프로파일을 생성해주세요.</span>
+          <br />
+          <br />
           <TextInput label="name" value={name} handleChange={handleChangeName} />
           <TextInput label="url" value={url} handleChange={handleChangeUrl} />
           <Dropdown selectTypes={[DeviceType.MOBILE, DeviceType.DESKTOP]} getSelectType={setDeviceType} />

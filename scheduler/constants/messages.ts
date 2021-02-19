@@ -28,7 +28,6 @@ export enum UrlResolveMessageType {
 }
 
 export enum ReportCodeErrorMessageType {
-  REPORT_CODE_NOT_FOUND = "Report Code not found!",
   REPORT_CODE_NOT_CREATED = "Report Code not created!",
   MUST_PROVIDE_REPORT_CODE = "You must provide Report Code!",
 }

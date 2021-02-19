@@ -1,6 +1,6 @@
 import { reportCodeModel as ReportCode } from "../models"
 
-import { ReportCodeErrorMessageType, ReportCodeResolveMessageType } from "../constants/messages"
+import { ReportCodeErrorMessageType } from "../constants/messages"
 
 export const getReportCode = async (req, res) => {
   try {

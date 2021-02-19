@@ -17,3 +17,12 @@ export enum ReportErrorMessageType {
 export enum ReportResolveMessageType {
   REPORT_SAVED = "Report saved!",
 }
+
+export enum ReportCodeErrorMessageType {
+  REPORT_CODE_NOT_FOUND = "Report Code not found!",
+  REPORT_CODE_NOT_CREATED = "Report Code not created!",
+  MUST_PROVIDE_REPORT_CODE = "You must provide Report Code!",
+}
+export enum ReportCodeResolveMessageType {
+  REPORT_CODE_CREATED = "Report Code created!",
+}

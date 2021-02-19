@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { RouteComponentProps } from "react-router-dom"
-import uuid from "uuid"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
 import { ReportChart, Table, ReportDatePicker } from "../components"
+import { ChartIndex } from "../constants/ChartIndex"
 
 import "../style/Details.css"
 import "react-datepicker/dist/react-datepicker.css"
@@ -21,7 +21,8 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   const [chartIdList, setChartIdList] = useState<ChartId[]>([])
 
   const addReportChart = () => {
-    setChartIdList((oldArray) => [...oldArray, uuid.v4()])
+    const timeStamp = new Date()
+    setChartIdList((oldArray) => [...oldArray, timeStamp.toString()])
   }
   const removeReportChart = (id: ChartId) => {
     const array = chartIdList.filter((chartId) => chartId !== id)
@@ -35,6 +36,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   useEffect(() => {
     getReportListByProfileId(match.params.profileId)
+    addReportChart()
   }, [])
 
   return (
@@ -45,20 +47,34 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
       <div className="detail-header">
         <h4>주요지표 차트</h4>
       </div>
-      <h6>차트를 추가하여 선택된 기간동안의 분석 지표의 흐름을 확인할 수 있습니다.</h6>
+      <h6>차트를 추가하여 선택된 기간동안의 분석 지표의 변동을 확인할 수 있습니다.</h6>
       <button onClick={addReportChart}>차트 추가</button>
 
       <div className="chart-grid">
         {reportList.length > 0 ? (
-          chartIdList.map((chartId) => (
-            <div key={chartId}>
-              <ReportChart
-                reportList={reportList}
-                removeReportChart={() => removeReportChart(chartId)}
-                chartId={chartId}
-              />
-            </div>
-          ))
+          chartIdList.map((
+            chartId,
+            index // 1, 2번째
+          ) =>
+            index === 0 ? (
+              <div key={chartId}>
+                <ReportChart
+                  reportList={reportList}
+                  removeReportChart={() => removeReportChart(chartId)}
+                  chartId={chartId}
+                  defaultChartIndex={ChartIndex.PERFORMANCE}
+                />
+              </div>
+            ) : (
+              <div key={chartId}>
+                <ReportChart
+                  reportList={reportList}
+                  removeReportChart={() => removeReportChart(chartId)}
+                  chartId={chartId}
+                />
+              </div>
+            )
+          )
         ) : (
           <div>분석 결과가 없습니다!</div>
         )}

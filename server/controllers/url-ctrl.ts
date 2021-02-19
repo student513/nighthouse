@@ -45,7 +45,7 @@ export const deleteURL = async (req, res) => {
     const lhReport = await LHReport.deleteMany({ profileId: req.params.id })
     const reportCode = await ReportCode.deleteMany({ profileId: req.params.id })
 
-    return res.status(200).json({ success: true, data: { url, report, lhReport } })
+    return res.status(200).json({ success: true, data: { url, report, lhReport, reportCode } })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

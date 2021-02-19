@@ -1,10 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Table as BootTable } from "react-bootstrap"
 
 import { ReportData, RepresentationValue } from "../interfaces/ReportType"
 import Dropdown from "./Dropdown"
-import { AnalysisPeriod } from "../constants/ChartIndex"
-import { ReportErrorMessage } from "../constants/error"
+import { AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { getRepresentativeValues } from "../utils/TableValue"
 import { pushScoreToCollection } from "../utils/ScoreCollection"
 import { useSelectDate } from "../utils/customHook/useSelectDate"
@@ -24,10 +23,6 @@ const Table = ({ reportList }: Props) => {
     parseReportDataByTimeSeries(periodParsedReportList)
   }
   const parseReportDataByTimeSeries = (periodParsedReportList: ReportData[]) => {
-    if (periodParsedReportList.length === 0) {
-      alert(ReportErrorMessage.NOT_SELECT_PERIOD)
-      return
-    }
     const parsedReportCollection = pushScoreToCollection(periodParsedReportList)
     setTableParsedValues(parsedReportCollection)
   }
@@ -41,11 +36,18 @@ const Table = ({ reportList }: Props) => {
     setTableValues(valueList)
   }
 
+  useEffect(() => {
+    const period = new Date()
+    period.setDate(period.getDate() - AnalysisDate.WEEK)
+    const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > period)
+    parseReportDataByTimeSeries(periodParsedReportList)
+  }, [reportList])
+
   return (
     <>
       <div className="table-submit">
         <Dropdown
-          selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+          selectTypes={[AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
           getSelectType={setAnalysisStartDate}
         />
         <button onClick={parseReportByPeriod}>조회</button>

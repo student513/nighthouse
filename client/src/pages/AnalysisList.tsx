@@ -25,7 +25,7 @@ const AnalysisList = () => {
   return (
     <>
       <h3>프로파일 목록</h3>
-      <span>프로파일의 분석은 매 시간 30분에 업데이트됩니다.</span>
+      <p>프로파일의 분석은 매 시간 30분에 업데이트됩니다.</p>
       <hr />
       <div className="card-list-container">
         {urls.length > 0 ? (

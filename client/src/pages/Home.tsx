@@ -9,15 +9,18 @@ const Home = () => {
         본 서비스는 <a href="https://github.com/GoogleChrome/lighthouse-ci">Google lighthouse-ci</a>를 이용하여 개발된
         웹 페이지 성능 측정 툴입니다.
       </p>
-
-      <p>프로파일을 생성하여 lighthouse-ci에서 제공하는 웹 페이지 성능 분석 결과의 시계열 데이터를 확인해보세요!</p>
-      <p>(등록된 프로파일은 매 시간 정각에 분석을 실시하며, 30분에 업로드됩니다.)</p>
+      <p>웹 페이지의 프로파일을 생성하면, 매 시간마다 자동으로 해당 웹 페이지의 성능을 측정하여 리포트를 생성합니다.</p>
+      <p>프로파일은 매 시간 정각에 분석을 실시하며, 30분에 업로드됩니다.</p>
       <a className="btn btn-primary" href="/url/create">
-        분석 시작하기
+        프로파일 생성하기
+      </a>{" "}
+      <a className="btn btn-primary" href="#">
+        더 알아보기
       </a>
       <br />
       <br />
       <h2>분석지표 설명</h2>
+      <p>프로파일을 생성할 경우 확인할 수 있는 웹 페이지의 분석 지표입니다.</p>
       <hr />
       <BootTable striped bordered hover>
         <thead>

@@ -62,17 +62,26 @@ const Table = ({ reportList }: Props) => {
             <th>최대값</th>
           </tr>
         </thead>
-        <tbody>
-          {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
-            <tr key={index}>
-              <td>{valueName}</td>
-              <td>{min}</td>
-              {/* <td>{mean}</td> */}
-              <td>{median}</td>
-              <td>{max}</td>
-            </tr>
-          ))}
-        </tbody>
+        {reportList.length > 0 ? (
+          <tbody>
+            {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
+              <tr key={index}>
+                <td>{valueName}</td>
+                <td>{min}</td>
+                {/* <td>{mean}</td> */}
+                <td>{median}</td>
+                <td>{max}</td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <tbody>
+            <td>분석 결과가 없습니다!</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tbody>
+        )}
       </BootTable>
     </>
   )

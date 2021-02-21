@@ -51,6 +51,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
   const handleDropdown = (e: any) => {
     const period = new Date()
     const analysisMap = {
+      [String(AnalysisPeriod.DAY)]: AnalysisDate.DAY,
       [String(AnalysisPeriod.WEEK)]: AnalysisDate.WEEK,
       [String(AnalysisPeriod.HALF_MONTH)]: AnalysisDate.HALF_MONTH,
       [String(AnalysisPeriod.MONTH)]: AnalysisDate.MONTH,
@@ -62,7 +63,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
   useEffect(() => {
     if (defaultChartIndex) {
       const period = new Date()
-      period.setDate(period.getDate() - AnalysisDate.WEEK)
+      period.setDate(period.getDate() - AnalysisDate.DAY)
       const chartDatas = reportList
         .map((report) => [new Date(report.fetchTime), report[analysisType]])
         .filter((parsedReport) => parsedReport[0] > period)
@@ -73,7 +74,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
 
   useEffect(() => {
     const timeStamp = new Date(chartId)
-    timeStamp.setDate(timeStamp.getDate() - AnalysisDate.WEEK)
+    timeStamp.setDate(timeStamp.getDate() - AnalysisDate.DAY)
     setAnalysisStartDate(timeStamp)
   }, [chartId])
 
@@ -82,7 +83,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
       <div className="chart-submit">
         <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
         <Dropdown
-          selectTypes={[AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+          selectTypes={[AnalysisPeriod.DAY, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
           getSelectType={handleDropdown}
         />
         <button onClick={parseChartData}>제출</button>

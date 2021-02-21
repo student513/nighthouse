@@ -15,13 +15,14 @@ export enum ChartIndex {
 }
 
 export enum AnalysisPeriod {
-  NONE = "-",
+  DAY = "최근 24시간",
   WEEK = "최근 7일",
   HALF_MONTH = "최근 15일",
   MONTH = "최근 30일",
 }
 
 export enum AnalysisDate {
+  DAY = 1,
   WEEK = 7,
   HALF_MONTH = 15,
   MONTH = 30,

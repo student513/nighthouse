@@ -7,5 +7,6 @@ import Dropdown from "./Dropdown"
 import ReportChart from "./ReportChart"
 import Table from "./Table"
 import ReportDatePicker from "./ReportDatePicker"
+import Loader from "./Loader"
 
-export { Links, NavBar, ReportCard, TextInput, Chart, Dropdown, ReportChart, Table, ReportDatePicker }
+export { Links, NavBar, ReportCard, TextInput, Chart, Dropdown, ReportChart, Table, ReportDatePicker, Loader }

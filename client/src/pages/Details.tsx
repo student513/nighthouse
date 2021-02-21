@@ -3,7 +3,7 @@ import { RouteComponentProps } from "react-router-dom"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
-import { ReportChart, Table, ReportDatePicker } from "../components"
+import { ReportChart, Table, ReportDatePicker, Loader } from "../components"
 import { ChartIndex } from "../constants/ChartIndex"
 
 import "../style/Details.css"
@@ -19,6 +19,7 @@ type ChartId = string
 const Details = ({ match }: RouteComponentProps<Props>) => {
   const [reportList, setReportList] = useState<ReportData[]>([])
   const [chartIdList, setChartIdList] = useState<ChartId[]>([])
+  const [isLoading, setLoading] = useState(true)
 
   const addReportChart = () => {
     const timeStamp = new Date()
@@ -29,15 +30,21 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
     setChartIdList(array)
   }
 
-  const getReportListByProfileId = async (id: string) => {
-    const reports = await getReports(id)
-    setReportList(reports.data.data)
-  }
-
   useEffect(() => {
+    const getReportListByProfileId = async (id: string) => {
+      try {
+        const reports = await getReports(id)
+        setReportList(reports.data.data)
+      } catch (e) {
+        console.log(e)
+      }
+      setLoading(false)
+    }
     getReportListByProfileId(match.params.profileId)
     addReportChart()
   }, [])
+
+  if (isLoading) return <Loader />
 
   return (
     <>

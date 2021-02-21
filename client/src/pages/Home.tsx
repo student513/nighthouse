@@ -14,7 +14,7 @@ const Home = () => {
       <a className="btn btn-primary" href="/url/create">
         프로파일 생성하기
       </a>{" "}
-      <a className="btn btn-primary" href="#">
+      <a className="btn btn-primary" href="/create-tutorial">
         더 알아보기
       </a>
       <br />

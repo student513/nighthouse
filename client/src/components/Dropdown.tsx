@@ -1,16 +1,23 @@
 type Props = {
   selectTypes: string[]
   getSelectType: (e: any) => void
+  defaultSelect?: string
 }
 
-const Dropdown = ({ selectTypes = [], getSelectType }: Props) => {
+const Dropdown = ({ selectTypes = [], getSelectType, defaultSelect }: Props) => {
   return (
     <select onChange={getSelectType}>
-      {selectTypes.map((selectType, index) => (
-        <option key={index} value={selectType}>
-          {selectType}
-        </option>
-      ))}
+      {selectTypes.map((selectType, index) =>
+        defaultSelect === selectType ? (
+          <option key={index} value={selectType} selected>
+            {selectType}
+          </option>
+        ) : (
+          <option key={index} value={selectType}>
+            {selectType}
+          </option>
+        )
+      )}
     </select>
   )
 }

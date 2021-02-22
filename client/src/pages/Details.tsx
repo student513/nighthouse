@@ -42,6 +42,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
     }
     getReportListByProfileId(match.params.profileId)
     addReportChart()
+    addReportChart()
   }, [])
 
   if (isLoading) return <Loader />
@@ -59,10 +60,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
       <div className="chart-grid">
         {reportList.length > 0 ? (
-          chartIdList.map((
-            chartId,
-            index // 1, 2번째
-          ) =>
+          chartIdList.map((chartId, index) =>
             index === 0 ? (
               <div key={chartId}>
                 <ReportChart
@@ -70,6 +68,15 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
                   removeReportChart={() => removeReportChart(chartId)}
                   chartId={chartId}
                   defaultChartIndex={ChartIndex.PERFORMANCE}
+                />
+              </div>
+            ) : index === 1 ? (
+              <div key={chartId}>
+                <ReportChart
+                  reportList={reportList}
+                  removeReportChart={() => removeReportChart(chartId)}
+                  chartId={chartId}
+                  defaultChartIndex={ChartIndex.SPEED_INDEX}
                 />
               </div>
             ) : (

@@ -34,7 +34,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
 
   const [chartData, setChartData] = useState<ChartDataType[]>([])
   const [analysisStartDate, setAnalysisStartDate] = useState(new Date())
-  const [analysisType, setAnalysisType] = useState<keyof ReportData>(ChartIndex.PERFORMANCE)
+  const [analysisType, setAnalysisType] = useState<keyof ReportData>(defaultChartIndex || ChartIndex.PERFORMANCE)
 
   const getSelectChartType = (e: any) => {
     setAnalysisType(e.target.value)
@@ -81,7 +81,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
   return (
     <div className="chart-container">
       <div className="chart-submit">
-        <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} />
+        <Dropdown selectTypes={chartList} getSelectType={getSelectChartType} defaultSelect={defaultChartIndex} />
         <Dropdown
           selectTypes={[AnalysisPeriod.DAY, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
           getSelectType={handleDropdown}

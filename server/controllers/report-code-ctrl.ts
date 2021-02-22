@@ -9,7 +9,7 @@ export const getReportCode = async (req, res) => {
       fetchTime: req.params.fetchTime,
     })
     if (!reportCode.length) {
-      return res.status(404).json({ success: false, error: ReportCodeErrorMessageType.REPORT_CODE_NOT_FOUND })
+      return res.status(204).json({ success: false, error: ReportCodeErrorMessageType.REPORT_CODE_NOT_FOUND })
     }
     return res.status(200).json({ success: true, data: reportCode })
   } catch (error) {

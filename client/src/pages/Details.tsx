@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { RouteComponentProps } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
+import { ChartIdentifier } from "../interfaces/ChartType"
 import { ReportChart, Table, ReportDatePicker, Loader } from "../components"
 import { ChartIndex } from "../constants/ChartIndex"
 
@@ -14,19 +16,17 @@ type Props = {
   name: string
 }
 
-type ChartId = string
-
 const Details = ({ match }: RouteComponentProps<Props>) => {
   const [reportList, setReportList] = useState<ReportData[]>([])
-  const [chartIdList, setChartIdList] = useState<ChartId[]>([])
+  const [chartIdentifierList, setChartIdList] = useState<ChartIdentifier[]>([])
   const [isLoading, setLoading] = useState(true)
 
   const addReportChart = () => {
     const timeStamp = new Date()
-    setChartIdList((oldArray) => [...oldArray, timeStamp.toString()])
+    setChartIdList((oldArray) => [...oldArray, { id: uuidv4(), timestamp: timeStamp.toString() }])
   }
-  const removeReportChart = (id: ChartId) => {
-    const array = chartIdList.filter((chartId) => chartId !== id)
+  const removeReportChart = (id: string) => {
+    const array = chartIdentifierList.filter((chartIdentifier) => chartIdentifier.id !== id)
     setChartIdList(array)
   }
 
@@ -60,31 +60,28 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
       <div className="chart-grid">
         {reportList.length > 0 ? (
-          chartIdList.map((chartId, index) =>
+          chartIdentifierList.map((chartIdentifier, index) =>
             index === 0 ? (
-              <div key={chartId}>
+              <div key={chartIdentifier.id}>
                 <ReportChart
-                  reportList={reportList}
-                  removeReportChart={() => removeReportChart(chartId)}
-                  chartId={chartId}
+                  {...{ reportList, chartIdentifier }}
+                  removeReportChart={() => removeReportChart(chartIdentifier.id)}
                   defaultChartIndex={ChartIndex.PERFORMANCE}
                 />
               </div>
             ) : index === 1 ? (
-              <div key={chartId}>
+              <div key={chartIdentifier.id}>
                 <ReportChart
-                  reportList={reportList}
-                  removeReportChart={() => removeReportChart(chartId)}
-                  chartId={chartId}
+                  {...{ reportList, chartIdentifier }}
+                  removeReportChart={() => removeReportChart(chartIdentifier.id)}
                   defaultChartIndex={ChartIndex.SPEED_INDEX}
                 />
               </div>
             ) : (
-              <div key={chartId}>
+              <div key={chartIdentifier.id}>
                 <ReportChart
-                  reportList={reportList}
-                  removeReportChart={() => removeReportChart(chartId)}
-                  chartId={chartId}
+                  {...{ reportList, chartIdentifier }}
+                  removeReportChart={() => removeReportChart(chartIdentifier.id)}
                 />
               </div>
             )

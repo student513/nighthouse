@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import { ChartIdentifier } from "../interfaces/ChartType"
 import { ReportData } from "../interfaces/ReportType"
 import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import Chart from "./Chart"
@@ -9,13 +10,13 @@ import "../style/ReportChart.css"
 
 type Props = {
   reportList: ReportData[]
-  removeReportChart: (chartId: string) => void
-  chartId: string
+  removeReportChart: (id: string) => void
+  chartIdentifier: ChartIdentifier
   defaultChartIndex?: ChartIndex
 }
 type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
 
-const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex }: Props) => {
+const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultChartIndex }: Props) => {
   const chartList = [
     ChartIndex.PERFORMANCE,
     ChartIndex.ACCESSIBILITY,
@@ -73,10 +74,10 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
   }, [reportList])
 
   useEffect(() => {
-    const timeStamp = new Date(chartId)
+    const timeStamp = new Date(chartIdentifier.timestamp)
     timeStamp.setDate(timeStamp.getDate() - AnalysisDate.DAY)
     setAnalysisStartDate(timeStamp)
-  }, [chartId])
+  }, [chartIdentifier])
 
   return (
     <div className="chart-container">
@@ -87,7 +88,7 @@ const ReportChart = ({ reportList, removeReportChart, chartId, defaultChartIndex
           getSelectType={handleDropdown}
         />
         <button onClick={parseChartData}>제출</button>
-        <button onClick={() => removeReportChart(chartId)}>차트 삭제</button>
+        <button onClick={() => removeReportChart(chartIdentifier.id)}>차트 삭제</button>
       </div>
       <div className="chart">
         {chartData.length > 0 ? (

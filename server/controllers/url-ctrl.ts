@@ -17,7 +17,7 @@ export const createURL = (req, res) => {
   }
   const url = new Url(body)
   if (!url) {
-    return res.status(204).json({ success: false, error: res.err })
+    return res.status(400).json({ success: false, error: res.err })
   }
 
   url

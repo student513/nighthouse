@@ -24,7 +24,7 @@ const AnalysisList = () => {
 
   return (
     <div className="card-list-container">
-      {urls.length > 0 ? (
+      {urls && urls.length > 0 ? (
         urls.map(({ name, _id, url, deviceType, createdAt }, index) => (
           <ReportCard key={_id} {...{ name, _id, url, deviceType, deleteAnalysisCard, index, createdAt }} />
         ))

@@ -38,7 +38,7 @@ export const getLatestLHReport = async (req, res) => {
       .sort({ _id: -1 })
       .limit(1)
     if (!lhReport) {
-      return res.status(404).json({ success: false, error: LHReportErrorMessageType.LHREPORT_NOT_FOUND })
+      return res.status(204).json({ success: false, error: LHReportErrorMessageType.LHREPORT_NOT_FOUND })
     }
     return res.status(200).json({ success: true, data: lhReport })
   } catch (error) {

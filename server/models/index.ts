@@ -48,8 +48,20 @@ const LHReport = new Schema(
   }
 )
 
+const ReportCode = new Schema(
+  {
+    profileId: { type: String, required: true },
+    fetchTime: { type: String, required: true },
+    reportCode: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+)
+
 const urlModel = mongoose.model("urls", Url)
 const reportModel = mongoose.model("reports", Report) // reports: 컬랙션 지정
 const LHReportModel = mongoose.model("LHReport", LHReport)
+const reportCodeModel = mongoose.model("reportcodes", ReportCode)
 
-export { urlModel, reportModel, LHReportModel }
+export { urlModel, reportModel, LHReportModel, reportCodeModel }

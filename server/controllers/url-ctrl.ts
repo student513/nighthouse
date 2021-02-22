@@ -1,4 +1,9 @@
-import { urlModel as Url, reportModel as Report, LHReportModel as LHReport } from "../models"
+import {
+  urlModel as Url,
+  reportModel as Report,
+  LHReportModel as LHReport,
+  reportCodeModel as ReportCode,
+} from "../models"
 
 import { UrlErrorMessageType, UrlResolveMessageType } from "../constants/messages"
 
@@ -35,11 +40,12 @@ export const createURL = (req, res) => {
 export const deleteURL = async (req, res) => {
   try {
     const url = await Url.findOneAndDelete({ _id: req.params.id })
-    if (!url) return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
+    if (!url) return res.status(204).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
     const report = await Report.deleteMany({ profileId: req.params.id })
     const lhReport = await LHReport.deleteMany({ profileId: req.params.id })
+    const reportCode = await ReportCode.deleteMany({ profileId: req.params.id })
 
-    return res.status(200).json({ success: true, data: { url, report, lhReport } })
+    return res.status(200).json({ success: true, data: { url, report, lhReport, reportCode } })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }
@@ -49,7 +55,7 @@ export const getURLs = async (req, res) => {
   try {
     const urls = await Url.find({})
     if (!urls.length) {
-      return res.status(404).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
+      return res.status(204).json({ success: false, error: UrlErrorMessageType.URL_NOT_FOUND })
     }
     return res.status(200).json({ success: true, data: urls })
   } catch (error) {

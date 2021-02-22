@@ -6,12 +6,13 @@ import TextInput from "../components/TextInput"
 import { UrlPayload } from "../interfaces/ProfileType"
 import Dropdown from "../components/Dropdown"
 import { useDropdown } from "../utils/customHook/useDropdown"
-import { DeviceType } from "../constants/Options"
+import { DeviceDetail, DeviceType } from "../constants/Options"
 
 const CreateAnalysis = () => {
   const [name, setName] = useState("")
   const [url, setUrl] = useState("")
-  const [deviceType, setDeviceType] = useDropdown(DeviceType.MOBILE)
+  const [deviceDetail, setDeviceDetail] = useDropdown(DeviceDetail.MOBILE)
+  const [deviceType, setDeviceType] = useState(DeviceType.MOBILE)
 
   const handleChangeName = (event: any) => {
     setName(event.target.value)
@@ -21,6 +22,7 @@ const CreateAnalysis = () => {
   }
 
   const insertUrlInfo = async () => {
+    deviceDetail === DeviceDetail.MOBILE ? setDeviceType(DeviceType.MOBILE) : setDeviceType(DeviceType.DESKTOP)
     const payload: UrlPayload = { name, url, deviceType }
     await createURL(payload)
   }
@@ -35,7 +37,7 @@ const CreateAnalysis = () => {
           <br />
           <TextInput label="name" value={name} handleChange={handleChangeName} />
           <TextInput label="url" value={url} handleChange={handleChangeUrl} />
-          <Dropdown selectTypes={[DeviceType.MOBILE, DeviceType.DESKTOP]} getSelectType={setDeviceType} />
+          <Dropdown selectTypes={[DeviceDetail.MOBILE, DeviceDetail.DESKTOP]} getSelectType={setDeviceDetail} />
           <br />
           <br />
           <a className="btn btn-primary" onClick={insertUrlInfo} href={"/url/list"}>

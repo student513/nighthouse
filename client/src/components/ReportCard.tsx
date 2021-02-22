@@ -5,6 +5,7 @@ import { cardDateParser } from "../utils/TimeParser"
 import { getLatestReport } from "../api"
 
 import "../style/ReportCard.css"
+import { DeviceDetail, DeviceType } from "../constants/Options"
 
 type Props = {
   name: string
@@ -35,7 +36,9 @@ const ReportCard = ({ name, url, _id, deviceType, deleteAnalysisCard, index = 0 
             {url}
           </a>
         </Card.Subtitle>
-        <div className="option-font">[{deviceType}]</div>
+        <div className="option-font">
+          [{deviceType === DeviceType.MOBILE ? DeviceDetail.MOBILE : DeviceDetail.DESKTOP}]
+        </div>
         <a className="btn btn-primary" href={`/url/list/${name}/${_id}`}>
           Detail
         </a>

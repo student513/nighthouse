@@ -6,9 +6,9 @@ type Props = {
 
 const Dropdown = ({ selectTypes = [], getSelectType, defaultSelect }: Props) => {
   return (
-    <select onChange={getSelectType}>
+    <select onChange={getSelectType} defaultValue={defaultSelect}>
       {selectTypes.map((selectType, index) => (
-        <option key={index} value={selectType} selected={defaultSelect === selectType}>
+        <option key={index} value={selectType}>
           {selectType}
         </option>
       ))}

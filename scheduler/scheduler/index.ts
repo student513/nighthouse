@@ -8,7 +8,7 @@ dotenv.config()
 
 import { exportProfileId, getMedianValue } from "../utils/func"
 import { agendaJobName } from "../constants/agendaJobs"
-import { ReportType } from "../interfaces/reportTypes"
+import { ReportType, ProfileType } from "../interfaces/reportTypes"
 import logger from "../utils/logger"
 
 const exec = util.promisify(require("child_process").exec)
@@ -75,7 +75,7 @@ agenda.on("ready", async () => {
     })
     const uniqueProfileIdList = Object.keys(idCollection)
     uniqueProfileIdList.map(async (profileId) => {
-      const sameProfileBuffer: any = []
+      const sameProfileBuffer: ProfileType[] = []
       const reportLink = await axios.get(`${process.env.SERVER_API_URL}/lhreport/${profileId}`)
       const reportCode = await got(reportLink.data.data[0].reportLink)
 
@@ -133,6 +133,14 @@ agenda.on("ready", async () => {
         .post(`${process.env.SERVER_API_URL}/report`, {
           ...medianReport,
           profileId,
+        })
+        .then((message) => logger.debug(message.data))
+        .catch((error) => logger.debug("axios error:", error.message))
+
+      await axios
+        .post(`${process.env.SERVER_API_URL}/reportcode`, {
+          profileId,
+          fetchTime: medianReport.fetchTime,
           reportCode: reportCode.body,
         })
         .then((message) => logger.debug(message.data))

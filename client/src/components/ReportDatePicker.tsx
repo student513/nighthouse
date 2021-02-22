@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker"
 
 import { ReportData } from "../interfaces/ReportType"
 import { reportDateParser } from "../utils/TimeParser"
+import { getReportCode } from "../api"
 
 import "react-datepicker/dist/react-datepicker.css"
 import "../style/ReportDatePicker.css"
@@ -36,6 +37,12 @@ const ReportDatePicker = ({ reportList }: Props) => {
     setFoldReportList(!foldReportList)
   }
 
+  const openLightHouseReport = async (profileId: string, fetchTime: string) => {
+    const reportCode = await getReportCode(profileId, fetchTime)
+    const winUrl = URL.createObjectURL(new Blob([reportCode.data.data[0].reportCode], { type: "text/html" }))
+    window.open(winUrl)
+  }
+
   useEffect(() => {
     showReportsBySelectedDate()
   }, [selectedDate, reportList])
@@ -49,11 +56,10 @@ const ReportDatePicker = ({ reportList }: Props) => {
       {foldReportList ? (
         selectedDateReports.length > 0 ? (
           selectedDateReports.map((selectedDateReport) => {
-            const winUrl = URL.createObjectURL(new Blob([selectedDateReport.reportCode], { type: "text/html" }))
             return (
               <a
                 className="btn btn-primary report-link"
-                onClick={() => window.open(winUrl)}
+                onClick={() => openLightHouseReport(selectedDateReport.profileId, selectedDateReport.fetchTime)}
                 key={selectedDateReport.fetchTime}
                 target="_blank"
                 rel="noopener noreferrer"

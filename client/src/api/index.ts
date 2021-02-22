@@ -9,5 +9,6 @@ const api = axios.create({
 export const createURL = (payload: UrlPayload) => api.post(`/url`, payload)
 export const deleteURL = (id: string) => api.delete(`/url/${id}`)
 export const getURLs = () => api.get(`/urls`)
-export const getReports = (profileId: string) => api.get(`report/${profileId}`)
+export const getReports = (profileId: string) => api.get(`/report/${profileId}`)
+export const getLatestReport = (profileId: string) => api.get(`/report/latest/${profileId}`)
 export const getReportCode = (profileId: string, fetchTime: string) => api.get(`reportcode/${profileId}/${fetchTime}`)

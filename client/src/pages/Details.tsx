@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { RouteComponentProps } from "react-router-dom"
-import { v4 as uuidv4 } from "uuid"
+import uuid from "uuid"
 
 import { getReports } from "../api"
 import { ReportData } from "../interfaces/ReportType"
@@ -23,7 +23,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   const addReportChart = () => {
     const timeStamp = new Date()
-    setChartIdList((oldArray) => [...oldArray, { id: uuidv4(), timestamp: timeStamp.toString() }])
+    setChartIdList((oldArray) => [...oldArray, { id: uuid.v4(), timestamp: timeStamp.toString() }])
   }
   const removeReportChart = (id: string) => {
     const array = chartIdentifierList.filter((chartIdentifier) => chartIdentifier.id !== id)

@@ -52,9 +52,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
       <h2>{match.params.name}</h2>
 
       <hr />
-      <div className="detail-header">
-        <h4>분석지표 차트</h4>
-      </div>
+      <h4>분석지표 차트</h4>
       <h6>차트를 추가하여 선택된 기간동안의 분석 지표의 변동을 확인할 수 있습니다.</h6>
       <button onClick={addReportChart}>차트 추가</button>
 

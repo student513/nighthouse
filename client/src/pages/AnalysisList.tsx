@@ -28,7 +28,7 @@ const AnalysisList = () => {
       <p>프로파일의 분석은 매 시간 30분에 업데이트됩니다.</p>
       <hr />
       <div className="card-list-container">
-        {urls && urls.length > 0 ? (
+        {urls?.length > 0 ? (
           urls.map(({ name, _id, url, deviceType }, index) => (
             <ReportCard key={_id} {...{ name, _id, url, deviceType, deleteAnalysisCard, index }} />
           ))

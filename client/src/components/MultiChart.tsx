@@ -5,9 +5,10 @@ import MultiSelect from "react-multi-select-component"
 import { ReportData } from "../interfaces/ReportType"
 import { ChartDataType } from "../interfaces/ChartType"
 import { ChartIndex, ChartLable, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
-import { defaultPeriodOneDay } from "../utils/DisplayPeriod"
+import { setDefaultPeriod } from "../utils/DisplayPeriod"
 import Chart from "./Chart"
 import Dropdown from "./Dropdown"
+import { Warning } from "../constants/Warning"
 
 import "../style/MultiChart.css"
 
@@ -72,7 +73,7 @@ const MultiChart = ({ reportList }: Props) => {
   }
 
   useEffectOnce(() => {
-    const timestamp = defaultPeriodOneDay()
+    const timestamp = setDefaultPeriod(AnalysisDate.DAY)
     setAnalysisStartDate(timestamp)
 
     const analysisValues = analysisTypes.map((analysisType) => analysisType.value)

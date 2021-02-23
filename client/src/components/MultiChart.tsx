@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { useEffectOnce } from "react-use"
 import MultiSelect from "react-multi-select-component"
 
 import { ReportData } from "../interfaces/ReportType"
@@ -6,15 +7,16 @@ import { ChartIndex, ChartLable, AnalysisPeriod, AnalysisDate } from "../constan
 import Chart from "./Chart"
 import Dropdown from "./Dropdown"
 
+import "../style/MultiChart.css"
+
 type Props = {
   reportList: ReportData[]
-  timestamp: Date
 }
 
 type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
 type AnalysisType = { label: string; value: keyof ReportData }
 
-const MultiChart = ({ reportList, timestamp }: Props) => {
+const MultiChart = ({ reportList }: Props) => {
   const chartList = [
     { label: ChartLable.PERFORMANCE, value: ChartIndex.PERFORMANCE },
     { label: ChartLable.ACCESSIBILITY, value: ChartIndex.ACCESSIBILITY },
@@ -53,35 +55,42 @@ const MultiChart = ({ reportList, timestamp }: Props) => {
 
   const parseChartData = () => {
     const analysisValues = analysisTypes.map((analysisType) => analysisType.value)
-    const chartDatas = reportList.map((report) => {
-      const scores = analysisValues.reduce((acc, analysisValue) => {
-        return [...acc, report[analysisValue]]
-      }, [] as any)
-      return [new Date(report.fetchTime), ...scores]
-    })
-    //   .filter((parsedReport) => parsedReport[0] > analysisStartDate)
-
+    const chartDatas = reportList
+      .map((report) => {
+        const scores = analysisValues.reduce((acc, analysisValue) => {
+          return [...acc, report[analysisValue]]
+        }, [] as any)
+        return [new Date(report.fetchTime), ...scores]
+      })
+      .filter((parsedReport) => parsedReport[0] > analysisStartDate)
     const chartDateArray: any = [["x", ...analysisValues]]
     setChartData([...chartDateArray, ...chartDatas])
   }
 
-  //   useEffect(() => {
-  //     parseChartData()
-  //   }, [reportList])
-
-  //   useEffect(() => {
-  //     timestamp.setDate(timestamp.getDate() - AnalysisDate.DAY)
-  //     setAnalysisStartDate(timestamp)
-  //   }, [analysisStartDate])
+  useEffectOnce(() => {
+    const timestamp = new Date()
+    timestamp.setDate(timestamp.getDate() - AnalysisDate.DAY)
+    const analysisValues = analysisTypes.map((analysisType) => analysisType.value)
+    const chartDatas = reportList
+      .map((report) => {
+        const scores = analysisValues.reduce((acc, analysisValue) => {
+          return [...acc, report[analysisValue]]
+        }, [] as any)
+        return [new Date(report.fetchTime), ...scores]
+      })
+      .filter((parsedReport) => parsedReport[0] > timestamp)
+    const chartDateArray: any = [["x", ...analysisValues]]
+    setChartData([...chartDateArray, ...chartDatas])
+  })
 
   return (
     <div>
-      <button onClick={parseChartData}>dddd</button>
       <MultiSelect options={chartList} labelledBy={"Select"} onChange={setAnalysisTypes} value={analysisTypes} />
       <Dropdown
         selectTypes={[AnalysisPeriod.DAY, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
         getSelectType={handleDropdown}
       />
+      <button onClick={parseChartData}>제출</button>
       <Chart data={chartData} chartType="LineChart" />
     </div>
   )

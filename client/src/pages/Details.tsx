@@ -91,7 +91,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
       <hr />
       <h4>다중 분석지표 차트</h4>
       <h6>여러 지표의 변동을 비교할 수 있습니다.</h6>
-      <MultiChart {...{ reportList, timestamp }} />
+      <MultiChart {...{ reportList }} />
       <hr />
       <h4>날짜별 리포트 조회</h4>
       <h6>해당 날짜의 라이트하우스 리포트를 조회할 수 있습니다.</h6>

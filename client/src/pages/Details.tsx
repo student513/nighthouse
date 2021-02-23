@@ -23,10 +23,10 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
 
   const addReportChart = () => {
     const timeStamp = new Date()
-    setChartIdList((oldArray) => [...oldArray, { id: uuid.v4(), timestamp: timeStamp.toString() }])
+    setChartIdList((oldArray) => [...oldArray, uuid.v4()])
   }
   const removeReportChart = (id: string) => {
-    const array = chartIdentifierList.filter((chartIdentifier) => chartIdentifier.id !== id)
+    const array = chartIdentifierList.filter((chartIdentifier) => chartIdentifier !== id)
     setChartIdList(array)
   }
 
@@ -60,26 +60,26 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
         {reportList.length > 0 ? (
           chartIdentifierList.map((chartIdentifier, index) =>
             index === 0 ? (
-              <div key={chartIdentifier.id}>
+              <div key={chartIdentifier}>
                 <ReportChart
                   {...{ reportList, chartIdentifier }}
-                  removeReportChart={() => removeReportChart(chartIdentifier.id)}
+                  removeReportChart={() => removeReportChart(chartIdentifier)}
                   defaultChartIndex={ChartIndex.PERFORMANCE}
                 />
               </div>
             ) : index === 1 ? (
-              <div key={chartIdentifier.id}>
+              <div key={chartIdentifier}>
                 <ReportChart
                   {...{ reportList, chartIdentifier }}
-                  removeReportChart={() => removeReportChart(chartIdentifier.id)}
+                  removeReportChart={() => removeReportChart(chartIdentifier)}
                   defaultChartIndex={ChartIndex.SPEED_INDEX}
                 />
               </div>
             ) : (
-              <div key={chartIdentifier.id}>
+              <div key={chartIdentifier}>
                 <ReportChart
                   {...{ reportList, chartIdentifier }}
-                  removeReportChart={() => removeReportChart(chartIdentifier.id)}
+                  removeReportChart={() => removeReportChart(chartIdentifier)}
                 />
               </div>
             )

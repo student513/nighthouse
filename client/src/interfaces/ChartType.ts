@@ -1,4 +1,1 @@
-export interface ChartIdentifier {
-  id: string
-  timestamp: string
-}
+export type ChartIdentifier = string

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useEffectOnce } from "react-use"
 
 import { ChartIdentifier } from "../interfaces/ChartType"
 import { ReportData } from "../interfaces/ReportType"
@@ -73,11 +74,11 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
     }
   }, [reportList])
 
-  useEffect(() => {
-    const timeStamp = new Date(chartIdentifier.timestamp)
-    timeStamp.setDate(timeStamp.getDate() - AnalysisDate.DAY)
-    setAnalysisStartDate(timeStamp)
-  }, [chartIdentifier])
+  useEffectOnce(() => {
+    const timestamp = new Date()
+    timestamp.setDate(timestamp.getDate() - AnalysisDate.DAY)
+    setAnalysisStartDate(timestamp)
+  })
 
   return (
     <div className="chart-container">
@@ -88,7 +89,7 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
           getSelectType={handleDropdown}
         />
         <button onClick={parseChartData}>제출</button>
-        <button onClick={() => removeReportChart(chartIdentifier.id)}>차트 삭제</button>
+        <button onClick={() => removeReportChart(chartIdentifier)}>차트 삭제</button>
       </div>
       <div className="chart">
         {chartData.length > 0 ? (

@@ -8,5 +8,18 @@ import ReportChart from "./ReportChart"
 import Table from "./Table"
 import ReportDatePicker from "./ReportDatePicker"
 import Loader from "./Loader"
+import MultiChart from "./MultiChart"
 
-export { Links, NavBar, ReportCard, TextInput, Chart, Dropdown, ReportChart, Table, ReportDatePicker, Loader }
+export {
+  Links,
+  NavBar,
+  ReportCard,
+  TextInput,
+  Chart,
+  Dropdown,
+  ReportChart,
+  Table,
+  ReportDatePicker,
+  Loader,
+  MultiChart,
+}

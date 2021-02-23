@@ -7,6 +7,7 @@ import { ReportData } from "../interfaces/ReportType"
 import { ChartIdentifier } from "../interfaces/ChartType"
 import { ReportChart, Table, ReportDatePicker, Loader, MultiChart } from "../components"
 import { ChartIndex } from "../constants/ChartIndex"
+import { Warning } from "../constants/Warning"
 
 import "../style/Details.css"
 import "react-datepicker/dist/react-datepicker.css"
@@ -56,7 +57,7 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
       <button onClick={addReportChart}>차트 추가</button>
 
       <div className="chart-grid">
-        {reportList.length > 0 ? (
+        {reportList && reportList.length > 0 ? (
           chartIdentifierList.map((chartIdentifier, index) =>
             index === 0 ? (
               <div key={chartIdentifier}>
@@ -84,21 +85,30 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
             )
           )
         ) : (
-          <div>분석 결과가 없습니다!</div>
+          <div>{Warning.NOT_YET_CREATE_RERORT}</div>
         )}
       </div>
       <hr />
       <h4>다중 분석지표 차트</h4>
       <h6>여러 지표의 변동을 비교할 수 있습니다.</h6>
-      <MultiChart {...{ reportList }} />
+      {reportList && reportList.length > 0 ? (
+        <MultiChart {...{ reportList }} />
+      ) : (
+        <div>{Warning.NOT_YET_CREATE_RERORT}</div>
+      )}
+
       <hr />
       <h4>날짜별 리포트 조회</h4>
       <h6>해당 날짜의 라이트하우스 리포트를 조회할 수 있습니다.</h6>
-      <ReportDatePicker {...{ reportList }} />
+      {reportList && reportList.length > 0 ? (
+        <ReportDatePicker {...{ reportList }} />
+      ) : (
+        <div>{Warning.NOT_YET_CREATE_RERORT}</div>
+      )}
       <hr />
       <h4>분석지표 테이블</h4>
       <h6>선택된 기간동안의 분석 지표의 최소, 최대, 중앙값을 확인할 수 있습니다.</h6>
-      <Table {...{ reportList }} />
+      {reportList && reportList.length > 0 ? <Table {...{ reportList }} /> : <div>{Warning.NOT_YET_CREATE_RERORT}</div>}
     </>
   )
 }

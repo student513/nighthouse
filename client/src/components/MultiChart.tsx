@@ -3,6 +3,7 @@ import { useEffectOnce } from "react-use"
 import MultiSelect from "react-multi-select-component"
 
 import { ReportData } from "../interfaces/ReportType"
+import { ChartDataType } from "../interfaces/ChartType"
 import { ChartIndex, ChartLable, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { defaultPeriodOneDay } from "../utils/DisplayPeriod"
 import Chart from "./Chart"
@@ -14,7 +15,6 @@ type Props = {
   reportList: ReportData[]
 }
 
-type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
 type AnalysisType = { label: string; value: keyof ReportData }
 
 const MultiChart = ({ reportList }: Props) => {
@@ -74,6 +74,7 @@ const MultiChart = ({ reportList }: Props) => {
   useEffectOnce(() => {
     const timestamp = defaultPeriodOneDay()
     setAnalysisStartDate(timestamp)
+
     const analysisValues = analysisTypes.map((analysisType) => analysisType.value)
     const chartDatas = reportList
       .map((report) => {
@@ -83,7 +84,7 @@ const MultiChart = ({ reportList }: Props) => {
         return [new Date(report.fetchTime), ...scores]
       })
       .filter((parsedReport) => parsedReport[0] > timestamp)
-    const chartDateArray: any = [["x", ...analysisValues]]
+    const chartDateArray: [string, ...string[]][] = [["x", ...analysisValues]]
     setChartData([...chartDateArray, ...chartDatas])
   })
 

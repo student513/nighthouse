@@ -1,9 +1,7 @@
 import { Chart as LineChart } from "react-google-charts"
 import { GoogleChartWrapperChartType } from "react-google-charts/dist/types"
 
-import { ReportData } from "../interfaces/ReportType"
-
-type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
+import { ChartDataType } from "../interfaces/ChartType"
 
 type Props = {
   data: ChartDataType[]

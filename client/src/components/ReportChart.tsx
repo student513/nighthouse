@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useEffectOnce } from "react-use"
 
 import { defaultPeriodOneDay } from "../utils/DisplayPeriod"
-import { ChartIdentifier } from "../interfaces/ChartType"
+import { ChartIdentifier, ChartDataType } from "../interfaces/ChartType"
 import { ReportData } from "../interfaces/ReportType"
 import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import Chart from "./Chart"
@@ -16,7 +16,6 @@ type Props = {
   chartIdentifier: ChartIdentifier
   defaultChartIndex?: ChartIndex
 }
-type ChartDataType = [[string, keyof ReportData], ...[Date, number]]
 
 const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultChartIndex }: Props) => {
   const chartList = [

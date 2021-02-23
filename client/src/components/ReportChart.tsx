@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useEffectOnce } from "react-use"
 
+import { defaultPeriodOneDay } from "../utils/DisplayPeriod"
 import { ChartIdentifier } from "../interfaces/ChartType"
 import { ReportData } from "../interfaces/ReportType"
 import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
@@ -75,8 +76,7 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
   }, [reportList])
 
   useEffectOnce(() => {
-    const timestamp = new Date()
-    timestamp.setDate(timestamp.getDate() - AnalysisDate.DAY)
+    const timestamp = defaultPeriodOneDay()
     setAnalysisStartDate(timestamp)
   })
 

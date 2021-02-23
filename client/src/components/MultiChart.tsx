@@ -62,7 +62,7 @@ const MultiChart = ({ reportList }: Props) => {
       .map((report) => {
         const scores = analysisValues.reduce((acc, analysisValue) => {
           return [...acc, report[analysisValue]]
-        }, [] as any)
+        }, [] as (string | number)[])
         return [new Date(report.fetchTime), ...scores]
       })
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
@@ -79,7 +79,7 @@ const MultiChart = ({ reportList }: Props) => {
       .map((report) => {
         const scores = analysisValues.reduce((acc, analysisValue) => {
           return [...acc, report[analysisValue]]
-        }, [] as any)
+        }, [] as (string | number)[])
         return [new Date(report.fetchTime), ...scores]
       })
       .filter((parsedReport) => parsedReport[0] > timestamp)

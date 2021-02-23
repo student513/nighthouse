@@ -70,6 +70,7 @@ const MultiChart = ({ reportList }: Props) => {
   useEffectOnce(() => {
     const timestamp = new Date()
     timestamp.setDate(timestamp.getDate() - AnalysisDate.DAY)
+    setAnalysisStartDate(timestamp)
     const analysisValues = analysisTypes.map((analysisType) => analysisType.value)
     const chartDatas = reportList
       .map((report) => {

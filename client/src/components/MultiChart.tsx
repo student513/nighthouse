@@ -56,7 +56,7 @@ const MultiChart = ({ reportList }: Props) => {
 
   const parseChartData = () => {
     if (analysisTypes.length === 0) {
-      return alert("분석할 지표를 선택해주세요!")
+      return alert(Warning.SELECT_SCORE)
     }
     const analysisValues = analysisTypes.map((analysisType) => analysisType.value)
     const chartDatas = reportList

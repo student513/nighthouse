@@ -84,15 +84,17 @@ const MultiChart = ({ reportList }: Props) => {
   })
 
   return (
-    <div>
+    <>
       <MultiSelect options={chartList} labelledBy={"Select"} onChange={setAnalysisTypes} value={analysisTypes} />
-      <Dropdown
-        selectTypes={[AnalysisPeriod.DAY, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-        getSelectType={handleDropdown}
-      />
-      <button onClick={parseChartData}>제출</button>
+      <div className="multi-chart-submit">
+        <Dropdown
+          selectTypes={[AnalysisPeriod.DAY, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+          getSelectType={handleDropdown}
+        />
+        <button onClick={parseChartData}>제출</button>
+      </div>
       <Chart data={chartData} chartType="LineChart" />
-    </div>
+    </>
   )
 }
 

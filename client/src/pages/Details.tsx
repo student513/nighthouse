@@ -22,7 +22,6 @@ const Details = ({ match }: RouteComponentProps<Props>) => {
   const [isLoading, setLoading] = useState(true)
 
   const addReportChart = () => {
-    const timeStamp = new Date()
     setChartIdList((oldArray) => [...oldArray, uuid.v4()])
   }
   const removeReportChart = (id: string) => {

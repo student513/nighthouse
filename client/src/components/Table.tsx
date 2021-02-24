@@ -1,12 +1,14 @@
 import { useState } from "react"
+import { useEffectOnce } from "react-use"
 import { Table as BootTable } from "react-bootstrap"
 
-import { ReportData, RepresentationValue } from "../interfaces/ReportType"
 import Dropdown from "./Dropdown"
-import { AnalysisPeriod } from "../constants/ChartIndex"
-import { ReportErrorMessage } from "../constants/error"
+
+import { ReportData, RepresentationValue } from "../interfaces/ReportType"
+import { AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { getRepresentativeValues } from "../utils/TableValue"
 import { pushScoreToCollection } from "../utils/ScoreCollection"
+import { setDefaultPeriod } from "../utils/DisplayPeriod"
 import { useSelectDate } from "../utils/customHook/useSelectDate"
 
 import "../style/Table.css"
@@ -16,7 +18,7 @@ type Props = {
 }
 
 const Table = ({ reportList }: Props) => {
-  const [analysisStartDate, setAnalysisStartDate] = useSelectDate(new Date())
+  const { analysisStartDate, setAnalysisStartDate, handleDropdown } = useSelectDate(new Date())
   const [tableValues, setTableValues] = useState<RepresentationValue[]>()
 
   const parseReportByPeriod = () => {
@@ -24,10 +26,6 @@ const Table = ({ reportList }: Props) => {
     parseReportDataByTimeSeries(periodParsedReportList)
   }
   const parseReportDataByTimeSeries = (periodParsedReportList: ReportData[]) => {
-    if (periodParsedReportList.length === 0) {
-      alert(ReportErrorMessage.NOT_SELECT_PERIOD)
-      return
-    }
     const parsedReportCollection = pushScoreToCollection(periodParsedReportList)
     setTableParsedValues(parsedReportCollection)
   }
@@ -41,12 +39,19 @@ const Table = ({ reportList }: Props) => {
     setTableValues(valueList)
   }
 
+  useEffectOnce(() => {
+    const timestamp = setDefaultPeriod(AnalysisDate.WEEK)
+    setAnalysisStartDate(timestamp)
+    const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > timestamp)
+    parseReportDataByTimeSeries(periodParsedReportList)
+  })
+
   return (
     <>
       <div className="table-submit">
         <Dropdown
-          selectTypes={[AnalysisPeriod.NONE, AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-          getSelectType={setAnalysisStartDate}
+          selectTypes={[AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
+          getSelectType={handleDropdown}
         />
         <button onClick={parseReportByPeriod}>조회</button>
       </div>
@@ -60,17 +65,26 @@ const Table = ({ reportList }: Props) => {
             <th>최대값</th>
           </tr>
         </thead>
-        <tbody>
-          {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
-            <tr key={index}>
-              <td>{valueName}</td>
-              <td>{min}</td>
-              {/* <td>{mean}</td> */}
-              <td>{median}</td>
-              <td>{max}</td>
-            </tr>
-          ))}
-        </tbody>
+        {reportList?.length > 0 ? (
+          <tbody>
+            {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
+              <tr key={index}>
+                <td>{valueName}</td>
+                <td>{min}</td>
+                {/* <td>{mean}</td> */}
+                <td>{median}</td>
+                <td>{max}</td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <tbody>
+            <td>분석 결과가 없습니다!</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </tbody>
+        )}
       </BootTable>
     </>
   )

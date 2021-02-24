@@ -13,6 +13,7 @@ const reportDateParser = (stringTime: string) => {
 }
 
 const cardDateParser = (stringTime: string) => {
+  if (stringTime === "-") return "-"
   const time = new Date(stringTime)
   const { parsedMonth, parsedDate, parsedHours, parsedMinutes } = addZeroUnderTen(time)
   return `${time.getFullYear()}.${parsedMonth}.${parsedDate} ${parsedHours}:${parsedMinutes}`

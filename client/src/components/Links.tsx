@@ -10,6 +10,11 @@ const Links = () => {
       <div className="collpase navbar-collapse">
         <div className="navbar-nav mr-auto">
           <div className="collpase navbar-collapse">
+            <Link to="/create-tutorial" className="nav-link">
+              Tutorial
+            </Link>
+          </div>
+          <div className="collpase navbar-collapse">
             <Link to="/url/create" className="nav-link">
               Create Test Profile
             </Link>

@@ -6,6 +6,7 @@ import { ReportData } from "../interfaces/ReportType"
 import { ChartDataType } from "../interfaces/ChartType"
 import { ChartIndex, ChartLable, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { setDefaultPeriod } from "../utils/DisplayPeriod"
+import { useSelectDate } from "../utils/customHook/useSelectDate"
 import Chart from "./Chart"
 import Dropdown from "./Dropdown"
 import { Warning } from "../constants/Warning"
@@ -36,24 +37,12 @@ const MultiChart = ({ reportList }: Props) => {
   ]
 
   const [chartData, setChartData] = useState<ChartDataType[]>([])
-  const [analysisStartDate, setAnalysisStartDate] = useState(new Date())
+  const { analysisStartDate, setAnalysisStartDate, handleDropdown } = useSelectDate(new Date())
   const [analysisTypes, setAnalysisTypes] = useState<AnalysisType[]>([
     { label: ChartLable.SPEED_INDEX, value: ChartIndex.SPEED_INDEX },
     { label: ChartLable.TBT, value: ChartIndex.TBT },
     { label: ChartLable.FCP, value: ChartIndex.FCP },
   ])
-
-  const handleDropdown = (e: any) => {
-    const period = new Date()
-    const analysisMap = {
-      [String(AnalysisPeriod.DAY)]: AnalysisDate.DAY,
-      [String(AnalysisPeriod.WEEK)]: AnalysisDate.WEEK,
-      [String(AnalysisPeriod.HALF_MONTH)]: AnalysisDate.HALF_MONTH,
-      [String(AnalysisPeriod.MONTH)]: AnalysisDate.MONTH,
-    }
-    period.setDate(period.getDate() - analysisMap[e.target.value])
-    setAnalysisStartDate(period)
-  }
 
   const parseChartData = () => {
     if (analysisTypes.length === 0) {

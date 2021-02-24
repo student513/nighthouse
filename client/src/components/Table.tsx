@@ -15,7 +15,7 @@ type Props = {
 }
 
 const Table = ({ reportList }: Props) => {
-  const [analysisStartDate, setAnalysisStartDate] = useSelectDate(new Date())
+  const { analysisStartDate, handleDropdown } = useSelectDate(new Date())
   const [tableValues, setTableValues] = useState<RepresentationValue[]>()
 
   const parseReportByPeriod = () => {
@@ -48,7 +48,7 @@ const Table = ({ reportList }: Props) => {
       <div className="table-submit">
         <Dropdown
           selectTypes={[AnalysisPeriod.WEEK, AnalysisPeriod.HALF_MONTH, AnalysisPeriod.MONTH]}
-          getSelectType={setAnalysisStartDate}
+          getSelectType={handleDropdown}
         />
         <button onClick={parseReportByPeriod}>조회</button>
       </div>

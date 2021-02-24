@@ -5,6 +5,7 @@ import { setDefaultPeriod } from "../utils/DisplayPeriod"
 import { ChartIdentifier, ChartDataType } from "../interfaces/ChartType"
 import { ReportData } from "../interfaces/ReportType"
 import { ChartIndex, AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
+import { useSelectDate } from "../utils/customHook/useSelectDate"
 import Chart from "./Chart"
 import Dropdown from "./Dropdown"
 
@@ -35,7 +36,7 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
   ]
 
   const [chartData, setChartData] = useState<ChartDataType[]>([])
-  const [analysisStartDate, setAnalysisStartDate] = useState(new Date())
+  const { analysisStartDate, setAnalysisStartDate, handleDropdown } = useSelectDate(new Date())
   const [analysisType, setAnalysisType] = useState<keyof ReportData>(defaultChartIndex || ChartIndex.PERFORMANCE)
 
   const getSelectChartType = (e: any) => {
@@ -48,18 +49,6 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
     const chartDateArray: any = [["x", analysisType]]
     setChartData([...chartDateArray, ...chartDatas])
-  }
-
-  const handleDropdown = (e: any) => {
-    const period = new Date()
-    const analysisMap = {
-      [String(AnalysisPeriod.DAY)]: AnalysisDate.DAY,
-      [String(AnalysisPeriod.WEEK)]: AnalysisDate.WEEK,
-      [String(AnalysisPeriod.HALF_MONTH)]: AnalysisDate.HALF_MONTH,
-      [String(AnalysisPeriod.MONTH)]: AnalysisDate.MONTH,
-    }
-    period.setDate(period.getDate() - analysisMap[e.target.value])
-    setAnalysisStartDate(period)
   }
 
   useEffect(() => {

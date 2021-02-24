@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react"
 import { Card } from "react-bootstrap"
 
 import { cardDateParser } from "../utils/TimeParser"
+import { getLatestReport } from "../api"
 
 import "../style/ReportCard.css"
+import { DeviceDetail, DeviceType } from "../constants/Options"
 
 type Props = {
   name: string
@@ -10,11 +13,20 @@ type Props = {
   _id: string
   deviceType: string
   index: number
-  createdAt: string
   deleteAnalysisCard: (id: string) => void
 }
 
-const ReportCard = ({ name, url, _id, deviceType, deleteAnalysisCard, createdAt, index = 0 }: Props) => {
+const ReportCard = ({ name, url, _id, deviceType, deleteAnalysisCard, index = 0 }: Props) => {
+  const [latestCreatedAt, setLatestCreatedAt] = useState("")
+
+  useEffect(() => {
+    const getLatestReportCreatedAt = async (profileId: string) => {
+      const latestReport = await getLatestReport(profileId)
+      latestReport.status === 200 ? setLatestCreatedAt(latestReport.data.data[0].fetchTime) : setLatestCreatedAt("-")
+    }
+    getLatestReportCreatedAt(_id)
+  }, [latestCreatedAt, _id])
+
   return (
     <Card className="card-container">
       <Card.Body>
@@ -24,7 +36,9 @@ const ReportCard = ({ name, url, _id, deviceType, deleteAnalysisCard, createdAt,
             {url}
           </a>
         </Card.Subtitle>
-        <div className="option-font">[{deviceType}]</div>
+        <div className="option-font">
+          [{deviceType === DeviceType.MOBILE ? DeviceDetail.MOBILE : DeviceDetail.DESKTOP}]
+        </div>
         <a className="btn btn-primary" href={`/url/list/${name}/${_id}`}>
           Detail
         </a>
@@ -32,7 +46,7 @@ const ReportCard = ({ name, url, _id, deviceType, deleteAnalysisCard, createdAt,
           Delete
         </button>
         <hr />
-        생성: {cardDateParser(createdAt)}
+        최근 분석: {cardDateParser(latestCreatedAt)}
       </Card.Body>
     </Card>
   )

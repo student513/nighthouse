@@ -9,6 +9,7 @@ export const useSelectDate = (initialState: any) => {
     (e: any) => {
       const period = new Date()
       const analysisMap = {
+        [String(AnalysisPeriod.DAY)]: AnalysisDate.DAY,
         [String(AnalysisPeriod.WEEK)]: AnalysisDate.WEEK,
         [String(AnalysisPeriod.HALF_MONTH)]: AnalysisDate.HALF_MONTH,
         [String(AnalysisPeriod.MONTH)]: AnalysisDate.MONTH,
@@ -19,5 +20,5 @@ export const useSelectDate = (initialState: any) => {
     [analysisStartDate]
   )
 
-  return [analysisStartDate, handleDropdown]
+  return { analysisStartDate, setAnalysisStartDate, handleDropdown }
 }

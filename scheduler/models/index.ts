@@ -33,7 +33,6 @@ const Report = new Schema(
     reportCode: { type: String },
   },
   {
-    strict: false,
     timestamps: true,
   }
 )

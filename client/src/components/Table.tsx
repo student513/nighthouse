@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useEffectOnce } from "react-use"
 import { Table as BootTable } from "react-bootstrap"
 
-import { ReportData, RepresentationValue } from "../interfaces/ReportType"
 import Dropdown from "./Dropdown"
+
+import { ReportData, RepresentationValue } from "../interfaces/ReportType"
 import { AnalysisPeriod, AnalysisDate } from "../constants/ChartIndex"
 import { getRepresentativeValues } from "../utils/TableValue"
 import { pushScoreToCollection } from "../utils/ScoreCollection"
+import { setDefaultPeriod } from "../utils/DisplayPeriod"
 import { useSelectDate } from "../utils/customHook/useSelectDate"
 
 import "../style/Table.css"
@@ -15,7 +18,7 @@ type Props = {
 }
 
 const Table = ({ reportList }: Props) => {
-  const { analysisStartDate, handleDropdown } = useSelectDate(new Date())
+  const { analysisStartDate, setAnalysisStartDate, handleDropdown } = useSelectDate(new Date())
   const [tableValues, setTableValues] = useState<RepresentationValue[]>()
 
   const parseReportByPeriod = () => {
@@ -36,12 +39,12 @@ const Table = ({ reportList }: Props) => {
     setTableValues(valueList)
   }
 
-  useEffect(() => {
-    const period = new Date()
-    period.setDate(period.getDate() - AnalysisDate.WEEK)
-    const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > period)
+  useEffectOnce(() => {
+    const timestamp = setDefaultPeriod(AnalysisDate.WEEK)
+    setAnalysisStartDate(timestamp)
+    const periodParsedReportList = reportList.filter((report) => new Date(report.fetchTime) > timestamp)
     parseReportDataByTimeSeries(periodParsedReportList)
-  }, [reportList])
+  })
 
   return (
     <>
@@ -62,7 +65,7 @@ const Table = ({ reportList }: Props) => {
             <th>최대값</th>
           </tr>
         </thead>
-        {reportList.length > 0 ? (
+        {reportList?.length > 0 ? (
           <tbody>
             {tableValues?.map(({ valueName, mean, median, min, max }, index) => (
               <tr key={index}>

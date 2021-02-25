@@ -47,8 +47,9 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
     const chartDatas = reportList
       .map((report) => [new Date(report.fetchTime), report[analysisType]])
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
-    const chartDateArray: any = [["x", analysisType]]
+    const chartDateArray: [string, ...string[]][] = [["x", analysisType]]
     setChartData([...chartDateArray, ...chartDatas])
+    console.log([...chartDateArray, ...chartDatas])
   }
 
   useEffect(() => {
@@ -58,7 +59,8 @@ const ReportChart = ({ reportList, removeReportChart, chartIdentifier, defaultCh
       const chartDatas = reportList
         .map((report) => [new Date(report.fetchTime), report[analysisType]])
         .filter((parsedReport) => parsedReport[0] > period)
-      const chartDateArray: any = [["x", analysisType]]
+      const chartDateArray: [string, ...string[]][] = [["x", analysisType]]
+
       setChartData([...chartDateArray, ...chartDatas])
     }
   }, [reportList])

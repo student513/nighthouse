@@ -57,7 +57,7 @@ const MultiChart = ({ reportList }: Props) => {
         return [new Date(report.fetchTime), ...scores]
       })
       .filter((parsedReport) => parsedReport[0] > analysisStartDate)
-    const chartDateArray: any = [["x", ...analysisValues]]
+    const chartDateArray: [string, ...string[]][] = [["x", ...analysisValues]]
     setChartData([...chartDateArray, ...chartDatas])
   }
 

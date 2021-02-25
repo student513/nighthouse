@@ -11,8 +11,8 @@ import { DeviceDetail, DeviceType } from "../constants/Options"
 const CreateAnalysis = () => {
   const [name, setName] = useState("")
   const [url, setUrl] = useState("")
-  const [deviceDetail, setDeviceDetail] = useDropdown(DeviceDetail.MOBILE)
-  const [deviceType, setDeviceType] = useState(DeviceType.MOBILE)
+  const [deviceDetail, setDeviceDetail] = useDropdown(DeviceDetail.DESKTOP)
+  const [deviceType, setDeviceType] = useState(DeviceType.DESKTOP)
 
   const handleChangeName = (event: any) => {
     setName(event.target.value)
@@ -37,7 +37,7 @@ const CreateAnalysis = () => {
           <br />
           <TextInput label="name" value={name} handleChange={handleChangeName} />
           <TextInput label="url" value={url} handleChange={handleChangeUrl} />
-          <Dropdown selectTypes={[DeviceDetail.MOBILE, DeviceDetail.DESKTOP]} getSelectType={setDeviceDetail} />
+          {/* <Dropdown selectTypes={[DeviceDetail.MOBILE, DeviceDetail.DESKTOP]} getSelectType={setDeviceDetail} /> */}
           <br />
           <br />
           <a className="btn btn-primary" onClick={insertUrlInfo} href={"/url/list"}>

@@ -1,5 +1,7 @@
 ## nighthouse
 
+https://user-images.githubusercontent.com/50268619/133109030-1deac175-e4c9-4c41-991b-1bce83c9043e.mov
+
 ## 서비스 설명
 
 원하는 특정 시간대의 웹 페이지 성능측정을 자동화하여 서버에 lighthouse의 성능 측정 리포트를 저장하고 시계열로 조회할 수 있는 시스템입니다.
@@ -52,3 +54,8 @@ lighthouse-ci, React.js, Typescript, Express, MongoDB를 이용하여 개발했�
   `ps -ef | grep irteamsu`
 - 프로세스 종료
   `$ kill -9 {PID}`
+
+### db 세팅
+
+1. mongodb 설치 후 `nighthouse` 데이터베이스 생성
+2. collection `urls`, `reports`, `LHReport`, `reportcodes` 생성
